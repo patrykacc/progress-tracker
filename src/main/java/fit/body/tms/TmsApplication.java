@@ -18,8 +18,7 @@ public class TmsApplication {
     @Bean
     public CommandLineRunner executeOnAppStart(UserRepository userRepository) {
         return (args) -> {
-            System.out.println("elo");
-            userRepository.findAll().stream().forEach(System.out::println);
+            userRepository.findAll().forEach(System.out::println);
         };
     }
 

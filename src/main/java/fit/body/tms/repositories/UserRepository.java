@@ -13,4 +13,6 @@ public interface UserRepository extends CrudRepository<User, Long> {
     <T extends User> T save(T user);
     List<User> findAll();
     User findByEmail(@Email String email);
+    User findByUsername(String username);
+    Boolean existsByEmail(@Email String email);
 }

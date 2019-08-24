@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 
 @Controller
-@RequestMapping(value = "/user")
+@RequestMapping(value = "/api/user")
 public class UserController {
     private final UserService userService;
 

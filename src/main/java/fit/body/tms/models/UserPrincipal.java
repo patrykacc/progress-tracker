@@ -28,7 +28,8 @@ public class UserPrincipal implements UserDetails {
     }
 
     public UserPrincipal(User user) {
-        this.username = user.getEmail();
+        this.id = user.getId();
+        this.username = user.getUsername();
         this.password = user.getPassword();
         this.grantedAuthority = new Authority(user.getAuthority());
     }
