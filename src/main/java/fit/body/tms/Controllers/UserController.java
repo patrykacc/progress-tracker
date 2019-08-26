@@ -2,12 +2,14 @@ package fit.body.tms.Controllers;
 
 import fit.body.tms.models.User;
 import fit.body.tms.services.UserService;
+import org.springframework.data.rest.webmvc.BasePathAwareController;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api/user")
+@BasePathAwareController
+@RequestMapping(value = "/user")
 public class UserController {
     private final UserService userService;
 
@@ -18,7 +20,7 @@ public class UserController {
     @ResponseBody
     @RequestMapping(path = "/register", method = RequestMethod.POST)
     public User registerNewUser(@RequestBody User newUser) {
-        return userService.saveUser(newUser);
+        return userService.save(newUser);
     }
 
     @ResponseBody

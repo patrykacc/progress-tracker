@@ -1,6 +1,5 @@
 package fit.body.tms.configuration;
 
-import fit.body.tms.Controllers.JwtAuthenticationEntryPoint;
 import fit.body.tms.security.JwtAuthenticationFilter;
 import fit.body.tms.services.UserPrincipalService;
 import org.springframework.beans.factory.annotation.Autowired;

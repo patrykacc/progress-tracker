@@ -15,7 +15,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User saveUser(User u) {
+    public User save(User u) {
         return userRepository.save(u);
     }
 

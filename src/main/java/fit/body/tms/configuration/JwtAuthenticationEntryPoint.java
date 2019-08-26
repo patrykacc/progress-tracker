@@ -1,4 +1,4 @@
-package fit.body.tms.Controllers;
+package fit.body.tms.configuration;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
