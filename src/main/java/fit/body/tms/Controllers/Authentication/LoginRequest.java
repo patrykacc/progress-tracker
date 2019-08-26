@@ -13,6 +13,11 @@ public class LoginRequest {
         return usernameOrEmail;
     }
 
+    public LoginRequest(@NotBlank String usernameOrEmail, @NotBlank String password) {
+        this.usernameOrEmail = usernameOrEmail;
+        this.password = password;
+    }
+
     public void setUsernameOrEmail(String usernameOrEmail) {
         this.usernameOrEmail = usernameOrEmail;
     }

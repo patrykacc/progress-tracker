@@ -1,10 +1,19 @@
 package fit.body.tms.Controllers.Authentication;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class JwtAuthenticationResponse {
     private String accessToken;
     private String tokenType = "Bearer";
 
-    public JwtAuthenticationResponse(String accessToken) {
+    @JsonCreator
+    public JwtAuthenticationResponse(@JsonProperty("accessToken") String accessToken, @JsonProperty("tokenType")String tokenType) {
+        this.accessToken = accessToken;
+        this.tokenType = tokenType;
+    }
+
+    JwtAuthenticationResponse(String accessToken) {
         this.accessToken = accessToken;
     }
 
