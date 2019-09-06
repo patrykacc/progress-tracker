@@ -24,9 +24,8 @@ public class TrainingController {
     @ResponseBody
     @PostMapping("/save")
     public ResponseEntity<Training> save(@Valid @RequestBody Training training) throws URISyntaxException {
-        System.out.println(training.toString());
         Training persistedTraining = trainingService.save(training);
-        return ResponseEntity.created(new URI("/api/training/" + persistedTraining.getId())).body(persistedTraining).;
+        return ResponseEntity.created(new URI("/api/training/" + persistedTraining.getId())).body(persistedTraining);
 
     }
 
