@@ -24,6 +24,9 @@ public class UserPrincipalService implements UserDetailsService {
 
     public UserPrincipal loadUserById(Long userId) {
         return new UserPrincipal(Objects.requireNonNull(userRepository.findById(userId).orElse(null)));
+    }
 
+    public Boolean userExistsById(Long userId) {
+        return userRepository.existsById(userId);
     }
 }
