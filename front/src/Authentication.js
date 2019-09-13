@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import SignIn from "./SignIn";
+import SignUp from "./SignUp";
 
 class Authentication extends React.Component {
 
@@ -15,6 +16,7 @@ class Authentication extends React.Component {
         return (
             <div className="Authentication">
                 <header onClick={this.switchMode}>{this.state.loginMode ? 'Zaloguj się:' : 'Register'}</header>
+                <SignUp/>
                 <SignIn/>
                 <div>
                     <button onClick={this.getAll}>Znajdź wszystkich</button>

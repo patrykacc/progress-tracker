@@ -2,10 +2,19 @@ import React, {Component} from 'react';
 
 
 class SignIn extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            username: '',
+            password: ''
+        };
+    }
+
     render() {
         return <>
             <input placeholder={"Login"} onChange={this.handleLoginChange}/>
-            <input placeholder={"password"} onChange={this.handlePasswordChange}/>
+            <input placeholder={"Hasło"} onChange={this.handlePasswordChange}/>
             <div>
                 <button onClick={this.login}>Zaloguj</button>
             </div>
@@ -13,29 +22,21 @@ class SignIn extends Component {
         </>;
     }
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            loginMode: true,
-            registerMode: false
-        };
-    }
+
 
     handlePasswordChange = (e) => {
         let value = e.currentTarget.value;
-        console.log(value);
         this.setState(state => ({
             password: value
         }));
-    }
+    };
 
     handleLoginChange = (e) => {
         let value = e.currentTarget.value;
-        console.log(value);
         this.setState(state => ({
             username: value
         }));
-    }
+    };
 
     login = () => {
         console.log('login');
@@ -49,7 +50,7 @@ class SignIn extends Component {
         })
             .then(response => response.json())
             .then(json => {
-                console.log(json)
+                console.log(json);
                 localStorage.setItem('token', json.accessToken);
             })
             .catch(error => console.log(error))
