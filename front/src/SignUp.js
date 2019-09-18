@@ -3,7 +3,6 @@ import {message} from "antd";
 
 class SignUp extends React.Component {
 
-
     constructor(props) {
         super(props);
         this.state = {
@@ -11,55 +10,41 @@ class SignUp extends React.Component {
             username: '',
             email: '',
             name: '',
-            message: ''
+            message: '',
         };
     }
 
     render() {
-        return <div>
-            <div>Nazwa: <input onChange={this.handleNameChange}/></div>
-            <div>Login: <input onChange={this.handleLoginChange}/></div>
-            <div>Hasło: <input onChange={this.handlePasswordChange}/></div>
-            <div>Email: <input onChange={this.handleEmailChange}/></div>
+        return (
+
+        <div>
+            <header><h2>Rejestracja nowego użytkownika:</h2></header>
+            <div>Nazwa: <input name="name" onChange={this.handleInputChange}/></div>
+            <div>Login: <input name="username" onChange={this.handleInputChange}/></div>
+            <div>Hasło: <input name="password" onChange={this.handleInputChange}/></div>
+            <div>Email: <input name="email" onChange={this.handleInputChange}/></div>
 
             <div>
                 <button onClick={this.signUp}>Zarejestruj</button>
             </div>
+            <div>
+                <button onClick={this.redirectToLogin}>Wróć do logowania</button>
+            </div>
 
-            {this.state.message ? (<span>  {this.state.message} </span>) : ''}
-        </div>;
+            {this.state.message ? (<h1>  {this.state.message} </h1>) : ''}
+        </div>
+        );
     }
 
-    handlePasswordChange = (e) => {
+    handleInputChange = (e) => {
         let value = e.currentTarget.value;
+        let inputName = e.currentTarget.name;
         this.setState(state => ({
-            password: value
-        }));
-    };
-
-    handleEmailChange = (e) => {
-        let value = e.currentTarget.value;
-        this.setState(state => ({
-            email: value
-        }));
-    };
-
-    handleNameChange = (e) => {
-        let value = e.currentTarget.value;
-        this.setState(state => ({
-            name: value
-        }));
-    };
-
-    handleLoginChange = (e) => {
-        let value = e.currentTarget.value;
-        this.setState(state => ({
-            username: value
+            [inputName]: value
         }));
     };
 
     signUp = () => {
-        console.log('signup');
         fetch('/auth/signup', {
             method: 'POST',
             headers: {
@@ -76,9 +61,8 @@ class SignUp extends React.Component {
             .then(response => response.json())
             .then(json => {
                 console.log(json);
-                localStorage.setItem('token', json.accessToken);
                 this.setState(state => ({
-                    message: json.status === 200 ? 'Uzytkownik został zarejestrowany' : 'Bład podczas rejestracji',
+                    message: json.message ? json.message : 'Bład podczas rejestracji',
                     password: '',
                     username: '',
                     email: '',
@@ -92,6 +76,11 @@ class SignUp extends React.Component {
                 }))
             })
     }
+
+    redirectToLogin = () => {
+        this.props.history.push('/signin')
+    }
+
 }
 
 export default SignUp;

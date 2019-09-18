@@ -2,7 +2,8 @@ package fit.body.tms.models;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 @Entity
 public class Training {
@@ -16,7 +17,7 @@ public class Training {
 
     @OrderColumn
     @OneToMany
-    private Exercise[] exercises;
+    private List<Exercise> exercises;
 
     public Long getId() {
         return id;
@@ -34,11 +35,11 @@ public class Training {
         this.duration = duration;
     }
 
-    public Exercise[] getExercises() {
+    public List<Exercise> getExercises() {
         return exercises;
     }
 
-    public void setExercises(Exercise[] exercises) {
+    public void setExercises(List<Exercise> exercises) {
         this.exercises = exercises;
     }
 
@@ -49,7 +50,7 @@ public class Training {
                 ", duration=" + duration +
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +
-                ", exercises=" + Arrays.toString(exercises) +
+                ", exercises=" + Collections.singletonList(exercises) +
                 '}';
     }
 }

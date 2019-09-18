@@ -7,39 +7,35 @@ class SignIn extends Component {
         super(props);
         this.state = {
             username: '',
-            password: ''
+            password: '',
         };
     }
 
     render() {
-        return <>
-            <input placeholder={"Login"} onChange={this.handleLoginChange}/>
-            <input placeholder={"Hasło"} onChange={this.handlePasswordChange}/>
+        return (
             <div>
-                <button onClick={this.login}>Zaloguj</button>
+                <header><h2>Logowanie:</h2></header>
+                <input placeholder="Login" name="username" onChange={this.handleInputChange}/>
+                <input placeholder="Hasło" name="password" onChange={this.handleInputChange}/>
+                <div><button onClick={this.login}>Zaloguj</button></div>
+                <div><button onClick={this.redirectToRegistration}>Zarejestruj się</button></div>
             </div>
-
-        </>;
+        );
     }
 
+    redirectToRegistration = () => {
+        this.props.history.push('/signup')
+    }
 
-
-    handlePasswordChange = (e) => {
+    handleInputChange = (e) => {
         let value = e.currentTarget.value;
+        let inputName = e.currentTarget.name;
         this.setState(state => ({
-            password: value
-        }));
-    };
-
-    handleLoginChange = (e) => {
-        let value = e.currentTarget.value;
-        this.setState(state => ({
-            username: value
+            [inputName]: value
         }));
     };
 
     login = () => {
-        console.log('login');
         fetch('/auth/signin', {
             method: 'POST',
             headers: {
@@ -52,6 +48,7 @@ class SignIn extends Component {
             .then(json => {
                 console.log(json);
                 localStorage.setItem('token', json.accessToken);
+                this.props.history.push('/workouts')
             })
             .catch(error => console.log(error))
     }

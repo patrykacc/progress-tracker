@@ -1,15 +1,27 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import Authentication from "./Authentication";
+import Home from "./Home";
+import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import SignIn from "./SignIn";
+import SignUp from "./SignUp";
+import WorkoutsHome from "./WorkoutsHome";
 
 function App() {
 
     return (
+
         <div className="App">
             <header className="App-header">Centurion Base</header>
-            <Authentication/>
+            <BrowserRouter>
+                <Switch>
+                <Route path="/signin" component={SignIn}/>
+                <Route path="/signup" component={SignUp}/>
+                <Route exact path="/" component={Home}/>
+                <Route path="/workouts" component={WorkoutsHome}/>
+                </Switch>
+            </BrowserRouter>
         </div>
+
     );
 }
 

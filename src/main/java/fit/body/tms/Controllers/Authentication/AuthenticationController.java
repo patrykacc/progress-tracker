@@ -53,7 +53,11 @@ public class AuthenticationController {
     @PostMapping(value = "/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
         if(userRepository.existsByEmail(signUpRequest.getEmail())) {
-            return new ResponseEntity<>(new ApiResponse(false, "Email Address already in use!"),
+            return new ResponseEntity<>(new ApiResponse(false, "Podany adres email jest już zajęty"),
+                    HttpStatus.BAD_REQUEST);
+        }
+        if(userRepository.existsByUsername(signUpRequest.getUsername())) {
+            return new ResponseEntity<>(new ApiResponse(false, "Podany login jest już zajęty"),
                     HttpStatus.BAD_REQUEST);
         }
 
@@ -71,6 +75,6 @@ public class AuthenticationController {
                 .fromCurrentContextPath().path("/api/users/{username}")
                 .buildAndExpand(result.getUsername()).toUri();
 
-        return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
+        return ResponseEntity.created(location).body(new ApiResponse(true, "Użytkownik został zarejstrowany"));
     }
 }

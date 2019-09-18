@@ -1,6 +1,7 @@
 package fit.body.tms.Controllers;
 
 import fit.body.tms.models.Training;
+import fit.body.tms.repositories.ExerciseRepository;
 import fit.body.tms.services.TrainingService;
 import org.springframework.data.rest.webmvc.BasePathAwareController;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 @RestController
 @BasePathAwareController
@@ -16,9 +18,11 @@ import java.net.URISyntaxException;
 public class TrainingController {
 
     private final TrainingService trainingService;
+    private final ExerciseRepository exerciseRepository;
 
-    public TrainingController(TrainingService trainingService) {
+    public TrainingController(TrainingService trainingService, ExerciseRepository exerciseRepository) {
         this.trainingService = trainingService;
+        this.exerciseRepository = exerciseRepository;
     }
 
     @ResponseBody
@@ -33,5 +37,14 @@ public class TrainingController {
     @GetMapping("/{trainingId}")
     public Training getById(@PathVariable Long trainingId) {
         return trainingService.getById(trainingId);
+    }@ResponseBody
+
+    @GetMapping("/getAll")
+    public List<Training> getAll() {
+        List<Training> trainings = trainingService.getAll();
+        trainings.stream().forEach(training -> {
+            training.setExercises(exerciseRepository.findAllByTrainingId(training.getId()));
+        });
+        return trainings;
     }
 }

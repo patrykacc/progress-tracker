@@ -4,6 +4,8 @@ import fit.body.tms.models.Training;
 import fit.body.tms.repositories.TrainingRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TrainingService {
 
@@ -19,5 +21,9 @@ public class TrainingService {
 
     public Training getById(Long id) {
         return this.trainingRepository.findById(id).orElse(null);
+    }
+
+    public List<Training> getAll() {
+        return this.trainingRepository.findAll();
     }
 }

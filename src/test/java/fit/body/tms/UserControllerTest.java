@@ -37,7 +37,7 @@ public class UserControllerTest {
                 .andExpect(status().isUnauthorized());
     }
     @Test
-    public void RegisterNewUserAndLoginTest() throws Exception {
+    public void registerNewUserAndLoginTest() throws Exception {
         ObjectWriter objectWriter = new ObjectMapper().writer().withDefaultPrettyPrinter();
         ObjectReader objectReader = new ObjectMapper().readerFor(JwtAuthenticationResponse.class);
         this.mockMvc.perform(post("/api/auth/signup").contentType(MediaType.APPLICATION_JSON)
