@@ -1,5 +1,7 @@
 package fit.body.tms.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -15,8 +17,8 @@ public class Training {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
 
-    @OrderColumn
-    @OneToMany
+    @JsonManagedReference
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "training")
     private List<Exercise> exercises;
 
     public Long getId() {
@@ -50,7 +52,7 @@ public class Training {
                 ", duration=" + duration +
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +
-                ", exercises=" + Collections.singletonList(exercises) +
+                ", exercises=" + Collections.singletonList(getExercises()) +
                 '}';
     }
 }

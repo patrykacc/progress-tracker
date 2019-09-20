@@ -13,4 +13,5 @@ public interface TrainingRepository  extends CrudRepository<Training, Long> {
     <S extends Training>S save(S t);
     Optional<Training> findById(Long id);
     List<Training> findAll();
+
 }

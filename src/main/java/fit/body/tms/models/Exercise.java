@@ -1,5 +1,7 @@
 package fit.body.tms.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -12,6 +14,12 @@ public class Exercise {
     private String name;
     private Integer numberOfRepetitions;
 
+    @NotNull
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "training_id")
+    private Training training;
+
     @Override
     public String toString() {
         return "Exercise{" +
@@ -21,10 +29,6 @@ public class Exercise {
                 ", training=" + training +
                 '}';
     }
-
-    @ManyToOne
-    @NotNull
-    private Training training;
 
     public Long getId() {
         return id;

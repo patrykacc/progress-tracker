@@ -1,12 +1,11 @@
 package fit.body.tms.services;
 
+import fit.body.tms.models.User;
 import fit.body.tms.models.UserPrincipal;
 import fit.body.tms.repositories.UserRepository;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.Objects;
 
 @Service
 public class UserPrincipalService implements UserDetailsService {
@@ -23,7 +22,11 @@ public class UserPrincipalService implements UserDetailsService {
     }
 
     public UserPrincipal loadUserById(Long userId) {
-        return new UserPrincipal(Objects.requireNonNull(userRepository.findById(userId).orElse(null)));
+        User u = userRepository.findById(userId).orElse(null);
+        if (u == null) {
+            return null;
+        }
+        return new UserPrincipal(u);
     }
 
     public Boolean userExistsById(Long userId) {

@@ -14,7 +14,6 @@ import org.springframework.context.annotation.Bean;
 public class TmsApplication {
 
 
-
     public static void main(String[] args) {
         SpringApplication.run(TmsApplication.class, args);
     }
@@ -25,17 +24,21 @@ public class TmsApplication {
             userRepository.findAll().forEach(System.out::println);
             Training training = new Training();
             training.setDuration(120);
-            trainingRepository.save(training);
             Exercise exercise = new Exercise();
             exercise.setName("Wyciskanie na płaskiej");
             exercise.setNumberOfRepetitions(8);
-            System.out.println(training.getId());
-            System.out.println(training.toString());
+
             exercise.setTraining(training);
-            System.out.println(exercise.toString());
-            System.out.println(exercise.getTraining().getId());
+
+            trainingRepository.save(training);
+            training.setId(null);
+            training.setDuration(90);
+            trainingRepository.save(training);
             exerciseRepository.save(exercise);
-//            System.out.println( SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+            training = trainingRepository.findById(training.getId()).orElse(null);
+
+//            System.out.println(training.getExercises());
+//            System.out.println(exerciseRepository.findAll());
         };
     }
 

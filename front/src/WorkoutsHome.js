@@ -14,9 +14,8 @@ class WorkoutsHome extends React.Component {
     render() {
         return (
             <div className="WorkoutsHome">
-                {this.state.workouts.map(workout =>(
-                    <div key={workout.id}> Workout: {workout.username}</div>
-                ))}
+                {Array.isArray(this.state.workouts) ?
+                    (this.state.workouts.map((workout, i) =>(<div key={workout.id}> Trening {i + 1}: Czas trwania: {workout.duration}</div>))) : null}
             </div>
         );
     }
@@ -27,13 +26,16 @@ class WorkoutsHome extends React.Component {
     }
 
     getAll = () => {
-        fetch('/training/getAll',
+        fetch('/trainings/getAll',
             {headers: {
                     'Authorization': 'Bearer ' + localStorage.getItem('token')
                 }}
         )
             .then(res => res.json())
-            .then(json => this.setState({workouts: json}))
+            .then(json => {
+                console.log(json);
+                this.setState({workouts: json})
+            })
             .catch(error => console.log(error))
     }
 }

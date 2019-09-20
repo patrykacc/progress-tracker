@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @BasePathAwareController
-@RequestMapping(value = "/training")
+@RequestMapping(value = "/trainings")
 public class TrainingController {
 
     private final TrainingService trainingService;
@@ -29,8 +29,7 @@ public class TrainingController {
     @PostMapping("/save")
     public ResponseEntity<Training> save(@Valid @RequestBody Training training) throws URISyntaxException {
         Training persistedTraining = trainingService.save(training);
-        return ResponseEntity.created(new URI("/api/training/" + persistedTraining.getId())).body(persistedTraining);
-
+        return ResponseEntity.created(new URI("/api/trainings/" + persistedTraining.getId())).body(persistedTraining);
     }
 
     @ResponseBody
@@ -42,9 +41,6 @@ public class TrainingController {
     @GetMapping("/getAll")
     public List<Training> getAll() {
         List<Training> trainings = trainingService.getAll();
-        trainings.stream().forEach(training -> {
-            training.setExercises(exerciseRepository.findAllByTrainingId(training.getId()));
-        });
         return trainings;
     }
 }
