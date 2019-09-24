@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import {connect} from "react-redux";
+import {authorizationFailed, authorizationSuccess} from "./actions";
 
 
 class SignIn extends Component {
@@ -8,6 +10,7 @@ class SignIn extends Component {
         this.state = {
             username: '',
             password: '',
+            isAuthorized: props.isAuthorized
         };
     }
 
@@ -17,8 +20,13 @@ class SignIn extends Component {
                 <header><h2>Logowanie:</h2></header>
                 <input placeholder="Login" name="username" onChange={this.handleInputChange}/>
                 <input placeholder="Hasło" name="password" onChange={this.handleInputChange}/>
-                <div><button onClick={this.login}>Zaloguj</button></div>
-                <div><button onClick={this.redirectToRegistration}>Zarejestruj się</button></div>
+                <div>
+                    <button onClick={this.login}>Zaloguj</button>
+                </div>
+                <div>
+                    <button onClick={this.redirectToRegistration}>Zarejestruj się</button>
+                </div>
+                <span>xxx {this.props.isAuthorized ? 'true' : 'false'} xxx</span>
             </div>
         );
     }
@@ -48,10 +56,16 @@ class SignIn extends Component {
             .then(json => {
                 console.log(json);
                 localStorage.setItem('token', json.accessToken);
-                this.props.history.push('/workouts')
+                // this.props.history.push('/workouts');
+                this.props.authorizationSuccess();
             })
             .catch(error => console.log(error))
     }
 }
 
-export default SignIn;
+const mapStateToProps = (state) => {
+    return {isAuthorized: state.isAuthorized};
+};
+const mapDispatchToProps = {authorizationSuccess, authorizationFailed};
+
+export const SignInContainer = connect(mapStateToProps, mapDispatchToProps)(SignIn);

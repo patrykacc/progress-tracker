@@ -25,22 +25,19 @@ public class TrainingController {
         this.exerciseRepository = exerciseRepository;
     }
 
-    @ResponseBody
     @PostMapping("/save")
     public ResponseEntity<Training> save(@Valid @RequestBody Training training) throws URISyntaxException {
         Training persistedTraining = trainingService.save(training);
         return ResponseEntity.created(new URI("/api/trainings/" + persistedTraining.getId())).body(persistedTraining);
     }
 
-    @ResponseBody
     @GetMapping("/{trainingId}")
-    public Training getById(@PathVariable Long trainingId) {
+    public Training getById(@Valid @PathVariable Long trainingId) {
         return trainingService.getById(trainingId);
-    }@ResponseBody
+    }
 
     @GetMapping("/getAll")
     public List<Training> getAll() {
-        List<Training> trainings = trainingService.getAll();
-        return trainings;
+        return trainingService.getAll();
     }
 }

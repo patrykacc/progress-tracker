@@ -1,4 +1,5 @@
 import * as React from "react";
+import NewTraining from "./NewTraining";
 
 class WorkoutsHome extends React.Component {
 
@@ -13,9 +14,15 @@ class WorkoutsHome extends React.Component {
 
     render() {
         return (
-            <div className="WorkoutsHome">
-                {Array.isArray(this.state.workouts) ?
-                    (this.state.workouts.map((workout, i) =>(<div key={workout.id}> Trening {i + 1}: Czas trwania: {workout.duration}</div>))) : null}
+            <div>
+                <h1>Treningi:</h1>
+                <div className="WorkoutsHome">
+                    {Array.isArray(this.state.workouts) ?
+                        (this.state.workouts.map((workout, i) => (
+                            <div key={workout.id}> Trening {i + 1}: Czas
+                                trwania: {workout.duration}</div>))) : null}
+                </div>
+                <NewTraining/>
             </div>
         );
     }
@@ -27,11 +34,16 @@ class WorkoutsHome extends React.Component {
 
     getAll = () => {
         fetch('/trainings/getAll',
-            {headers: {
+            {
+                headers: {
                     'Authorization': 'Bearer ' + localStorage.getItem('token')
-                }}
+                }
+            }
         )
-            .then(res => res.json())
+            .then(res => {
+                console.log(res);
+                return res.json();
+            })
             .then(json => {
                 console.log(json);
                 this.setState({workouts: json})

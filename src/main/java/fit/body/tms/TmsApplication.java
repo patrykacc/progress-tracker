@@ -1,7 +1,5 @@
 package fit.body.tms;
 
-import fit.body.tms.models.Exercise;
-import fit.body.tms.models.Training;
 import fit.body.tms.repositories.ExerciseRepository;
 import fit.body.tms.repositories.TrainingRepository;
 import fit.body.tms.repositories.UserRepository;
@@ -21,7 +19,7 @@ public class TmsApplication {
     @Bean
     public CommandLineRunner executeOnAppStart(UserRepository userRepository, ExerciseRepository exerciseRepository, TrainingRepository trainingRepository) {
         return (args) -> {
-            userRepository.findAll().forEach(System.out::println);
+            /*userRepository.findAll().forEach(System.out::println);
             Training training = new Training();
             training.setDuration(120);
             Exercise exercise = new Exercise();
@@ -35,10 +33,7 @@ public class TmsApplication {
             training.setDuration(90);
             trainingRepository.save(training);
             exerciseRepository.save(exercise);
-            training = trainingRepository.findById(training.getId()).orElse(null);
-
-//            System.out.println(training.getExercises());
-//            System.out.println(exerciseRepository.findAll());
+            training = trainingRepository.findById(training.getId()).orElse(null);*/
         };
     }
 
