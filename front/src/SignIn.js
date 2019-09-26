@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {authorizationFailed, authorizationSuccess} from "./actions";
+import {Redirect} from "react-router-dom";
+import isAuthorized from "./reducers/isAuthorized";
 
 
 class SignIn extends Component {
@@ -15,6 +17,12 @@ class SignIn extends Component {
     }
 
     render() {
+        const { from } = this.props.location.state || { from: { pathname: '/' } }
+
+        if (this.props.isAuthorized === true) {
+            return <Redirect to={from} />
+        }
+
         return (
             <div>
                 <header><h2>Logowanie:</h2></header>
@@ -26,7 +34,6 @@ class SignIn extends Component {
                 <div>
                     <button onClick={this.redirectToRegistration}>Zarejestruj się</button>
                 </div>
-                <span>xxx {this.props.isAuthorized ? 'true' : 'false'} xxx</span>
             </div>
         );
     }
@@ -52,14 +59,25 @@ class SignIn extends Component {
             },
             body: JSON.stringify({usernameOrEmail: this.state.username, password: this.state.password})
         })
-            .then(response => response.json())
-            .then(json => {
-                console.log(json);
-                localStorage.setItem('token', json.accessToken);
-                // this.props.history.push('/workouts');
-                this.props.authorizationSuccess();
+            .then(response => {
+                console.log(response);
+                if (response.status === 200) {
+                    this.props.authorizationSuccess();
+                    return response.json();
+                } else {
+                    this.props.authorizationFailed()
+                }
             })
-            .catch(error => console.log(error))
+            .then(json => {
+                if (json) {
+                    console.log(json);
+                    localStorage.setItem('token', json.accessToken);
+                }
+            })
+            .catch(error => {
+                console.log(error);
+                this.props.authorizationFailed()
+            })
     }
 }
 

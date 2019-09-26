@@ -1,5 +1,6 @@
 import * as React from "react";
 import NewTraining from "./NewTraining";
+import './WorkoutsHome.css';
 
 class WorkoutsHome extends React.Component {
 
@@ -14,13 +15,17 @@ class WorkoutsHome extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="WorkoutsHome">
                 <h1>Treningi:</h1>
                 <div className="WorkoutsHome">
                     {Array.isArray(this.state.workouts) ?
                         (this.state.workouts.map((workout, i) => (
-                            <div key={workout.id}> Trening {i + 1}: Czas
-                                trwania: {workout.duration}</div>))) : null}
+                            <div className="trainingTile" key={workout.id}>
+                                <div>Trening {i + 1}:</div>
+                                <div style={{marginLeft:10 +'px'}}>Rozpoczęcie: <input readOnly type="datetime-local" value={workout.startTime}/></div>
+                                <div style={{marginLeft:10 +'px'}}>Czas trwania: {workout.duration} minut</div>
+                            </div>))) :
+                        null}
                 </div>
                 <NewTraining/>
             </div>
