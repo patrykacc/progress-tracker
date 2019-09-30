@@ -3,7 +3,8 @@ import {connect} from "react-redux";
 import {Route, Redirect, withRouter} from "react-router-dom";
 
 const PrivateRoute = ({ component: Component, ...props }) => {
-    const isAuthorized = props.isAuthorized;
+
+    const isAuthorized = props.isAuthorized || localStorage.getItem('token'); //TODO implement verify token callout
     return (
 
         <Route {...props} render={renderProps =>

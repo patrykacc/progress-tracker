@@ -1,7 +1,6 @@
 package fit.body.tms.Controllers;
 
 import fit.body.tms.models.Training;
-import fit.body.tms.repositories.ExerciseRepository;
 import fit.body.tms.services.TrainingService;
 import org.springframework.data.rest.webmvc.BasePathAwareController;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -19,25 +17,26 @@ import java.util.List;
 public class TrainingController {
 
     private final TrainingService trainingService;
-    private final ExerciseRepository exerciseRepository;
 
-    public TrainingController(TrainingService trainingService, ExerciseRepository exerciseRepository) {
+    public TrainingController(TrainingService trainingService) {
         this.trainingService = trainingService;
-        this.exerciseRepository = exerciseRepository;
     }
 
     @PostMapping("/save")
     public ResponseEntity<Training> save(@Valid @RequestBody Training training) throws URISyntaxException {
-        System.out.println(training.toString());
         Training persistedTraining = trainingService.save(training);
         return ResponseEntity.created(new URI("/api/trainings/" + persistedTraining.getId())).body(persistedTraining);
     }
 
+    @DeleteMapping("/delete/{trainingId}")
+    public void delete(@Valid @PathVariable(value="trainingId") Long trainingId) {
+        trainingService.delete(trainingId);
+    }
+
     @PostMapping("/echo")
-    public void save(@Valid @RequestBody Object o) throws URISyntaxException {
-        System.out.println(o);
+    public void save(@Valid @RequestBody Object o) {
         try {
-            System.out.println(LocalDateTime.parse((String)o).plusDays(1));
+            System.out.println(o);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

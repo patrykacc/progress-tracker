@@ -4,7 +4,7 @@ import Home from "./Home";
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import {SignInContainer} from "./SignIn";
 import SignUp from "./SignUp";
-import WorkoutsHome from "./WorkoutsHome";
+import TrainingsList from "./TrainingsList";
 import PrivateRoute from "./privateRoute";
 import {authorizationFailed, authorizationSuccess} from "./actions";
 import {connect} from "react-redux";
@@ -21,7 +21,6 @@ class App extends React.Component {
                         <Route path="/signin" component={SignInContainer}/>
                         <Route path="/signup" component={SignUp}/>
                         <PrivateRoute exact path="/" component={Home}/>
-                        <PrivateRoute path="/workouts" component={WorkoutsHome}/>
                     </Switch>
                 </BrowserRouter>
             </div>

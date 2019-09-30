@@ -5,3 +5,8 @@ export const authorizationSuccess = () => ({
 export const authorizationFailed = () => ({
     type: 'AUTHORIZATION_FAILED'
 });
+
+export const trainingsFetched = trainings => ({
+    type: 'TRAININGS_FETCHED',
+    trainings
+});

@@ -26,4 +26,8 @@ public class TrainingService {
     public List<Training> getAll() {
         return this.trainingRepository.findAll();
     }
+
+    public void delete(Long id) {
+        trainingRepository.deleteById(id);
+    }
 }

@@ -2,8 +2,6 @@ import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {authorizationFailed, authorizationSuccess} from "./actions";
 import {Redirect} from "react-router-dom";
-import isAuthorized from "./reducers/isAuthorized";
-
 
 class SignIn extends Component {
 
@@ -60,7 +58,6 @@ class SignIn extends Component {
             body: JSON.stringify({usernameOrEmail: this.state.username, password: this.state.password})
         })
             .then(response => {
-                console.log(response);
                 if (response.status === 200) {
                     this.props.authorizationSuccess();
                     return response.json();
@@ -69,13 +66,10 @@ class SignIn extends Component {
                 }
             })
             .then(json => {
-                if (json) {
-                    console.log(json);
-                    localStorage.setItem('token', json.accessToken);
-                }
+                localStorage.setItem('token', json.accessToken);
             })
             .catch(error => {
-                console.log(error);
+                console.error(error);
                 this.props.authorizationFailed()
             })
     }

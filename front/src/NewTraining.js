@@ -1,23 +1,32 @@
 import * as React from "react";
+import {trainingsFetched} from "./actions";
+import {connect} from "react-redux";
 
 
 class NewTraining extends React.Component{
 
+    defaultTraining = {
+        startTime: new Date().toISOString().split('T')[0] + 'T08:00',
+        duration: 60
+    };
+
     constructor(props) {
         super(props);
         this.state = {
-            newTraining: {}
+            createTrainingMode: false,
+            newTraining: Object.assign({}, this.defaultTraining)
         }
     }
 
     render() {
         return (
-            <div>
-                <h2>Zapisz nowy trening</h2>
-                <div>Długość treningu <input name="duration" type="number" onChange={this.handleTrainingInputChange}/></div>
-                <div>Początek <input name="startTime" type="datetime-local" onChange={this.handleTrainingInputChange}/></div>
-                <button onClick={this.saveTraining} > Zapisz trening </button>
-            </div>
+            this.state.createTrainingMode ?
+            <tr>
+                <td colSpan={2}>Początek <input pattern={'yyyy-MM-ddTHH:mm'} name="startTime" type="datetime-local" onChange={this.handleTrainingInputChange} value={this.state.newTraining.startTime}/></td>
+                <td >Długość treningu <input name="duration" type="number" onChange={this.handleTrainingInputChange} value={this.state.newTraining.duration} /></td>
+                <td><button onClick={this.saveTraining}>Zapisz</button></td>
+            </tr> :
+                <tr><td onClick={this.switchToEditMode} colSpan={4}>Dodaj trening</td></tr>
         )
     }
 
@@ -25,19 +34,13 @@ class NewTraining extends React.Component{
         let newTraining = this.state.newTraining;
         let value = e.currentTarget.value;
         let inputName = e.currentTarget.name;
-        // if (e.currentTarget.type === 'datetime-local' && value) {
-        //     value = value.replace('T', ' ');
-        // }
         newTraining[inputName] = value;
-        console.log(newTraining)
         this.setState(state => ({
             newTraining: newTraining
         }));
     };
 
     saveTraining = () => {
-        console.log(JSON.stringify(this.state.newTraining))
-
         fetch('/trainings/save', {
             method: 'POST',
             headers: {
@@ -48,23 +51,38 @@ class NewTraining extends React.Component{
             body: JSON.stringify(this.state.newTraining)
         })
             .then(response => {
-                console.log(response);
-                if (response.status === 200) {
-
-                } else {
-
+                if (response.status === 201) {
+                    this.setState(state => ({
+                        createTrainingMode: false
+                    }));
+                    return response.json();
                 }
             })
             .then(json => {
-                console.log(json);
+                if (json) {
+                    this.setState(state => ({
+                        newTraining: Object.assign({}, this.defaultTraining)
+                    }));
+                    this.props.trainingsFetched([...this.props.trainings, json])
+                }
+
             })
             .catch(error => {
-                console.log(error);
+                console.error(error);
             })
     }
 
+    switchToEditMode = () => {
+        this.setState(state => ({
+            createTrainingMode: true
+        }))
+    }
 
 
 }
+const mapStateToProps = (state) => {
+    return {trainings: state.trainings};
+};
+const mapDispatchToProps = { trainingsFetched};
 
-export default NewTraining;
+export default connect(mapStateToProps, mapDispatchToProps)(NewTraining);

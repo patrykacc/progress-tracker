@@ -1,5 +1,4 @@
 import React from "react";
-import {message} from "antd";
 
 class SignUp extends React.Component {
 
@@ -60,7 +59,6 @@ class SignUp extends React.Component {
         })
             .then(response => response.json())
             .then(json => {
-                console.log(json);
                 this.setState(state => ({
                     message: json.message ? json.message : 'Bład podczas rejestracji',
                     password: '',
@@ -70,7 +68,7 @@ class SignUp extends React.Component {
                 }))
             })
             .catch(error => {
-                console.log(error);
+                console.error(error);
                 this.setState(state => ({
                     message: 'Bład podczas rejestracji',
                 }))

@@ -77,4 +77,9 @@ public class AuthenticationController {
 
         return ResponseEntity.created(location).body(new ApiResponse(true, "Użytkownik został zarejstrowany"));
     }
+
+    @PostMapping
+    public boolean checkJwtTokenValidity(@Valid @RequestBody String jwtToken) {
+        return new JwtTokenProvider().validateToken(jwtToken);
+    }
 }
