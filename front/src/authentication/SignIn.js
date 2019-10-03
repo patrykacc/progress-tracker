@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import {authorizationFailed, authorizationSuccess} from "./actions";
+import {authorizationFailed, authorizationSuccess} from "../actions";
 import {Redirect} from "react-router-dom";
 
 class SignIn extends Component {

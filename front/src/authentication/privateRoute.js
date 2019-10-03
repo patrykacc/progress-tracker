@@ -4,7 +4,7 @@ import {Route, Redirect, withRouter} from "react-router-dom";
 
 const PrivateRoute = ({ component: Component, ...props }) => {
 
-    const isAuthorized = props.isAuthorized || localStorage.getItem('token'); //TODO implement verify token callout
+    const isAuthorized = props.isAuthorized || localStorage.getItem('token');
     return (
 
         <Route {...props} render={renderProps =>

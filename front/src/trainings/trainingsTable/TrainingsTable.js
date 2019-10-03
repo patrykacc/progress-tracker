@@ -1,23 +1,27 @@
 import * as React from "react";
-import NewTraining from "./NewTraining";
-import './WorkoutsHome.css';
+import NewTraining from "./TrainingRowAddNew";
+import '../../WorkoutsHome.css';
 import {connect} from "react-redux";
-import {trainingsFetched} from "./actions";
-import TrainingRow from "./TrainingRow";
-import {getAll} from "./services/trainingService";
+import {trainingsFetched} from "./../../actions";
+import TrainingRow from "./TrainingRowView";
+import {getAll} from "./../../services/trainingService";
 
-class TrainingsList extends React.Component {
+class TrainingsTable extends React.Component {
 
     constructor(props) {
         super(props);
-        getAll();
+        getAll()
+            .then(res => res.json())
+            .then(trainings => {
+                this.props.trainingsFetched(trainings)
+            })
     }
 
     render() {
         let rows = [];
         if (Array.isArray(this.props.trainings)) {
             rows = this.props.trainings.map((training, i) => (
-                <TrainingRow key={training.id} training={training} index={i}/>
+                <TrainingRow key={training.id} training={training} index={i} navigateToTraining={this.navigateToTraining}/>
             ))
         }
 
@@ -40,10 +44,15 @@ class TrainingsList extends React.Component {
             </div>
         );
     }
+
+    navigateToTraining = (trainingId) => {
+        this.props.history.push('/training/' + trainingId);
+    }
+
 }
 
 const mapStateToProps = (state) => {
     return {trainings: state.trainings};
 };
 const mapDispatchToProps = {trainingsFetched};
-export default connect(mapStateToProps, mapDispatchToProps)(TrainingsList);
+export default connect(mapStateToProps, mapDispatchToProps)(TrainingsTable);

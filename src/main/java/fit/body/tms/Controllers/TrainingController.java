@@ -1,11 +1,13 @@
 package fit.body.tms.Controllers;
 
+import fit.body.tms.models.Exercise;
 import fit.body.tms.models.Training;
 import fit.body.tms.services.TrainingService;
 import org.springframework.data.rest.webmvc.BasePathAwareController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -28,7 +30,7 @@ public class TrainingController {
         return ResponseEntity.created(new URI("/api/trainings/" + persistedTraining.getId())).body(persistedTraining);
     }
 
-    @DeleteMapping("/delete/{trainingId}")
+    @DeleteMapping("/{trainingId}")
     public void delete(@Valid @PathVariable(value="trainingId") Long trainingId) {
         trainingService.delete(trainingId);
     }
@@ -42,15 +44,18 @@ public class TrainingController {
         }
     }
 
-    @GetMapping("/{trainingId}")
-    public Training getById(@Valid @PathVariable Long trainingId) {
-        return trainingService.getById(trainingId);
+    @GetMapping("/getByIdWithExercises/{trainingId}")
+    @Transactional
+    public Training getByIdWithExercises(@Valid @PathVariable Long trainingId) {
+        Training training =  trainingService.getById(trainingId);
+        List<Exercise> exercises = training.getExercises();
+        System.out.println(exercises);
+        return training;
     }
 
     @GetMapping("/getAll")
     public List<Training> getAll() {
         return trainingService.getAll();
     }
-
 
 }

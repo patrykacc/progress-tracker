@@ -1,11 +1,11 @@
 import React from 'react';
 import './App.css';
-import TrainingsList from "./TrainingsList";
+import TrainingsList from "./trainings/trainingsTable/TrainingsTable";
 
-function Home() {
+function Home(props) {
     return (
         <div className="Home">
-            <TrainingsList/>
+            <TrainingsList {...props} />
         </div>
     );
 }

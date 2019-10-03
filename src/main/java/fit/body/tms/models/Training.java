@@ -7,7 +7,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 
 @Entity
@@ -69,7 +68,6 @@ public class Training {
                 "id=" + id +
                 ", duration=" + duration +
                 ", startTime=" + startTime +
-                ", exercises=" + Collections.singletonList(getExercises()) +
                 '}';
     }
 }

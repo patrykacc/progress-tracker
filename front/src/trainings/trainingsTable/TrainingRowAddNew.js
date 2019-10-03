@@ -1,9 +1,9 @@
 import * as React from "react";
-import {trainingsFetched} from "./actions";
+import {trainingsFetched} from "../../actions";
 import {connect} from "react-redux";
 
 
-class NewTraining extends React.Component{
+class TrainingRowAddNew extends React.Component{
 
     defaultTraining = {
         startTime: new Date().toISOString().split('T')[0] + 'T08:00',
@@ -85,4 +85,4 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = { trainingsFetched};
 
-export default connect(mapStateToProps, mapDispatchToProps)(NewTraining);
+export default connect(mapStateToProps, mapDispatchToProps)(TrainingRowAddNew);

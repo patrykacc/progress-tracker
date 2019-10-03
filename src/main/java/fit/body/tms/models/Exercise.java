@@ -12,7 +12,9 @@ public class Exercise {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
-    private Integer numberOfRepetitions;
+    private Integer repetitions;
+    private Integer series;
+    private Double weight;
 
     @NotNull
     @JsonBackReference
@@ -25,8 +27,9 @@ public class Exercise {
         return "Exercise{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", numberOfRepetitions=" + numberOfRepetitions +
-                ", training=" + training +
+                ", repetitions=" + repetitions +
+                ", series=" + series +
+                ", weight=" + weight +
                 '}';
     }
 
@@ -46,12 +49,28 @@ public class Exercise {
         this.name = name;
     }
 
-    public Integer getNumberOfRepetitions() {
-        return numberOfRepetitions;
+    public Integer getRepetitions() {
+        return repetitions;
     }
 
-    public void setNumberOfRepetitions(Integer numberOfRepetitions) {
-        this.numberOfRepetitions = numberOfRepetitions;
+    public void setRepetitions(Integer repetitions) {
+        this.repetitions = repetitions;
+    }
+
+    public Integer getSeries() {
+        return series;
+    }
+
+    public void setSeries(Integer series) {
+        this.series = series;
+    }
+
+    public Double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Double weight) {
+        this.weight = weight;
     }
 
     public Training getTraining() {
