@@ -1,44 +1,54 @@
-import * as React from "react";
-import {connect} from "react-redux";
+import React, {useState} from 'react';
 import {getByIdWithExercises} from "../../services/trainingService";
 import {store} from "../../store";
-import selectedTraining from "../../reducers/selectedTraining";
 
-class ExerciseRowAddNew extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            createExerciseMode: false,
-            newExercise: {
-                name: '',
-                series: '',
-                repetitions: '',
-                weight: '',
-                training: {
-                    id: props.trainingId
-                }
-            }
+export default function ExerciseRowAddNew({trainingId}) {
+
+    let defaultExercise = {
+        name: '',
+        series: '',
+        repetitions: '',
+        weight: '',
+        training: {
+            id: trainingId
         }
     }
 
-    render() {
-        return (
-            this.state.createExerciseMode ?
-            <tr>
-                <td><input onChange={this.handleExerciseInputChange} type="text" name="name" value={this.state.newExercise.name}/></td>
-                <td><input onChange={this.handleExerciseInputChange} type="number" name="series" value={this.state.newExercise.series}/></td>
-                <td><input onChange={this.handleExerciseInputChange} type="number" name="repetitions" value={this.state.newExercise.repetitions}/></td>
-                <td><input onChange={this.handleExerciseInputChange} type="number" name="weight" value={this.state.newExercise.weight}/></td>
-                <td><button onClick={this.saveExercise}>Zapisz</button></td>
-            </tr> :
-                <tr><td onClick={this.switchToEditMode} colSpan={4}>Dodaj ćwiczenie</td></tr>
-        )
-    }
+    const [createMode, setCreateMode] = useState(false);
+    const [newExercise, setNewExercise] = useState(defaultExercise);
 
-    saveExercise = () => {
-        let newExercise = this.state.newExercise;
-        newExercise.training.id = this.props.trainingId
+    React.useEffect(() => {
+        newExercise.training.id = trainingId
+        }, [newExercise.training.id, trainingId]
+    );
+
+    return (
+        createMode ?
+            <tr>
+                <td>
+                    <input onChange={(e)=>handleExerciseInputChange(e)} type="text" name="name" value={newExercise.name}/>
+                </td>
+                <td>
+                    <input onChange={(e)=>handleExerciseInputChange(e)} type="number" name="series" value={newExercise.series}/>
+                </td>
+                <td>
+                    <input onChange={(e)=>handleExerciseInputChange(e)} type="number" name="repetitions" value={newExercise.repetitions}/>
+                </td>
+                <td>
+                    <input onChange={(e)=>handleExerciseInputChange(e)} type="number" name="weight" value={newExercise.weight}/>
+                </td>
+                <td>
+                    <button onClick={saveExercise}>Zapisz</button>
+                </td>
+            </tr> :
+            <tr>
+                <td onClick={() => setCreateMode(true)} colSpan={4}>Dodaj ćwiczenie</td>
+            </tr>
+    )
+
+
+    function saveExercise() {
         fetch('/exercises/save', {
             method: 'POST',
             headers: {
@@ -49,16 +59,14 @@ class ExerciseRowAddNew extends React.Component {
             body: JSON.stringify(newExercise)
         })
             .then(response => {
-                if (response.status === 200 ) {
-                    this.setState(state => ({
-                        createExerciseMode: false
-                    }));
+                if (response.status === 200) {
+                    setCreateMode(false);
                     return response.json();
                 }
             })
             .then(json => {
                 if (json) {
-                    getByIdWithExercises(this.props.trainingId)
+                    getByIdWithExercises(trainingId)
                         .then(res => {
                             return res.json()
                         })
@@ -74,26 +82,13 @@ class ExerciseRowAddNew extends React.Component {
             })
     }
 
-    switchToEditMode = () => {
-        this.setState(state => ({
-            createExerciseMode: true
-        }))
-    }
-
-    handleExerciseInputChange = (e) => {
-        let newExercise = this.state.newExercise;
+    function handleExerciseInputChange(e) {
+        let exercise = newExercise;
         let value = e.currentTarget.value;
         let inputName = e.currentTarget.name;
-        newExercise[inputName] = value;
-        this.setState(state => ({
-            newExercise: newExercise
-        }));
-    };
+        console.log(newExercise.training.id)
+        exercise[inputName] = value;
+        setNewExercise({...exercise});
+    }
 }
 
-const mapStateToProps = (state) => {
-    return {training: state.selectedTraining};
-};
-const mapDispatchToProps = {selectedTraining};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ExerciseRowAddNew);
