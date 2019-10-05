@@ -49,7 +49,7 @@ public class TrainingController {
     public Training getByIdWithExercises(@Valid @PathVariable Long trainingId) {
         Training training =  trainingService.getById(trainingId);
         List<Exercise> exercises = training.getExercises();
-        System.out.println(exercises);
+        exercises.forEach(System.out::println);
         return training;
     }
 

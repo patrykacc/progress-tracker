@@ -1,14 +1,9 @@
 import React from 'react';
 import './App.css';
-import Home from "./Home";
-import {BrowserRouter, Route, Switch} from 'react-router-dom';
-import {SignInContainer} from "./authentication/SignIn";
-import SignUp from "./authentication/SignUp";
-import TrainingsList from "./trainings/trainingsTable/TrainingsTable";
-import PrivateRoute from "./authentication/privateRoute";
 import {authorizationFailed, authorizationSuccess} from "./actions";
 import {connect} from "react-redux";
-import Training from "./trainings/trainingDetails/TrainingDetails";
+import Header from "./layouts/header/Header";
+import Body from "./layouts/header/Body";
 
 
 class App extends React.Component {
@@ -16,15 +11,8 @@ class App extends React.Component {
     render() {
         return (
             <div className="App">
-                <header className="App-header">Centurion Base</header>
-                <BrowserRouter>
-                    <Switch>
-                        <Route path="/signin" component={SignInContainer}/>
-                        <Route path="/signup" component={SignUp}/>
-                        <PrivateRoute exact path="/" component={Home} />
-                        <PrivateRoute path="/training/:id" component={Training}/>
-                    </Switch>
-                </BrowserRouter>
+                <Header isAuthorized={this.props.isAuthorized}/>
+                <Body/>
             </div>
         );
     }

@@ -4,7 +4,8 @@ import {getAll} from "../../services/trainingService";
 
 export default (props) => {
 
-    const deleteTraining = (trainingId) => {
+    const deleteTraining = (event, trainingId) => {
+        event.stopPropagation();
         fetch('/trainings/' + trainingId, {
             method: 'DELETE',
             headers: {
@@ -28,17 +29,17 @@ export default (props) => {
             })
     };
 
-    const navigateToTraining = (trainingId) => {
+    const navigateToTraining = (event, trainingId) => {
         props.navigateToTraining(trainingId)
     };
 
     return (
-        <tr key={props.training.id} onClick={() => navigateToTraining(props.training.id)}>
+        <tr key={props.training.id} onClick={(event) => navigateToTraining(event, props.training.id)}>
             <td>Trening {props.index + 1}:</td>
             <td style={{marginLeft: 10 + 'px'}}>Rozpoczęcie: <input readOnly type="datetime-local" value={props.training.startTime}/></td>
             <td style={{marginLeft: 10 + 'px'}}>Czas trwania: {props.training.duration} minut</td>
             <td style={{marginLeft: 10 + 'px'}}>
-                <button onClick={() => deleteTraining(props.training.id)}>Usuń</button>
+                <button onClick={(event) => deleteTraining(event, props.training.id)}>Usuń</button>
             </td>
         </tr>
     )
