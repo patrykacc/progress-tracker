@@ -16,7 +16,7 @@ public class TrainingService {
     }
 
     public Training save(Training training) {
-        return  this.trainingRepository.save(training);
+        return  trainingRepository.save(training);
     }
 
     public Training getById(Long id) {

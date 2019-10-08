@@ -1,5 +1,5 @@
 import * as React from "react";
-import NewTraining from "./AddNewTrainingButton";
+import AddNewTrainingButton from "./AddNewTrainingButton";
 import '../../WorkoutsHome.css';
 import {connect} from "react-redux";
 import {trainingsFetched} from "./../../actions";
@@ -47,7 +47,7 @@ class TrainingsTable extends React.Component {
                     </TableHead>
                     <TableBody>
                         {rows}
-                        <NewTraining/>
+                        <AddNewTrainingButton navigateToTraining={this.navigateToTraining}/>
                     </TableBody>
                 </Table>
             </Paper>
@@ -56,7 +56,13 @@ class TrainingsTable extends React.Component {
     }
 
     navigateToTraining = (trainingId) => {
-        this.props.history.push('/training/' + trainingId);
+        let path;
+        if (trainingId) {
+            path = trainingId;
+        } else {
+            path = 'new';
+        }
+        this.props.history.push('/training/' + path);
     }
 
 }

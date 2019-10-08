@@ -3,10 +3,7 @@ package fit.body.tms.Controllers;
 import fit.body.tms.models.Exercise;
 import fit.body.tms.services.ExerciseService;
 import org.springframework.data.rest.webmvc.BasePathAwareController;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -23,7 +20,11 @@ public class ExerciseController {
 
     @PostMapping("/save")
     public Exercise save(@Valid @RequestBody Exercise exercise) {
-        System.out.println(exercise);
         return exerciseService.save(exercise);
+    }
+
+    @DeleteMapping("/{exerciseId}")
+    public void delete(@Valid @PathVariable(value = "exerciseId") Long exerciseId) {
+        exerciseService.deleteById(exerciseId);
     }
 }

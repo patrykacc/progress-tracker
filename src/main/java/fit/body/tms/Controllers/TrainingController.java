@@ -29,7 +29,7 @@ public class TrainingController {
     }
 
     @DeleteMapping("/{trainingId}")
-    public void delete(@Valid @PathVariable(value="trainingId") Long trainingId) {
+    public void delete(@Valid @PathVariable(value = "trainingId") Long trainingId) {
         trainingService.delete(trainingId);
     }
 
@@ -45,7 +45,7 @@ public class TrainingController {
     @GetMapping("/getByIdWithExercises/{trainingId}")
     @Transactional
     public Training getByIdWithExercises(@Valid @PathVariable Long trainingId) {
-        Training training =  trainingService.getById(trainingId);
+        Training training = trainingService.getById(trainingId);
         List<Exercise> exercises = training.getExercises();
         exercises.forEach(System.out::println);
         return training;

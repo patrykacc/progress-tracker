@@ -2,7 +2,7 @@ import {SignInContainer} from "../../authentication/SignIn";
 import SignUp from "../../authentication/SignUp";
 import PrivateRoute from "../../authentication/privateRoute";
 import Home from "../../Home";
-import Training from "../../trainings/trainingDetails/TrainingDetails";
+import TrainingDetails from "../../trainings/trainingDetails/TrainingDetails";
 import React from "react";
 import {BrowserRouter, Route} from "react-router-dom";
 import {Container} from "@material-ui/core";
@@ -17,8 +17,8 @@ export default function Body() {
                         <Route path="/signin" component={SignInContainer}/>
                         <Route path="/signup" component={SignUp}/>
                         <PrivateRoute exact path="/" component={Home}/>
-                        <PrivateRoute path="/training/:id" component={Training}/>
-                        <PrivateRoute path="/training/new" component={Training}/>
+                        <PrivateRoute path="/training/:id" component={TrainingDetails}/>
+                        <PrivateRoute exact path="/training" component={TrainingDetails}/>
                     </BrowserRouter>
                 </Grid>
             </Grid>

@@ -1,6 +1,6 @@
 import * as React from "react";
 import {store} from "../../store";
-import {getAll} from "../../services/trainingService";
+import {getAll, deleteTraining} from "../../services/trainingService";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import IconButton from "@material-ui/core/IconButton";
@@ -10,17 +10,9 @@ import {Link} from "@material-ui/core";
 
 export default ({index, training, ...props}) => {
 
-    const deleteTraining = (event, trainingId) => {
+    const removeTraining = (event, trainingId) => {
         event.stopPropagation();
-        fetch('/trainings/' + trainingId, {
-            method: 'DELETE',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.getItem('token')
-            },
-
-        })
+        deleteTraining(trainingId)
             .then(response => {
                 if (response.status === 200) {
                     getAll()
@@ -29,9 +21,6 @@ export default ({index, training, ...props}) => {
                             store.dispatch({type: "TRAININGS_FETCHED", trainings: trainings});
                         })
                 }
-            })
-            .catch(error => {
-                console.error(error);
             })
     };
 
@@ -45,7 +34,7 @@ export default ({index, training, ...props}) => {
                 <TableCell align="right">{training.startDate}</TableCell>
                 <TableCell align="right">{training.volume}</TableCell>
                 <TableCell align="right">
-                    <IconButton onClick={(event) => deleteTraining(event, training.id)} style={buttonStyle}>
+                    <IconButton onClick={(event) => removeTraining(event, training.id)} style={buttonStyle}>
                         <DeleteIcon fontSize="small"/>
                     </IconButton>
                 </TableCell>

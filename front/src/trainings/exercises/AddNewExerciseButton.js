@@ -28,7 +28,7 @@ export default function AddNewExerciseButton({trainingId}) {
 
     return (
         createMode ?
-            <form>
+            <div>
                     <Input name={"name"} defaultValue={newExercise.name} onChange={handleExerciseInputChange} type={"text"}/>
 
                     <Input onChange={(e) => handleExerciseInputChange(e)} type="number" name="series"
@@ -42,7 +42,7 @@ export default function AddNewExerciseButton({trainingId}) {
 
                     <button onClick={saveExercise}>Zapisz</button>
 
-            </form>
+            </div>
             :
             <TableRow>
                 <TableCell onClick={() => setCreateMode(true)} colSpan={5} align={"center"}>

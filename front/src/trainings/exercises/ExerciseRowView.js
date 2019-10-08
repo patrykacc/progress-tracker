@@ -1,20 +1,31 @@
 import * as React from "react";
 import {TableCell, TableRow} from "@material-ui/core";
+import {Delete} from "@material-ui/icons";
+import IconButton from "@material-ui/core/IconButton";
+import {deleteExercise} from "../../services/exerciseService";
 
-export default function ExerciseRowView(props) {
+export default function ExerciseRowView({exercise}) {
     return (
         <TableRow>
-            <TableCell component="th" scope="row" >{props.exercise.name}</TableCell>
-            <TableCell >{props.exercise.series}</TableCell>
-            <TableCell >{props.exercise.repetitions}</TableCell>
-            <TableCell >{props.exercise.weight}</TableCell>
-            <TableCell><button onClick={deleteExercise}>Usuń</button></TableCell>
+            <TableCell component="th" scope="row">{exercise.name}</TableCell>
+            <TableCell>{exercise.series}</TableCell>
+            <TableCell>{exercise.repetitions}</TableCell>
+            <TableCell>{exercise.weight}</TableCell>
+            <TableCell>
+                <IconButton onClick={remove} color="secondary">
+                    <Delete/>
+                </IconButton>
+            </TableCell>
         </TableRow>
     )
 
-
-
-    function deleteExercise() {
-        console.log('deleteExercise - implement me NOW !!!!')
+    function remove() {
+        deleteExercise(exercise.id)
+            .then(response => {
+                if (response.status === 200) {
+                    console.log('exercise Removed');
+                    //TODO reload exercises list
+                }
+            })
     }
 }

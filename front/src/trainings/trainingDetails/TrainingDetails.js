@@ -1,25 +1,38 @@
 import * as React from "react";
-import {getByIdWithExercises, saveTraining} from "../../services/trainingService";
-import ExerciseRowView from "../exercises/ExerciseRowView";
-import ExerciseRowAddNew from "../exercises/AddNewExerciseButton.js";
-import {Grid, Paper, TableBody, TableCell, TableHead, TableRow, Typography} from "@material-ui/core";
-import Table from "@material-ui/core/Table";
+import {deleteTraining, getByIdWithExercises, saveTraining} from "../../services/trainingService";
+import {Grid, makeStyles, Paper, Typography} from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 import {useEffect} from "react";
 import {Edit, Delete, Save} from "@material-ui/icons";
-import Fab from "@material-ui/core/Fab";
 import IconButton from "@material-ui/core/IconButton";
 import ExercisesTable from "../exercises/ExercisesTable";
+import {DatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
 
+const useStyles = makeStyles(theme => ({
+    container: {
+        display: 'flex',
+        flexWrap: 'wrap',
+    },
+    textField: {
+        marginLeft: theme.spacing(1),
+        marginRight: theme.spacing(1),
+        width: 200,
+    },
+    paper: {
+        overflowX: "auto"
+    }
+}));
 
 export default (props) => {
+
     const defaultTraining = {
-        volume: ''
+        volume: 0
     };
-    const [mode, setMode] = React.useState(props.match.params.id ? 'view' : 'edit');
+    const [mode, setMode] = React.useState('view');
     const [training, setTraining] = React.useState({...defaultTraining});
     useEffect(() => {
-        if (!props.match.params.id) {
+        if (!props.match.params.id || !parseInt(props.match.params.id)) {
             return;
         }
         getByIdWithExercises(props.match.params.id)
@@ -32,39 +45,72 @@ export default (props) => {
             })
     }, [props.match.params.id]);
 
+    useEffect(() => {
+        setMode(parseInt(props.match.params.id) ? 'view' : 'edit')
+    }, [props.match.params.id]);
+
     const save = () => {
+        const redirectToCreatedTrainingPage = (trainingId) => {
+            if (!props.match.params.id || !parseInt(props.match.params.id)) {
+                props.history.push('/training/' + trainingId)
+            }
+        };
         saveTraining(training)
-            .then(response => {
-                return response.json();
-            })
             .then(json => {
                 if (json) {
                     setMode('view');
-                    console.log(json);
+                    redirectToCreatedTrainingPage(json.id)
                 }
             })
-    }
+    };
 
+
+    const remove = () => {
+        deleteTraining(training.id)
+            .then(response => {
+                if (response.status === 200) {
+                    props.history.replace('/');
+                }
+            })
+    };
+
+    const handleDateChange = (date) => {
+        if (date) {
+            training.startDate = date.toISOString().split('T')[0];
+            setTraining({...training})
+        }
+    };
 
     const handleChange = (e) => {
         let value = e.currentTarget.value;
         let inputName = e.currentTarget.name;
         training[inputName] = value;
-        console.log(training);
         setTraining({...training})
     };
 
-    let inputProps = {readOnly: mode === 'view'};
+    const classes = useStyles();
+    let inputProps = {
+        readOnly: mode === 'view',
+        variant: mode === 'view' ? 'standard' : 'filled'
+    };
+
     return (
-        <div className="Training">
-            <Grid container spacing={2}>
+        <div className={classes.container}>
+            <Grid container spacing={2} >
                 <Grid item xs={6}>
-                    <Paper>
+                    <Paper className={classes.paper}>
                         <Typography variant={"h5"}>Trening:</Typography>
                         <Typography variant={"body1"}>Z dnia: {training.startDate}</Typography>
                         <form noValidate autoComplete="off">
-                            <TextField label="Całkowita objetość" margin="standard" inputProps={inputProps} type="number"
-                                value={training.volume} onChange={handleChange} variant="standard" name="volume"/>
+                            <TextField label="Całkowita objetość" margin="normal" inputProps={inputProps} type="number"
+                                       value={training.volume} onChange={handleChange} variant={inputProps.variant}
+                                       name="volume" className={classes.textField}/>
+                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                <DatePicker disableToolbar variant="inline" format="yyyy-MM-dd" margin="normal"
+                                            readOnly={inputProps.readOnly} inputVariant={inputProps.variant}
+                                            label="Dzień treningu" value={training.startDate}
+                                            onChange={handleDateChange}/>
+                            </MuiPickersUtilsProvider>
                         </form>
                         {mode === 'view' ?
                             <IconButton onClick={() => setMode('edit')} color="primary">
@@ -75,7 +121,7 @@ export default (props) => {
                                 <Save/>
                             </IconButton>
                         }
-                            <IconButton color="secondary">
+                        <IconButton onClick={remove} color="secondary">
                             <Delete/>
                         </IconButton>
                         <ExercisesTable exercises={training.exercises} trainingId={training.id}/>
@@ -90,3 +136,5 @@ export default (props) => {
         </div>
     )
 }
+
+//TODO consider splitting edit and view components

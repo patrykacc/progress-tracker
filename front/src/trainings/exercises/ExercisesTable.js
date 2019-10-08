@@ -1,7 +1,4 @@
-import {Grid, Paper, TableBody, TableCell, TableHead, TableRow, Typography} from "@material-ui/core";
-import TextField from "@material-ui/core/TextField";
-import IconButton from "@material-ui/core/IconButton";
-import {Delete, Edit} from "@material-ui/icons";
+import {TableBody, TableCell, TableHead, TableRow, Typography} from "@material-ui/core";
 import Table from "@material-ui/core/Table";
 import ExerciseRowAddNew from "./AddNewExerciseButton.js";
 import * as React from "react";
