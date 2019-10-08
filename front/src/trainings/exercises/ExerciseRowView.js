@@ -1,14 +1,15 @@
 import * as React from "react";
+import {TableCell, TableRow} from "@material-ui/core";
 
 export default function ExerciseRowView(props) {
     return (
-        <tr>
-            <td>{props.exercise.name}</td>
-            <td>{props.exercise.series}</td>
-            <td>{props.exercise.repetitions}</td>
-            <td>{props.exercise.weight}</td>
-            <td><button onClick={deleteExercise}>Usuń</button></td>
-        </tr>
+        <TableRow>
+            <TableCell component="th" scope="row" >{props.exercise.name}</TableCell>
+            <TableCell >{props.exercise.series}</TableCell>
+            <TableCell >{props.exercise.repetitions}</TableCell>
+            <TableCell >{props.exercise.weight}</TableCell>
+            <TableCell><button onClick={deleteExercise}>Usuń</button></TableCell>
+        </TableRow>
     )
 
 

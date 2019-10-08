@@ -1,72 +1,92 @@
 import * as React from "react";
-import {connect} from "react-redux";
-import {getByIdWithExercises} from "../../services/trainingService";
-import {store} from "../../store";
-import selectedTraining from "../../reducers/selectedTraining";
+import {getByIdWithExercises, saveTraining} from "../../services/trainingService";
 import ExerciseRowView from "../exercises/ExerciseRowView";
-import ExerciseRowAddNew from "../exercises/ExerciseRowAddNew";
+import ExerciseRowAddNew from "../exercises/AddNewExerciseButton.js";
+import {Grid, Paper, TableBody, TableCell, TableHead, TableRow, Typography} from "@material-ui/core";
+import Table from "@material-ui/core/Table";
+import TextField from "@material-ui/core/TextField";
+import {useEffect} from "react";
+import {Edit, Delete, Save} from "@material-ui/icons";
+import Fab from "@material-ui/core/Fab";
+import IconButton from "@material-ui/core/IconButton";
+import ExercisesTable from "../exercises/ExercisesTable";
 
 
-class TrainingDetails extends React.Component {
-
-    constructor(props) {
-        super(props);
-        getByIdWithExercises(this.props.match.params.id)
+export default (props) => {
+    const defaultTraining = {
+        volume: ''
+    };
+    const [mode, setMode] = React.useState(props.match.params.id ? 'view' : 'edit');
+    const [training, setTraining] = React.useState({...defaultTraining});
+    useEffect(() => {
+        if (!props.match.params.id) {
+            return;
+        }
+        getByIdWithExercises(props.match.params.id)
             .then(res => {
                 return res.json()
             })
             .then(training => {
-                store.dispatch({type: "TRAINING_FETCHED", training: training});
+                setTraining(training);
                 console.log(training)
             })
-    }
+    }, [props.match.params.id]);
 
-    render() {
-        let exercises = [];
-        if (Array.isArray(this.props.training.exercises)) {
-            exercises = this.props.training.exercises.map(exercise => {
-                return <ExerciseRowView key={exercise.id} exercise={exercise}/>
+    const save = () => {
+        saveTraining(training)
+            .then(response => {
+                return response.json();
             })
-        }
-        return (
-            <div className="Training">
-                <h2>Trening:</h2>
-                <div>Z dnia: <input readOnly type="datetime-local"
-                                    value={this.props.training.startTime ? this.props.training.startTime : ''}/></div>
-                <div>Czas trwania: {this.props.training.duration} minut</div>
-                <h3>Cwiczenia:</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Nazwa ćwiczenia</th>
-                            <th>Ilość serii</th>
-                            <th>Ilość powtórzeń na serię</th>
-                            <th>Obciążenie</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {exercises}
-                    <ExerciseRowAddNew trainingId={this.props.training.id}/>
-                    </tbody>
-                </table>
-            </div>
-        )
+            .then(json => {
+                if (json) {
+                    setMode('view');
+                    console.log(json);
+                }
+            })
     }
 
-    handleTrainingInputChange = (e) => {
-        let newTraining = this.state.newTraining;
+
+    const handleChange = (e) => {
         let value = e.currentTarget.value;
         let inputName = e.currentTarget.name;
-        newTraining[inputName] = value;
-        this.setState(state => ({
-            newTraining: newTraining
-        }));
+        training[inputName] = value;
+        console.log(training);
+        setTraining({...training})
     };
+
+    let inputProps = {readOnly: mode === 'view'};
+    return (
+        <div className="Training">
+            <Grid container spacing={2}>
+                <Grid item xs={6}>
+                    <Paper>
+                        <Typography variant={"h5"}>Trening:</Typography>
+                        <Typography variant={"body1"}>Z dnia: {training.startDate}</Typography>
+                        <form noValidate autoComplete="off">
+                            <TextField label="Całkowita objetość" margin="standard" inputProps={inputProps} type="number"
+                                value={training.volume} onChange={handleChange} variant="standard" name="volume"/>
+                        </form>
+                        {mode === 'view' ?
+                            <IconButton onClick={() => setMode('edit')} color="primary">
+                                <Edit/>
+                            </IconButton>
+                            :
+                            <IconButton onClick={save} color="primary">
+                                <Save/>
+                            </IconButton>
+                        }
+                            <IconButton color="secondary">
+                            <Delete/>
+                        </IconButton>
+                        <ExercisesTable exercises={training.exercises} trainingId={training.id}/>
+                    </Paper>
+                </Grid>
+                <Grid item xs={6}>
+                    <Paper>
+
+                    </Paper>
+                </Grid>
+            </Grid>
+        </div>
+    )
 }
-
-const mapStateToProps = (state) => {
-    return {training: state.selectedTraining};
-};
-const mapDispatchToProps = {selectedTraining};
-
-export default connect(mapStateToProps, mapDispatchToProps)(TrainingDetails);

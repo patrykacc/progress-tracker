@@ -4,12 +4,10 @@ import fit.body.tms.models.Exercise;
 import fit.body.tms.models.Training;
 import fit.body.tms.services.TrainingService;
 import org.springframework.data.rest.webmvc.BasePathAwareController;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
@@ -25,9 +23,9 @@ public class TrainingController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<Training> save(@Valid @RequestBody Training training) throws URISyntaxException {
+    public Training save(@Valid @RequestBody Training training) throws URISyntaxException {
         Training persistedTraining = trainingService.save(training);
-        return ResponseEntity.created(new URI("/api/trainings/" + persistedTraining.getId())).body(persistedTraining);
+        return persistedTraining;
     }
 
     @DeleteMapping("/{trainingId}")

@@ -1,10 +1,17 @@
 import * as React from "react";
-import NewTraining from "./TrainingRowAddNew";
+import NewTraining from "./AddNewTrainingButton";
 import '../../WorkoutsHome.css';
 import {connect} from "react-redux";
 import {trainingsFetched} from "./../../actions";
 import TrainingRow from "./TrainingRowView";
 import {getAll} from "./../../services/trainingService";
+import TableCell from "@material-ui/core/TableCell";
+import TableRow from "@material-ui/core/TableRow";
+import TableBody from "@material-ui/core/TableBody";
+import TableHead from "@material-ui/core/TableHead";
+import Table from "@material-ui/core/Table";
+import Paper from "@material-ui/core/Paper";
+import Typography from "@material-ui/core/Typography";
 
 class TrainingsTable extends React.Component {
 
@@ -21,27 +28,30 @@ class TrainingsTable extends React.Component {
         let rows = [];
         if (Array.isArray(this.props.trainings)) {
             rows = this.props.trainings.map((training, i) => (
-                <TrainingRow key={training.id} training={training} index={i} navigateToTraining={this.navigateToTraining}/>
+                <TrainingRow key={training.id} training={training} index={i}
+                             navigateToTraining={this.navigateToTraining}/>
             ))
         }
 
         return (
-            <div className="WorkoutsHome">
-                <h1>Treningi:</h1>
-                <table>
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Data:</th>
-                        <th>Czas trwania</th>
-                    </tr>
-                    </thead>
-                    <tbody className="trainings-table">
-                    {rows}
-                    <NewTraining/>
-                    </tbody>
-                </table>
-            </div>
+            <Paper>
+                <Typography variant="h5" component="h3">Treningi:</Typography>
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>#</TableCell>
+                            <TableCell align="right">Data:</TableCell>
+                            <TableCell align="right">Objętość:</TableCell>
+                            <TableCell align="right"/>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {rows}
+                        <NewTraining/>
+                    </TableBody>
+                </Table>
+            </Paper>
+
         );
     }
 

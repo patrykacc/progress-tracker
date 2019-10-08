@@ -1,9 +1,12 @@
 import React, {useState} from 'react';
 import {getByIdWithExercises} from "../../services/trainingService";
 import {store} from "../../store";
+import {TableCell, TableRow} from "@material-ui/core";
+import Fab from "@material-ui/core/Fab";
+import AddIcon from '@material-ui/icons/Add';
+import Input from "@material-ui/core/Input";
 
-
-export default function ExerciseRowAddNew({trainingId}) {
+export default function AddNewExerciseButton({trainingId}) {
 
     let defaultExercise = {
         name: '',
@@ -19,32 +22,35 @@ export default function ExerciseRowAddNew({trainingId}) {
     const [newExercise, setNewExercise] = useState(defaultExercise);
 
     React.useEffect(() => {
-        newExercise.training.id = trainingId
+            newExercise.training.id = trainingId
         }, [newExercise.training.id, trainingId]
     );
 
     return (
         createMode ?
-            <tr>
-                <td>
-                    <input onChange={(e)=>handleExerciseInputChange(e)} type="text" name="name" value={newExercise.name}/>
-                </td>
-                <td>
-                    <input onChange={(e)=>handleExerciseInputChange(e)} type="number" name="series" value={newExercise.series}/>
-                </td>
-                <td>
-                    <input onChange={(e)=>handleExerciseInputChange(e)} type="number" name="repetitions" value={newExercise.repetitions}/>
-                </td>
-                <td>
-                    <input onChange={(e)=>handleExerciseInputChange(e)} type="number" name="weight" value={newExercise.weight}/>
-                </td>
-                <td>
+            <form>
+                    <Input name={"name"} defaultValue={newExercise.name} onChange={handleExerciseInputChange} type={"text"}/>
+
+                    <Input onChange={(e) => handleExerciseInputChange(e)} type="number" name="series"
+                           value={newExercise.series}/>
+
+                    <Input onChange={(e) => handleExerciseInputChange(e)} type="number" name="repetitions"
+                           value={newExercise.repetitions}/>
+
+                    <Input onChange={(e) => handleExerciseInputChange(e)} type="number" name="weight"
+                           value={newExercise.weight}/>
+
                     <button onClick={saveExercise}>Zapisz</button>
-                </td>
-            </tr> :
-            <tr>
-                <td onClick={() => setCreateMode(true)} colSpan={4}>Dodaj ćwiczenie</td>
-            </tr>
+
+            </form>
+            :
+            <TableRow>
+                <TableCell onClick={() => setCreateMode(true)} colSpan={5} align={"center"}>
+                    <Fab size="small" color="primary">
+                        <AddIcon/>
+                    </Fab>
+                </TableCell>
+            </TableRow>
     )
 
 

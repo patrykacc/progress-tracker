@@ -1,8 +1,14 @@
 import * as React from "react";
 import {store} from "../../store";
 import {getAll} from "../../services/trainingService";
+import TableRow from "@material-ui/core/TableRow";
+import TableCell from "@material-ui/core/TableCell";
+import IconButton from "@material-ui/core/IconButton";
+import DeleteIcon from '@material-ui/icons/Delete';
+import {Link} from "@material-ui/core";
 
-export default (props) => {
+
+export default ({index, training, ...props}) => {
 
     const deleteTraining = (event, trainingId) => {
         event.stopPropagation();
@@ -32,16 +38,18 @@ export default (props) => {
     const navigateToTraining = (event, trainingId) => {
         props.navigateToTraining(trainingId)
     };
-
+    const buttonStyle = {cursor: "pointer"};
     return (
-        <tr key={props.training.id} onClick={(event) => navigateToTraining(event, props.training.id)}>
-            <td>Trening {props.index + 1}:</td>
-            <td style={{marginLeft: 10 + 'px'}}>Rozpoczęcie: <input readOnly type="datetime-local" value={props.training.startTime}/></td>
-            <td style={{marginLeft: 10 + 'px'}}>Czas trwania: {props.training.duration} minut</td>
-            <td style={{marginLeft: 10 + 'px'}}>
-                <button onClick={(event) => deleteTraining(event, props.training.id)}>Usuń</button>
-            </td>
-        </tr>
+            <TableRow key={training.id}>
+                <TableCell component={"th"} scope="row"><Link onClick={(event) => navigateToTraining(event, training.id)}>Trening {index}</Link></TableCell>
+                <TableCell align="right">{training.startDate}</TableCell>
+                <TableCell align="right">{training.volume}</TableCell>
+                <TableCell align="right">
+                    <IconButton onClick={(event) => deleteTraining(event, training.id)} style={buttonStyle}>
+                        <DeleteIcon fontSize="small"/>
+                    </IconButton>
+                </TableCell>
+            </TableRow>
     )
 }
 
