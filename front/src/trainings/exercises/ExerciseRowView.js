@@ -6,7 +6,7 @@ import {deleteExercise} from "../../services/exerciseService";
 
 export default function ExerciseRowView({exercise}) {
     return (
-        <TableRow>
+        <TableRow hover onClick={() => console.log(exercise.id)}>
             <TableCell component="th" scope="row">{exercise.name}</TableCell>
             <TableCell>{exercise.series}</TableCell>
             <TableCell>{exercise.repetitions}</TableCell>
@@ -19,7 +19,8 @@ export default function ExerciseRowView({exercise}) {
         </TableRow>
     )
 
-    function remove() {
+    function remove(event) {
+        event.stopPropagation();
         deleteExercise(exercise.id)
             .then(response => {
                 if (response.status === 200) {

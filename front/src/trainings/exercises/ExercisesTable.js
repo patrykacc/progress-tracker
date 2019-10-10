@@ -1,12 +1,12 @@
 import {TableBody, TableCell, TableHead, TableRow, Typography} from "@material-ui/core";
 import Table from "@material-ui/core/Table";
-import ExerciseRowAddNew from "./AddNewExerciseButton.js";
+import AddNewExerciseButton from "./AddNewExerciseButton.js";
 import * as React from "react";
 import {Fragment} from "react";
 import ExerciseRowView from "./ExerciseRowView";
 
 
-export default ({exercises, trainingId}) => {
+export default ({exercises, trainingId, ableToAddExercise}) => {
     if (Array.isArray(exercises)) {
         exercises = exercises.map(exercise => {
             return <ExerciseRowView key={exercise.id} exercise={exercise}/>
@@ -14,9 +14,8 @@ export default ({exercises, trainingId}) => {
     }
 
     return (
-
         <Fragment>
-            <Typography variant={"h3"}>Cwiczenia:</Typography>
+            <Typography variant={"h6"}>Cwiczenia:</Typography>
             <Table>
                 <TableHead>
                     <TableRow>
@@ -29,7 +28,7 @@ export default ({exercises, trainingId}) => {
                 </TableHead>
                 <TableBody>
                     {exercises}
-                    <ExerciseRowAddNew trainingId={trainingId}/>
+                    {ableToAddExercise ? <AddNewExerciseButton trainingId={trainingId}/> : null}
                 </TableBody>
             </Table>
         </Fragment>

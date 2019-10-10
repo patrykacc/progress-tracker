@@ -1,13 +1,14 @@
 import * as React from "react";
-import {deleteTraining, getByIdWithExercises, saveTraining} from "../../services/trainingService";
+import {deleteTraining, get, saveTraining} from "../../services/trainingService";
 import {Grid, makeStyles, Paper, Typography} from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 import {useEffect} from "react";
-import {Edit, Delete, Save} from "@material-ui/icons";
+import {Edit, Delete, Save, Cancel} from "@material-ui/icons";
 import IconButton from "@material-ui/core/IconButton";
-import ExercisesTable from "../exercises/ExercisesTable";
+import Exercises from "../exercises/Exercises";
 import {DatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
+import {Fragment} from "react";
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -25,45 +26,53 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default (props) => {
-
-    const defaultTraining = {
-        volume: 0
-    };
-    const [mode, setMode] = React.useState('view');
+    const defaultTraining = {volume: 0};
+    const initialMode = parseInt(props.match.params.id) ? 'view' : 'create';
+    const trainingId = parseInt(props.match.params.id) ? props.match.params.id : null;
+    const [mode, setMode] = React.useState(initialMode);
     const [training, setTraining] = React.useState({...defaultTraining});
+    /*Used to hold copy of actual training during edit*/
+    const [temporaryTraining, setTemporaryTraining] = React.useState({});
+
     useEffect(() => {
-        if (!props.match.params.id || !parseInt(props.match.params.id)) {
+        if (mode !== 'view') {
             return;
         }
-        getByIdWithExercises(props.match.params.id)
-            .then(res => {
-                return res.json()
-            })
+        get(props.match.params.id)
             .then(training => {
-                setTraining(training);
+                if (training) {
+                    setTraining(training);
+                }
                 console.log(training)
             })
-    }, [props.match.params.id]);
+    }, [mode, props.match.params.id]);
 
-    useEffect(() => {
-        setMode(parseInt(props.match.params.id) ? 'view' : 'edit')
-    }, [props.match.params.id]);
+    const edit = () => {
+        setTemporaryTraining({...training});
+        setMode('edit');
+    };
+
+    const cancel = () => {
+        if (initialMode === 'create') {
+            props.history.goBack()
+        } else if (initialMode === 'view') {
+            setTraining({...temporaryTraining});
+            setMode('view');
+        }
+    };
 
     const save = () => {
-        const redirectToCreatedTrainingPage = (trainingId) => {
-            if (!props.match.params.id || !parseInt(props.match.params.id)) {
-                props.history.push('/training/' + trainingId)
-            }
-        };
         saveTraining(training)
-            .then(json => {
-                if (json) {
-                    setMode('view');
-                    redirectToCreatedTrainingPage(json.id)
+            .then(training => {
+                if (!training) {
+                    return;
+                }
+                setMode('view');
+                if (initialMode === 'create') {
+                    props.history.replace('/training/' + training.id)
                 }
             })
     };
-
 
     const remove = () => {
         deleteTraining(training.id)
@@ -81,7 +90,7 @@ export default (props) => {
         }
     };
 
-    const handleChange = (e) => {
+    const handleInputChange = (e) => {
         let value = e.currentTarget.value;
         let inputName = e.currentTarget.name;
         training[inputName] = value;
@@ -96,14 +105,15 @@ export default (props) => {
 
     return (
         <div className={classes.container}>
-            <Grid container spacing={2} >
+            <Paper style={{flexGrow: 1}}>
+            <Grid container spacing={2}>
                 <Grid item xs={6}>
                     <Paper className={classes.paper}>
-                        <Typography variant={"h5"}>Trening:</Typography>
+                        <Typography variant={"h4"}>Trening:</Typography>
                         <Typography variant={"body1"}>Z dnia: {training.startDate}</Typography>
                         <form noValidate autoComplete="off">
                             <TextField label="Całkowita objetość" margin="normal" inputProps={inputProps} type="number"
-                                       value={training.volume} onChange={handleChange} variant={inputProps.variant}
+                                       value={training.volume} onChange={handleInputChange} variant={inputProps.variant}
                                        name="volume" className={classes.textField}/>
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                 <DatePicker disableToolbar variant="inline" format="yyyy-MM-dd" margin="normal"
@@ -113,18 +123,25 @@ export default (props) => {
                             </MuiPickersUtilsProvider>
                         </form>
                         {mode === 'view' ?
-                            <IconButton onClick={() => setMode('edit')} color="primary">
-                                <Edit/>
-                            </IconButton>
+                            <Fragment>
+                                <IconButton onClick={edit} color="primary">
+                                    <Edit/>
+                                </IconButton>
+                                <IconButton onClick={remove} color="secondary">
+                                    <Delete/>
+                                </IconButton>
+                            </Fragment>
                             :
-                            <IconButton onClick={save} color="primary">
-                                <Save/>
-                            </IconButton>
+                            <Fragment>
+                                <IconButton onClick={save} color="primary">
+                                    <Save/>
+                                </IconButton>
+                                <IconButton onClick={cancel} color="secondary">
+                                    <Cancel/>
+                                </IconButton>
+                            </Fragment>
                         }
-                        <IconButton onClick={remove} color="secondary">
-                            <Delete/>
-                        </IconButton>
-                        <ExercisesTable exercises={training.exercises} trainingId={training.id}/>
+                        <Exercises trainingId={trainingId} ableToAddExercise={mode !== 'create'}/>
                     </Paper>
                 </Grid>
                 <Grid item xs={6}>
@@ -133,8 +150,7 @@ export default (props) => {
                     </Paper>
                 </Grid>
             </Grid>
+            </Paper>
         </div>
     )
 }
-
-//TODO consider splitting edit and view components

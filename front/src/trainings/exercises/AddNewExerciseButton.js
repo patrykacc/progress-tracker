@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {getByIdWithExercises} from "../../services/trainingService";
+import {get} from "../../services/trainingService";
 import {store} from "../../store";
 import {TableCell, TableRow} from "@material-ui/core";
 import Fab from "@material-ui/core/Fab";
@@ -72,12 +72,11 @@ export default function AddNewExerciseButton({trainingId}) {
             })
             .then(json => {
                 if (json) {
-                    getByIdWithExercises(trainingId)
-                        .then(res => {
-                            return res.json()
-                        })
+                    get(trainingId)
                         .then(training => {
-                            store.dispatch({type: "TRAINING_FETCHED", training: training});
+                            if (training) {
+                                store.dispatch({type: "TRAINING_FETCHED", training: training});
+                            }
                             console.log(training)
                         })
                 }

@@ -6,6 +6,7 @@ import org.springframework.data.rest.webmvc.BasePathAwareController;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @BasePathAwareController
@@ -21,6 +22,11 @@ public class ExerciseController {
     @PostMapping("/save")
     public Exercise save(@Valid @RequestBody Exercise exercise) {
         return exerciseService.save(exercise);
+    }
+
+    @GetMapping("/getAllByTrainingId/{trainingId}")
+    public List<Exercise> getAllByTrainingId(@Valid @PathVariable("trainingId") Long trainingId) {
+        return exerciseService.getByTrainingId(trainingId);
     }
 
     @DeleteMapping("/{exerciseId}")

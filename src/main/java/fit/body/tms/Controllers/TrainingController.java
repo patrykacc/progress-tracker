@@ -1,14 +1,11 @@
 package fit.body.tms.Controllers;
 
-import fit.body.tms.models.Exercise;
 import fit.body.tms.models.Training;
 import fit.body.tms.services.TrainingService;
 import org.springframework.data.rest.webmvc.BasePathAwareController;
 import org.springframework.web.bind.annotation.*;
 
-import javax.transaction.Transactional;
 import javax.validation.Valid;
-import java.net.URISyntaxException;
 import java.util.List;
 
 @RestController
@@ -22,33 +19,9 @@ public class TrainingController {
         this.trainingService = trainingService;
     }
 
-    @PostMapping("/save")
-    public Training save(@Valid @RequestBody Training training) throws URISyntaxException {
-        Training persistedTraining = trainingService.save(training);
-        return persistedTraining;
-    }
-
-    @DeleteMapping("/{trainingId}")
-    public void delete(@Valid @PathVariable(value = "trainingId") Long trainingId) {
-        trainingService.delete(trainingId);
-    }
-
-    @PostMapping("/echo")
-    public void save(@Valid @RequestBody Object o) {
-        try {
-            System.out.println(o);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    @GetMapping("/getByIdWithExercises/{trainingId}")
-    @Transactional
-    public Training getByIdWithExercises(@Valid @PathVariable Long trainingId) {
-        Training training = trainingService.getById(trainingId);
-        List<Exercise> exercises = training.getExercises();
-        exercises.forEach(System.out::println);
-        return training;
+    @GetMapping("/{trainingId}")
+    public Training get(@Valid @PathVariable Long trainingId) {
+        return trainingService.getById(trainingId);
     }
 
     @GetMapping("/getAll")
@@ -56,4 +29,13 @@ public class TrainingController {
         return trainingService.getAll();
     }
 
+    @PostMapping("/save")
+    public Training save(@Valid @RequestBody Training training) {
+        return trainingService.save(training);
+    }
+
+    @DeleteMapping("/{trainingId}")
+    public void delete(@Valid @PathVariable(value = "trainingId") Long trainingId) {
+        trainingService.delete(trainingId);
+    }
 }

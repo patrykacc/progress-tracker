@@ -7,12 +7,13 @@ export const getAll = () => {
         .catch(error => console.error(error))
 }
 
-export const getByIdWithExercises = (trainingId) => {
-    return fetch('/trainings/getByIdWithExercises/' + trainingId, {
+export const get = (trainingId) => {
+    return fetch('/trainings/' + trainingId, {
         headers: {
             'Authorization': 'Bearer ' + localStorage.getItem('token')
         }
     })
+        .then(res => res.json())
         .catch(error => console.error(error))
 };
 

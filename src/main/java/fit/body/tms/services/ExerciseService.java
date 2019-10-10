@@ -4,6 +4,8 @@ import fit.body.tms.models.Exercise;
 import fit.body.tms.repositories.ExerciseRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ExerciseService {
 
@@ -19,5 +21,12 @@ public class ExerciseService {
 
     public void deleteById(Long exerciseId) {
         exerciseRepository.deleteById(exerciseId);
+    }
+
+    public List<Exercise> getByTrainingId(Long trainingId) {
+        System.out.println(trainingId);
+        List<Exercise> allByTrainingId = exerciseRepository.findAllByTrainingId(trainingId);
+        System.out.println(allByTrainingId);
+        return allByTrainingId;
     }
 }

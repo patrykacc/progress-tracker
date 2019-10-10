@@ -11,3 +11,14 @@ export const deleteExercise = (exerciseId) => {
             console.error(error);
         })
 }
+
+export const getAllByTrainingId = (trainingId) => {
+    return fetch('/exercises/getAllByTrainingId/' + trainingId, {
+        method: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+        }
+    })
+        .then(res => res.status === 200 ? res.json() : null)
+        .catch(error => console.error(error))
+}
