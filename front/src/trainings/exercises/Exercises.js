@@ -1,24 +1,20 @@
 import {useEffect} from "react";
-import {getAllByTrainingId} from "../../services/exerciseService";
 import * as React from "react";
 import ExercisesTable from "./ExercisesTable";
-
+import {useDispatch, useSelector} from "react-redux";
+import {getExercisesAction} from "../../actions";
 
 export default ({trainingId}) => {
-    const [exercises, setExercises] = React.useState([]);
+    const exercises = useSelector(state => state.exercises);
+    const dispatch = useDispatch();
+    
     useEffect(() => {
-        if (!trainingId) {
-            return;
+        if (trainingId) {
+            dispatch(getExercisesAction(trainingId))
         }
-        getAllByTrainingId(trainingId)
-            .then(response => {
-                if (response) {
-                    setExercises(response);
-                }
-                console.log(response);
-            })
-    }, [trainingId]);
+    }, [dispatch, trainingId]);
 
+    
     return (
         <ExercisesTable exercises={exercises} trainingId={trainingId} ableToAddExercise={true}/>
     )

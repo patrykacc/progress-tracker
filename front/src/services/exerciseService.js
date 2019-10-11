@@ -1,4 +1,5 @@
 export const deleteExercise = (exerciseId) => {
+
     return fetch('/exercises/' + exerciseId, {
         method: 'DELETE',
         headers: {
@@ -12,7 +13,7 @@ export const deleteExercise = (exerciseId) => {
         })
 }
 
-export const getAllByTrainingId = (trainingId) => {
+export const getExercisesByTrainingId = (trainingId) => {
     return fetch('/exercises/getAllByTrainingId/' + trainingId, {
         method: 'GET',
         headers: {

@@ -7,7 +7,7 @@ export const getAll = () => {
         .catch(error => console.error(error))
 }
 
-export const get = (trainingId) => {
+export const getTraining = (trainingId) => {
     return fetch('/trainings/' + trainingId, {
         headers: {
             'Authorization': 'Bearer ' + localStorage.getItem('token')

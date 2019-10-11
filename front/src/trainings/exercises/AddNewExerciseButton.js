@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
-import {get} from "../../services/trainingService";
-import {store} from "../../store";
 import {TableCell, TableRow} from "@material-ui/core";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from '@material-ui/icons/Add';
 import Input from "@material-ui/core/Input";
+import {useDispatch} from "react-redux";
+import {getExercisesAction} from "../../actions";
 
 export default function AddNewExerciseButton({trainingId}) {
-
+    const dispatch = useDispatch();
     let defaultExercise = {
         name: '',
         series: '',
@@ -16,7 +16,7 @@ export default function AddNewExerciseButton({trainingId}) {
         training: {
             id: trainingId
         }
-    }
+    };
 
     const [createMode, setCreateMode] = useState(false);
     const [newExercise, setNewExercise] = useState(defaultExercise);
@@ -67,20 +67,8 @@ export default function AddNewExerciseButton({trainingId}) {
             .then(response => {
                 if (response.status === 200) {
                     setCreateMode(false);
-                    return response.json();
+                    dispatch(getExercisesAction())
                 }
-            })
-            .then(json => {
-                if (json) {
-                    get(trainingId)
-                        .then(training => {
-                            if (training) {
-                                store.dispatch({type: "TRAINING_FETCHED", training: training});
-                            }
-                            console.log(training)
-                        })
-                }
-
             })
             .catch(error => {
                 console.error(error);

@@ -6,10 +6,10 @@ import {Fragment} from "react";
 import ExerciseRowView from "./ExerciseRowView";
 
 
-export default ({exercises, trainingId, ableToAddExercise}) => {
+export default ({exercises, trainingId, ableToAddExercise, reloadExercises}) => {
     if (Array.isArray(exercises)) {
         exercises = exercises.map(exercise => {
-            return <ExerciseRowView key={exercise.id} exercise={exercise}/>
+            return <ExerciseRowView key={exercise.id} exercise={exercise} reloadExercises={reloadExercises}/>
         })
     }
 

@@ -25,12 +25,12 @@ export default ({index, training, ...props}) => {
     };
 
     const navigateToTraining = (event, trainingId) => {
-        props.navigateToTraining(trainingId)
+        props.navigateToTraining(training.id)
     };
     const buttonStyle = {cursor: "pointer"};
     return (
             <TableRow key={training.id}>
-                <TableCell component={"th"} scope="row"><Link onClick={(event) => navigateToTraining(event, training.id)}>Trening {index}</Link></TableCell>
+                <TableCell component={"th"} scope="row"><Link onClick={navigateToTraining}>Trening {index}</Link></TableCell>
                 <TableCell align="right">{training.startDate}</TableCell>
                 <TableCell align="right">{training.volume}</TableCell>
                 <TableCell align="right">
