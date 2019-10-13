@@ -24,9 +24,6 @@ public class ExerciseService {
     }
 
     public List<Exercise> getByTrainingId(Long trainingId) {
-        System.out.println(trainingId);
-        List<Exercise> allByTrainingId = exerciseRepository.findAllByTrainingId(trainingId);
-        System.out.println(allByTrainingId);
-        return allByTrainingId;
+        return exerciseRepository.findAllByTrainingId(trainingId);
     }
 }

@@ -28,7 +28,7 @@ export default (props) => {
             <Container>
                 <Box alignItems="center" justifyContent="center" display="flex" className={classes.box} color="text.secondary">
                     <Typography className={classes.text} variant={'h6'} >Wybierz ćwiczenie aby zobaczyć szczegóły</Typography>
-                    {initialMode}
+                    xxx {initialMode}
                 </Box>
             </Container>
         </Paper>

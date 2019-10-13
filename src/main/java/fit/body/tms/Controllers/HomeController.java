@@ -1,14 +1,14 @@
 package fit.body.tms.Controllers;
 
-public class ViewController {
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-/*    @RequestMapping("/")
-    public String redirectHome() {
+@Controller
+public class HomeController {
+
+    @RequestMapping(value = "/")
+    public String index() {
         return "index";
     }
 
-    @RequestMapping("/api")
-    public String redirectHomeApi() {
-        return "index";
-    }*/
 }
