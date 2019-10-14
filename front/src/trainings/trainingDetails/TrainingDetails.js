@@ -5,7 +5,7 @@ import TextField from "@material-ui/core/TextField";
 import {useEffect} from "react";
 import {Edit, Delete, Save, Cancel} from "@material-ui/icons";
 import IconButton from "@material-ui/core/IconButton";
-import Exercises from "../exercises/Exercises";
+import Exercises from "../../exercises/Exercises";
 import {DatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import {Fragment} from "react";
@@ -105,7 +105,6 @@ export default (props) => {
 
     return (
         <Paper className={classes.paper}>
-            <Container>
             <Typography variant={"h4"}>Trening:</Typography>
             <Typography variant={"body1"}>Z dnia: {training.startDate}</Typography>
             <form noValidate autoComplete="off">
@@ -138,8 +137,6 @@ export default (props) => {
                     </IconButton>
                 </Fragment>
             }
-            <Exercises trainingId={trainingId} ableToAddExercise={mode !== 'create'}/>
-            </Container>
         </Paper>
 
     )

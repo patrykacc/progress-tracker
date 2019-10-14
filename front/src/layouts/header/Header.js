@@ -15,17 +15,16 @@ export default function Header(props) {
     const classes = useStyles();
     return (
         <div>
-            <AppBar position="static">
+            <AppBar position="fixed" style={{
+                position: 'static',
+                top: 0,
+                overflow: 'hidden',
+                maxHeight: 57,
+                paddingLeft:0
+            }}>
                 <Toolbar>
                     <Typography variant="h5" className={classes.title}>
                         Progress Tracker
-                        {props.isAuthorized && (
-                            <div style={{float: "right"}}>
-                                <IconButton color="inherit">
-                                    <AccountCircle/>
-                                </IconButton>
-                            </div>
-                        )}
                     </Typography>
                 </Toolbar>
             </AppBar>

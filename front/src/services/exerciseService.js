@@ -1,5 +1,4 @@
 export const deleteExercise = (exerciseId) => {
-
     return fetch('/api/exercises/' + exerciseId, {
         method: 'DELETE',
         headers: {
@@ -20,6 +19,8 @@ export const getExercisesByTrainingId = (trainingId) => {
             'Authorization': 'Bearer ' + localStorage.getItem('token')
         }
     })
-        .then(res => res.status === 200 ? res.json() : null)
+        .then(res => {
+            return res.status === 200 ? res.json() : null
+        })
         .catch(error => console.error(error))
 }

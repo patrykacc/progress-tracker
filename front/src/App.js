@@ -5,7 +5,6 @@ import {connect} from "react-redux";
 import Header from "./layouts/header/Header";
 import Body from "./layouts/header/Body";
 
-
 class App extends React.Component {
 
     render() {

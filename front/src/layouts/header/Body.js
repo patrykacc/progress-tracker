@@ -1,6 +1,6 @@
-import {SignInContainer} from "../../authentication/SignIn";
-import SignUp from "../../authentication/SignUp";
-import PrivateRoute from "../../authentication/privateRoute";
+import {SignInContainer} from "../../components/authentication/SignIn";
+import SignUp from "../../components/authentication/SignUp";
+import PrivateRoute from "../../components/authentication/privateRoute";
 import Home from "../../Home";
 import React from "react";
 import {BrowserRouter, Route} from "react-router-dom";

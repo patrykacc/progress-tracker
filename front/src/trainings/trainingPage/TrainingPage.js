@@ -1,12 +1,16 @@
-import {Grid, makeStyles, Paper} from "@material-ui/core";
+import {Grid, makeStyles} from "@material-ui/core";
 import * as React from "react";
 import TrainingDetails from "../trainingDetails/TrainingDetails";
-import ExerciseDetails from "../exercises/ExerciseDetails";
+import ExerciseDetails from "../../exercises/ExerciseDetails";
+import Exercises from "../../exercises/Exercises";
 
 const useStyles = makeStyles(theme => ({
     container: {
         display: 'flex',
         flexWrap: 'wrap',
+    },
+    root: {
+        flexGrow: 1,
     },
     textField: {
         marginLeft: theme.spacing(1),
@@ -14,24 +18,26 @@ const useStyles = makeStyles(theme => ({
         width: 200,
     },
     paper: {
-        overflowX: "auto"
-    }
+        padding: theme.spacing(2),
+        display: 'flex',
+        overflow: 'auto',
+        flexDirection: 'column',
+    },
 }));
 
 export default (props) => {
     const classes = useStyles();
     return (
-        <div className={classes.container}>
-            <Paper style={{flexGrow: 1}}>
-                <Grid container spacing={2}>
-                    <Grid item xs={6}>
-                        <TrainingDetails {...props} />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <ExerciseDetails/>
-                    </Grid>
-                </Grid>
-            </Paper>
-        </div>
+        <Grid container justify="center" spacing={2}>
+            <Grid item xs={12} lg={6} md={6}>
+                <TrainingDetails {...props} />
+            </Grid>
+            <Grid item xs={12} lg={6} md={6}>
+                <Exercises/>
+            </Grid>
+            <Grid item xs={12} lg={6} md={6}>
+                <ExerciseDetails/>
+            </Grid>
+        </Grid>
     )
 }

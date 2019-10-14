@@ -2,8 +2,8 @@ import {TableBody, TableCell, TableHead, TableRow, Typography} from "@material-u
 import Table from "@material-ui/core/Table";
 import AddNewExerciseButton from "./AddNewExerciseButton.js";
 import * as React from "react";
-import {Fragment} from "react";
 import ExerciseRowView from "./ExerciseRowView";
+import Paper from "@material-ui/core/Paper";
 
 
 export default ({exercises, trainingId, ableToAddExercise, reloadExercises}) => {
@@ -14,16 +14,15 @@ export default ({exercises, trainingId, ableToAddExercise, reloadExercises}) => 
     }
 
     return (
-        <Fragment>
+        <Paper>
             <Typography variant={"h6"}>Cwiczenia:</Typography>
-            <Table>
+            <Table padding={"checkbox"}>
                 <TableHead>
                     <TableRow>
                         <TableCell>Cwiczenie</TableCell>
                         <TableCell>Serii</TableCell>
                         <TableCell>Powtórzeń</TableCell>
                         <TableCell>Obciążenie</TableCell>
-                        <TableCell></TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -31,7 +30,7 @@ export default ({exercises, trainingId, ableToAddExercise, reloadExercises}) => 
                     {ableToAddExercise ? <AddNewExerciseButton trainingId={trainingId}/> : null}
                 </TableBody>
             </Table>
-        </Fragment>
+        </Paper>
 
     )
 }
