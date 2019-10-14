@@ -1,5 +1,5 @@
 export const getAll = () => {
-    return fetch('/trainings/getAll', {
+    return fetch('/api/trainings/getAll', {
         headers: {
             'Authorization': 'Bearer ' + localStorage.getItem('token')
         }
@@ -8,7 +8,7 @@ export const getAll = () => {
 }
 
 export const getTraining = (trainingId) => {
-    return fetch('/trainings/' + trainingId, {
+    return fetch('/api/trainings/' + trainingId, {
         headers: {
             'Authorization': 'Bearer ' + localStorage.getItem('token')
         }
@@ -18,7 +18,7 @@ export const getTraining = (trainingId) => {
 };
 
 export const saveTraining = (training) => {
-    return fetch('/trainings/save', {
+    return fetch('/api/trainings/save', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -35,7 +35,7 @@ export const saveTraining = (training) => {
         })
 };
 export const deleteTraining = (trainingId) => {
-    return fetch('/trainings/' + trainingId, {
+    return fetch('/api/trainings/' + trainingId, {
         method: 'DELETE',
         headers: {
             'Accept': 'application/json',

@@ -1,6 +1,6 @@
 export const deleteExercise = (exerciseId) => {
 
-    return fetch('/exercises/' + exerciseId, {
+    return fetch('/api/exercises/' + exerciseId, {
         method: 'DELETE',
         headers: {
             'Accept': 'application/json',
@@ -14,7 +14,7 @@ export const deleteExercise = (exerciseId) => {
 }
 
 export const getExercisesByTrainingId = (trainingId) => {
-    return fetch('/exercises/getAllByTrainingId/' + trainingId, {
+    return fetch('/api/exercises/getAllByTrainingId/' + trainingId, {
         method: 'GET',
         headers: {
             'Authorization': 'Bearer ' + localStorage.getItem('token')

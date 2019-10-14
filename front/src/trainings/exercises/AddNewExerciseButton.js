@@ -55,7 +55,7 @@ export default function AddNewExerciseButton({trainingId}) {
 
 
     function saveExercise() {
-        fetch('/exercises/save', {
+        fetch('/api/exercises/save', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

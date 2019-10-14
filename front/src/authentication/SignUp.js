@@ -44,7 +44,7 @@ class SignUp extends React.Component {
     };
 
     signUp = () => {
-        fetch('/auth/signup', {
+        fetch('/api/auth/signup', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

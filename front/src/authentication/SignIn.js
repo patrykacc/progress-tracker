@@ -49,7 +49,7 @@ class SignIn extends Component {
     };
 
     login = () => {
-        fetch('/auth/signin', {
+        fetch('/api/auth/signin', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
