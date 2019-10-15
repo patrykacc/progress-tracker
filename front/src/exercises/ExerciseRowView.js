@@ -6,6 +6,7 @@ export default function ExerciseRowView({exercise}) {
     const dispatch = useDispatch();
     const setExerciseInStore = () => {
         dispatch({type: 'EXERCISE_SELECTED', exercise});
+        dispatch({type: 'EXERCISE_VIEW_MODE', mode: 'view'});
     };
     return (
         <TableRow hover onClick={setExerciseInStore}>

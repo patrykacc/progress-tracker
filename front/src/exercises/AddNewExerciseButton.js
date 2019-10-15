@@ -1,9 +1,8 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {makeStyles, TableCell, TableRow} from "@material-ui/core";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from '@material-ui/icons/Add';
 import {useDispatch} from "react-redux";
-import {getExercisesAction} from "../actions";
 
 const useStyles = makeStyles(theme => ({
    fab: {
@@ -12,16 +11,17 @@ const useStyles = makeStyles(theme => ({
    }
 }));
 
-export default function AddNewExerciseButton({trainingId}) {
+export default function AddNewExerciseButton() {
     const classes = useStyles();
     const dispatch = useDispatch();
 
-    let setNewTrainingInStore = () => {
-        dispatch({type: 'EXERCISE_SELECTED', exercise: {id: 'new'}});
+    let setExerciseViewToCreateMode = () => {
+        dispatch({type: 'EXERCISE_VIEW_MODE', mode: 'create'});
+        dispatch({type: 'CLEAR_EXERCISE'});
     };
     return (
         <TableRow>
-            <TableCell onClick={setNewTrainingInStore} colSpan={4} align={"center"}>
+            <TableCell onClick={setExerciseViewToCreateMode} colSpan={4} align={"center"}>
                 <Fab size="small" color="primary" className={classes.fab}>
                     <AddIcon/>
                 </Fab>

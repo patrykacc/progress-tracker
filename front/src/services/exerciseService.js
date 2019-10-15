@@ -1,3 +1,4 @@
+
 export const deleteExercise = (exerciseId) => {
     return fetch('/api/exercises/' + exerciseId, {
         method: 'DELETE',

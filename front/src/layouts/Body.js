@@ -1,12 +1,13 @@
-import {SignInContainer} from "../../components/authentication/SignIn";
-import SignUp from "../../components/authentication/SignUp";
-import PrivateRoute from "../../components/authentication/privateRoute";
-import Home from "../../Home";
+import {SignInContainer} from "../components/authentication/SignIn";
+import SignUp from "../components/authentication/SignUp";
+import PrivateRoute from "../components/authentication/PrivateRoute";
+import Home from "../Home";
 import React from "react";
 import {BrowserRouter, Route} from "react-router-dom";
 import {Container} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
-import TrainingPage from "../../trainings/trainingPage/TrainingPage";
+import TrainingPage from "../trainings/trainingPage/TrainingPage";
+import TokenWatcher from "../components/authentication/TokenWatcher";
 
 export default function Body() {
     return (
@@ -14,6 +15,7 @@ export default function Body() {
             <Grid container spacing={3} >
                 <Grid item xs={12}>
                     <BrowserRouter>
+                        <TokenWatcher/>
                         <Route path="/signin" component={SignInContainer}/>
                         <Route path="/signup" component={SignUp}/>
                         <PrivateRoute exact path="/" component={Home}/>

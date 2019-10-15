@@ -4,10 +4,12 @@ const defaultExercise = {
     weight: 0,
     repetitions: 0,
 };
-const exercise = (state = null, action) => {
+const exercise = (state = defaultExercise, action) => {
     switch (action.type) {
         case 'EXERCISE_SELECTED':
-            return {...action.exercise}
+            return {...action.exercise};
+        case 'CLEAR_EXERCISE':
+            return defaultExercise;
         default:
             return state;
     }

@@ -3,7 +3,7 @@ import './App.css';
 import {authorizationFailed, authorizationSuccess} from "./actions";
 import {connect} from "react-redux";
 import Header from "./layouts/header/Header";
-import Body from "./layouts/header/Body";
+import Body from "./layouts/Body";
 
 class App extends React.Component {
 

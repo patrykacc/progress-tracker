@@ -13,7 +13,9 @@ export const getTraining = (trainingId) => {
             'Authorization': 'Bearer ' + localStorage.getItem('token')
         }
     })
-        .then(res => res.json())
+        .then(response => {
+            return response.json()
+        })
         .catch(error => console.error(error))
 };
 

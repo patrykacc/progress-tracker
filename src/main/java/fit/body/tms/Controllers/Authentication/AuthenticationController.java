@@ -3,6 +3,8 @@ package fit.body.tms.Controllers.Authentication;
 import fit.body.tms.models.User;
 import fit.body.tms.repositories.UserRepository;
 import fit.body.tms.security.JwtTokenProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.BasePathAwareController;
 import org.springframework.http.HttpStatus;
@@ -23,6 +25,8 @@ import java.net.URI;
 @CrossOrigin
 @RequestMapping("/auth")
 public class AuthenticationController {
+
+    private static final Logger logger = LoggerFactory.getLogger(JwtTokenProvider.class);
 
     @Autowired
     AuthenticationManager authenticationManager;
@@ -76,10 +80,5 @@ public class AuthenticationController {
                 .buildAndExpand(result.getUsername()).toUri();
 
         return ResponseEntity.created(location).body(new ApiResponse(true, "Użytkownik został zarejstrowany"));
-    }
-
-    @PostMapping
-    public boolean checkJwtTokenValidity(@Valid @RequestBody String jwtToken) {
-        return new JwtTokenProvider().validateToken(jwtToken);
     }
 }

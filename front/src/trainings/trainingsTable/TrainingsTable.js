@@ -18,9 +18,15 @@ class TrainingsTable extends React.Component {
     constructor(props) {
         super(props);
         getAll()
-            .then(res => res.json())
+            .then(res => {
+                if (res.status === 200) {
+                    return res.json()
+                }
+            })
             .then(trainings => {
-                this.props.trainingsFetched(trainings)
+                if (trainings) {
+                    this.props.trainingsFetched(trainings)
+                }
             })
     }
 

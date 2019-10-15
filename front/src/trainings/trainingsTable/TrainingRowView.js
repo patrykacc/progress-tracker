@@ -16,9 +16,15 @@ export default ({index, training, ...props}) => {
             .then(response => {
                 if (response.status === 200) {
                     getAll()
-                        .then(res => res.json())
+                        .then(res => {
+                            if (res.status === 200) {
+                                return res.json()
+                            }
+                        })
                         .then(trainings => {
-                            store.dispatch({type: "TRAININGS_FETCHED", trainings: trainings});
+                            if (trainings) {
+                                store.dispatch({type: "TRAININGS_FETCHED", trainings: trainings});
+                            }
                         })
                 }
             })

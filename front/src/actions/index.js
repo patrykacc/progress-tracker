@@ -1,7 +1,6 @@
 import {getTraining} from "../services/trainingService";
 import {getExercisesByTrainingId} from "../services/exerciseService";
 
-
 export const authorizationSuccess = () => ({
     type: 'AUTHORIZATION_SUCCESS'
 });
@@ -17,8 +16,8 @@ export const trainingsFetched = trainings => ({
 
 
 export const getTrainingAction = (trainingId) => {
-    return dispatch => {
-        getTraining(trainingId)
+    return (dispatch, getState) => {
+        getTraining(trainingId || getState.training.id, dispatch)
             .then(training => {
                 dispatch({type: 'GET_TRAINING_DONE', training});
             })
@@ -30,7 +29,7 @@ export const getTrainingAction = (trainingId) => {
 
 export const getExercisesAction = (trainingId) => {
     return (dispatch, getState) => {
-        getExercisesByTrainingId(trainingId || getState().training.id)
+        getExercisesByTrainingId(trainingId || getState().training.id, dispatch)
             .then(exercises => {
                 dispatch({type: 'GET_EXERCISES_DONE', exercises});
             })
@@ -39,3 +38,4 @@ export const getExercisesAction = (trainingId) => {
             })
     }
 }
+

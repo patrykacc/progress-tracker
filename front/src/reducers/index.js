@@ -4,7 +4,9 @@ import trainings from "./trainings";
 import training from "./training";
 import exercises from "./exercises";
 import exercise from "./exercise";
+import exerciseView from "./exerciseView";
 
 export default combineReducers({
-    isAuthorized, trainings, training, exercises, exercise
+    isAuthorized, trainings, training, exercises, exercise, exerciseView
 });
+

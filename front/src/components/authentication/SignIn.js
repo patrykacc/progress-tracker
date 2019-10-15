@@ -59,7 +59,6 @@ class SignIn extends Component {
         })
             .then(response => {
                 if (response.status === 200) {
-                    this.props.authorizationSuccess();
                     return response.json();
                 } else {
                     this.props.authorizationFailed()
@@ -67,9 +66,10 @@ class SignIn extends Component {
             })
             .then(json => {
                 localStorage.setItem('token', json.accessToken);
+                console.log(json.accessToken);
+                this.props.authorizationSuccess();
             })
             .catch(error => {
-                console.error(error);
                 this.props.authorizationFailed()
             })
     }

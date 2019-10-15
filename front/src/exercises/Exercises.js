@@ -13,7 +13,7 @@ export default ({trainingId}) => {
         if (training.id) {
             dispatch(getExercisesAction(training.id))
         }
-    }, [dispatch, training]);
+    }, [dispatch, training.id]);
 
     
     return (

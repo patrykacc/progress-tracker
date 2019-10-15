@@ -1,9 +1,9 @@
-const isAuthorized = (state = !!localStorage.getItem('token'), action) => {
+const isAuthorized = (state = false, action) => {
     switch (action.type) {
         case 'AUTHORIZATION_SUCCESS':
             return true;
         case 'AUTHORIZATION_FAILED':
-            return !!localStorage.getItem('token');
+            return false;
 
         default:
             return state;

@@ -18,7 +18,7 @@ public class Exercise {
 
     @NotNull
     @JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "training_id")
     private Training training;
 

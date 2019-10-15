@@ -5,6 +5,7 @@ import fit.body.tms.services.ExerciseService;
 import org.springframework.data.rest.webmvc.BasePathAwareController;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -25,8 +26,11 @@ public class ExerciseController {
     }
 
     @GetMapping("/getAllByTrainingId/{trainingId}")
+    @Transactional
     public List<Exercise> getAllByTrainingId(@Valid @PathVariable("trainingId") Long trainingId) {
-        return exerciseService.getByTrainingId(trainingId);
+        List<Exercise> exercises = exerciseService.getByTrainingId(trainingId);
+        exercises.forEach(Exercise::getTraining);
+        return exercises;
     }
 
     @DeleteMapping("/{exerciseId}")

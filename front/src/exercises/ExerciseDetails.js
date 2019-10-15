@@ -1,4 +1,4 @@
-import {Container, makeStyles, Paper} from "@material-ui/core";
+import {makeStyles, Paper} from "@material-ui/core";
 import React, {Fragment, useEffect, useState} from "react";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
@@ -30,17 +30,11 @@ export default (props) => {
     const exercise = useSelector(state => state.exercise);
     const training = useSelector(state => state.training);
     const dispatch = useDispatch(state => state.exercise);
-    const initialMode = !exercise ? 'empty' : Number.isInteger(exercise.id) ? 'view' : 'create';
-    const [mode, setMode] = useState(initialMode);
+    const mode = useSelector(state => state.exerciseView.mode);
     const classes = useStyles();
     /*Used to hold copy of actual exercise during edit*/
     const [temporaryExercise, setTemporaryExercise] = React.useState({});
 
-    useEffect(() => {
-        if (exercise) {
-            setMode(!exercise.id ? 'empty' : exercise.id === 'new' ? 'create' : 'view')
-        }
-    }, [exercise]);
     const renderEmptyTip = () => {
         return (
             <Box alignItems="center" justifyContent="center" display="flex" className={classes.box}
@@ -57,15 +51,13 @@ export default (props) => {
     const handleInputChange = (e) => {
         let value = e.currentTarget.value;
         let inputName = e.currentTarget.name;
-        console.log(value);
-        console.log(inputName);
         exercise[inputName] = value;
         setExerciseInStore(exercise);
     };
 
     const edit = () => {
         setTemporaryExercise({...exercise});
-        setMode('edit');
+        dispatch({type: 'EXERCISE_VIEW_MODE', mode: 'edit'});
     };
 
     const cancel = () => {
@@ -73,10 +65,7 @@ export default (props) => {
     };
 
     const save = () => {
-        if (initialMode === 'create') {
-            exercise.id = null;
-            exercise.training = {id: training.id};
-        }
+        exercise.training = {id: training.id};
         fetch('/api/exercises/save', {
             method: 'POST',
             headers: {
@@ -89,7 +78,8 @@ export default (props) => {
             .then(response => {
                 if (response.status === 200) {
                     dispatch(getExercisesAction());
-                    setMode('view');
+                    dispatch({type: 'CLEAR_EXERCISE'});
+                    dispatch({type: 'EXERCISE_VIEW_MODE', mode: 'empty'});
                 }
             })
             .catch(error => {
@@ -101,8 +91,8 @@ export default (props) => {
         deleteExercise(exercise.id)
             .then(response => {
                 if (response.status === 200) {
-                    dispatch(getExercisesAction())
-                    dispatch(getTrainingAction(props.match.params.id));
+                    dispatch(getExercisesAction());
+                    dispatch(getTrainingAction(training.id));
                 }
             })
     };
@@ -132,11 +122,11 @@ export default (props) => {
                 }
             </Fragment>
         )
-    }
+    };
     return (
-        <Paper>
-            {initialMode === 'empty' && renderEmptyTip()}
-            {(initialMode === 'view' || initialMode === 'create') && renderExerciseDetail()}
-        </Paper>
+        <div>
+            {mode === 'empty' && renderEmptyTip()}
+            {(mode === 'view' || mode === 'create' || mode === 'edit') && renderExerciseDetail()}
+        </div>
     )
 }
