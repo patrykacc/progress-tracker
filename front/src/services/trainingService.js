@@ -14,9 +14,9 @@ export const getTraining = (trainingId) => {
         }
     })
         .then(response => {
-            {if (response.status === 200) {
-                response.json()
-            }}
+            if (response.status === 200) {
+                return response.json()
+            }
         })
         .catch(error => console.error(error))
 };

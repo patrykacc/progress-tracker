@@ -1,6 +1,6 @@
 import * as React from "react";
 import {deleteTraining, saveTraining} from "../../services/trainingService";
-import {Container, makeStyles, Paper, Typography} from "@material-ui/core";
+import {makeStyles, Typography} from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 import {useEffect} from "react";
 import {Edit, Delete, Save, Cancel} from "@material-ui/icons";
@@ -10,6 +10,7 @@ import DateFnsUtils from "@date-io/date-fns";
 import {Fragment} from "react";
 import {getTrainingAction} from "../../actions";
 import {useDispatch, useSelector} from "react-redux";
+import InputAdornment from "@material-ui/core/InputAdornment";
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -39,7 +40,7 @@ export default (props) => {
             return;
         }
         dispatch(getTrainingAction(props.match.params.id));
-    }, [dispatch, mode, training.id]);
+    }, [dispatch, mode, props.match.params.id]);
 
     const edit = () => {
         setTemporaryTraining({...training});
@@ -73,6 +74,7 @@ export default (props) => {
         deleteTraining(training.id)
             .then(response => {
                 if (response.status === 200) {
+                    dispatch({type: 'CLEAR_TRAINING'});
                     props.history.replace('/');
                 }
             })
@@ -107,7 +109,7 @@ export default (props) => {
             <Typography variant={"h4"}>Trening:</Typography>
             <Typography variant={"body1"}>Z dnia: {training.startDate}</Typography>
             <form noValidate autoComplete="off">
-                <TextField label="Całkowita objetość" margin="normal" inputProps={inputProps} type="number"
+                <TextField label="Całkowita objetość" margin="normal" InputProps={{...inputProps, startAdornment: <InputAdornment position="start">Kg</InputAdornment>}} type="number"
                            value={training.volume} onChange={handleInputChange} variant={inputProps.variant}
                            name="volume" className={classes.textField}/>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>

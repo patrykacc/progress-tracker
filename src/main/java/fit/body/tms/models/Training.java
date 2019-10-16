@@ -30,7 +30,7 @@ public class Training {
     private LocalTime startTime;
 
     @JsonManagedReference
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "training")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "training", cascade = CascadeType.ALL)
     private List<Exercise> exercises;
 
     public Training() {

@@ -1,8 +1,6 @@
 import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import {Toolbar, Typography} from '@material-ui/core';
-import {AccountCircle} from "@material-ui/icons";
-import IconButton from "@material-ui/core/IconButton";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 
 const useStyles = makeStyles(theme => ({
@@ -28,7 +26,6 @@ export default function Header(props) {
                     </Typography>
                 </Toolbar>
             </AppBar>
-            ARE YOU AUTHORIZED? {props.isAuthorized ? 'SURE!' : 'NAH, not yet'}
         </div>
     );
 }

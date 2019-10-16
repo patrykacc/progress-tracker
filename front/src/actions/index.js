@@ -23,9 +23,6 @@ export const getTrainingAction = (trainingId) => {
                     dispatch({type: 'GET_TRAINING_DONE', training});
                 }
             })
-            .catch(error => {
-                console.log(error)
-            })
     }
 }
 

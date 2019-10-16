@@ -9,7 +9,7 @@ const exercise = (state = defaultExercise, action) => {
         case 'EXERCISE_SELECTED':
             return {...action.exercise};
         case 'CLEAR_EXERCISE':
-            return defaultExercise;
+            return {...defaultExercise};
         default:
             return state;
     }

@@ -11,7 +11,7 @@ import TokenWatcher from "../components/authentication/TokenWatcher";
 
 export default function Body() {
     return (
-        <Container maxWidth="xl" style={{flexGrow: 1}} >
+        <Container maxWidth="xl" style={{flexGrow: 1, marginTop: "15px"}} >
             <Grid container spacing={3} >
                 <Grid item xs={12}>
                     <BrowserRouter>
