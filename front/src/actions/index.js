@@ -19,7 +19,9 @@ export const getTrainingAction = (trainingId) => {
     return (dispatch, getState) => {
         getTraining(trainingId || getState.training.id, dispatch)
             .then(training => {
-                dispatch({type: 'GET_TRAINING_DONE', training});
+                if (training) {
+                    dispatch({type: 'GET_TRAINING_DONE', training});
+                }
             })
             .catch(error => {
                 console.log(error)

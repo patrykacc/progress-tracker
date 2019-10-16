@@ -30,7 +30,6 @@ export default (props) => {
     const dispatch = useDispatch();
     const training = useSelector(state => state.training);
     const initialMode = parseInt(props.match.params.id) ? 'view' : 'create';
-    const trainingId = parseInt(props.match.params.id) ? props.match.params.id : null;
     const [mode, setMode] = React.useState(initialMode);
     /*Used to hold copy of actual training during edit*/
     const [temporaryTraining, setTemporaryTraining] = React.useState({});
@@ -63,6 +62,7 @@ export default (props) => {
                     return;
                 }
                 setMode('view');
+                dispatch({type: 'GET_TRAINING_DONE', training});
                 if (initialMode === 'create') {
                     props.history.replace('/training/' + training.id)
                 }
