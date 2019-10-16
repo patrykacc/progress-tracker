@@ -81,7 +81,7 @@ export default (props) => {
     };
 
     const setTrainingInStore = (training) => {
-        dispatch({type: 'GET_TRAINING_DONE', training});
+        dispatch({type: 'TRAINING_UPDATED', training});
     };
 
     const handleDateChange = (date) => {

@@ -1,6 +1,7 @@
 export const getAll = () => {
     return fetch('/api/trainings/getAll', {
         headers: {
+            'Accept': 'application/json',
             'Authorization': 'Bearer ' + localStorage.getItem('token')
         }
     })
@@ -10,6 +11,8 @@ export const getAll = () => {
 export const getTraining = (trainingId) => {
     return fetch('/api/trainings/' + trainingId, {
         headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + localStorage.getItem('token')
         }
     })
