@@ -1,83 +1,69 @@
-import React, {Component} from 'react';
-import {connect} from "react-redux";
+import React, {Component, useState} from 'react';
+import {connect, useDispatch, useSelector} from "react-redux";
 import {authorizationFailed, authorizationSuccess} from "../../actions";
 import {Redirect} from "react-router-dom";
 
-class SignIn extends Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
+export default (props) => {
+        const initialState = {
             username: '',
             password: '',
             isAuthorized: props.isAuthorized
         };
+    const [state, setState] = useState(initialState);
+    const isAuthorized = useSelector(state => state.isAuthorized);
+    const dispatch = useDispatch();
+    const redirectToRegistration = () => {
+        props.history.push('/signup')
     }
 
-    render() {
-        const { from } = this.props.location.state || { from: { pathname: '/' } }
-
-        if (this.props.isAuthorized === true) {
-            return <Redirect to={from} />
-        }
-
-        return (
-            <div>
-                <header><h2>Logowanie:</h2></header>
-                <input placeholder="Login" name="username" onChange={this.handleInputChange}/>
-                <input placeholder="Hasło" name="password" onChange={this.handleInputChange}/>
-                <div>
-                    <button onClick={this.login}>Zaloguj</button>
-                </div>
-                <div>
-                    <button onClick={this.redirectToRegistration}>Zarejestruj się</button>
-                </div>
-            </div>
-        );
-    }
-
-    redirectToRegistration = () => {
-        this.props.history.push('/signup')
-    }
-
-    handleInputChange = (e) => {
+    const handleInputChange = (e) => {
         let value = e.currentTarget.value;
         let inputName = e.currentTarget.name;
-        this.setState(state => ({
-            [inputName]: value
-        }));
+        state[inputName] = value;
+        setState({...state});
     };
 
-    login = () => {
+    const login = () => {
         fetch('/api/auth/signin', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({usernameOrEmail: this.state.username, password: this.state.password})
+            body: JSON.stringify({usernameOrEmail: state.username, password: state.password})
         })
             .then(response => {
                 if (response.status === 200) {
                     return response.json();
                 } else {
-                    this.props.authorizationFailed()
+                    dispatch(authorizationFailed)
                 }
             })
             .then(json => {
                 localStorage.setItem('token', json.accessToken);
-                console.log(json.accessToken);
-                this.props.authorizationSuccess();
+                dispatch(authorizationSuccess);
             })
             .catch(error => {
-                this.props.authorizationFailed()
+                dispatch(authorizationFailed)
             })
-    }
+    };
+
+        const from = props.location.state || { from: { pathname: '/' } };
+        if (isAuthorized === true && from) {
+            return <Redirect to={from} />
+        }
+
+        return (
+            <div>
+                <header><h2>Logowanie:</h2></header>
+                <input placeholder="Login" name="username" onChange={handleInputChange}/>
+                <input placeholder="Hasło" name="password" onChange={handleInputChange}/>
+                <div>
+                    <button onClick={login}>Zaloguj</button>
+                </div>
+                <div>
+                    <button onClick={redirectToRegistration}>Zarejestruj się</button>
+                </div>
+            </div>
+        );
 }
-
-const mapStateToProps = (state) => {
-    return {isAuthorized: state.isAuthorized};
-};
-const mapDispatchToProps = {authorizationSuccess, authorizationFailed};
-
-export const SignInContainer = connect(mapStateToProps, mapDispatchToProps)(SignIn);
