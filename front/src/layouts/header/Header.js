@@ -17,10 +17,9 @@ export default function Header(props) {
                 position: 'static',
                 top: 0,
                 overflow: 'hidden',
-                maxHeight: 57,
                 paddingLeft:0
             }}>
-                <Toolbar>
+                <Toolbar variant={"dense"} >
                     <Typography variant="h5" className={classes.title}>
                         Progress Tracker
                     </Typography>

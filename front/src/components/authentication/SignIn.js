@@ -1,14 +1,51 @@
-import React, {Component, useState} from 'react';
-import {connect, useDispatch, useSelector} from "react-redux";
+import React, {useState} from 'react';
+import {useDispatch, useSelector} from "react-redux";
 import {authorizationFailed, authorizationSuccess} from "../../actions";
 import {Redirect} from "react-router-dom";
+import {makeStyles} from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
+import Link from "@material-ui/core/Link";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Typography from "@material-ui/core/Typography";
+import Avatar from "@material-ui/core/Avatar";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Container from "@material-ui/core/Container";
+
+
+const useStyles = makeStyles(theme => ({
+    '@global': {
+        body: {
+            backgroundColor: theme.palette.common.white,
+        },
+    },
+    paper: {
+        marginTop: theme.spacing(8),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    avatar: {
+        margin: theme.spacing(1),
+        backgroundColor: theme.palette.secondary.main,
+    },
+    form: {
+        width: '100%', // Fix IE 11 issue.
+        marginTop: theme.spacing(1),
+    },
+    submit: {
+        margin: theme.spacing(3, 0, 2),
+    },
+}));
 
 export default (props) => {
-        const initialState = {
-            username: '',
-            password: '',
-            isAuthorized: props.isAuthorized
-        };
+    const classes = useStyles();
+
+    const initialState = {
+        username: '',
+        password: '',
+    };
     const [state, setState] = useState(initialState);
     const isAuthorized = useSelector(state => state.isAuthorized);
     const dispatch = useDispatch();
@@ -20,6 +57,7 @@ export default (props) => {
         let value = e.currentTarget.value;
         let inputName = e.currentTarget.name;
         state[inputName] = value;
+        console.log(state)
         setState({...state});
     };
 
@@ -48,22 +86,43 @@ export default (props) => {
             })
     };
 
-        const from = props.location.state || { from: { pathname: '/' } };
-        if (isAuthorized === true && from) {
-            return <Redirect to={from} />
-        }
+    const from = props.location.state || {from: {pathname: '/'}};
+    if (isAuthorized === true && from) {
+        return <Redirect to={from}/>
+    }
 
-        return (
-            <div>
-                <header><h2>Logowanie:</h2></header>
-                <input placeholder="Login" name="username" onChange={handleInputChange}/>
-                <input placeholder="Hasło" name="password" onChange={handleInputChange}/>
-                <div>
-                    <button onClick={login}>Zaloguj</button>
-                </div>
-                <div>
-                    <button onClick={redirectToRegistration}>Zarejestruj się</button>
-                </div>
+    return (
+        <Container component="main" maxWidth="xs">
+            <CssBaseline/>
+            <div className={classes.paper}>
+                <Avatar className={classes.avatar}>
+                    <LockOutlinedIcon/>
+                </Avatar>
+                <Typography component="h1" variant="h5">
+                    Zaloguj się
+                </Typography>
+                <form className={classes.form} noValidate>
+                    <TextField onChange={handleInputChange} variant="outlined" margin="normal" required fullWidth
+                               label="Nazwa użytkownika" name="username" autoComplete="username" autoFocus/>
+                    <TextField onChange={handleInputChange} variant="outlined" margin="normal" required fullWidth
+                               name="password" label="Hasło" type="password" autoComplete="current-password"/>
+                    <Button onClick={login} fullWidth variant="contained" color="primary" className={classes.submit}>
+                        Zaloguj się
+                    </Button>
+                    <Grid container>
+                        <Grid item xs>
+                            <Link href="#" variant="body2">
+                                Zapomniałeś hasła?
+                            </Link>
+                        </Grid>
+                        <Grid item>
+                            <Link onClick={redirectToRegistration} variant="body2">
+                                Nie masz konta? Zarejestruj się
+                            </Link>
+                        </Grid>
+                    </Grid>
+                </form>
             </div>
-        );
+        </Container>
+    );
 }
