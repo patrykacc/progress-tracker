@@ -62,13 +62,7 @@ class TrainingsTable extends React.Component {
     }
 
     navigateToTraining = (trainingId) => {
-        let path;
-        if (trainingId) {
-            path = trainingId;
-        } else {
-            path = 'new';
-        }
-        this.props.history.push('/training/' + path);
+        this.props.history.push('/training/' + (trainingId || ''));
     }
 
 }
