@@ -57,6 +57,7 @@ export default (props) => {
         let value = e.currentTarget.value;
         let inputName = e.currentTarget.name;
         state[inputName] = value;
+        console.log(state)
         setState({...state});
     };
 
@@ -123,5 +124,5 @@ export default (props) => {
                 </form>
             </div>
         </Container>
-        );
+    );
 }
