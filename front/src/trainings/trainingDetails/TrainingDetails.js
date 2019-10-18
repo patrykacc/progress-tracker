@@ -62,10 +62,10 @@ export default (props) => {
                 if (!training) {
                     return;
                 }
-                setMode('view');
-                dispatch({type: 'GET_TRAINING_DONE', training});
                 if (initialMode === 'create') {
                     props.history.replace('/training/' + training.id)
+                } else {
+                    setMode('view');
                 }
             })
     };
@@ -109,7 +109,10 @@ export default (props) => {
             <Typography variant={"h4"}>Trening:</Typography>
             <Typography variant={"body1"}>Z dnia: {training.startDate}</Typography>
             <form noValidate autoComplete="off">
-                <TextField label="Całkowita objetość" margin="normal" InputProps={{...inputProps, startAdornment: <InputAdornment position="start">Kg</InputAdornment>}} type="number"
+                <TextField label="Całkowita objetość" margin="normal" InputProps={{
+                    ...inputProps,
+                    startAdornment: <InputAdornment position="start">Kg</InputAdornment>
+                }} type="number"
                            value={training.volume} onChange={handleInputChange} variant={inputProps.variant}
                            name="volume" className={classes.textField}/>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>

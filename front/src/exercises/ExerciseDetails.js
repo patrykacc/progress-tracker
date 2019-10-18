@@ -33,7 +33,7 @@ export default (props) => {
     const mode = useSelector(state => state.exerciseView.mode);
     const classes = useStyles();
     /*Used to hold copy of actual exercise during edit*/
-    const [temporaryExercise, setTemporaryExercise] = React.useState({});
+    const [temporaryExercise, setTemporaryExercise] = React.useState();
 
     const renderEmptyTip = () => {
         return (
@@ -61,7 +61,13 @@ export default (props) => {
     };
 
     const cancel = () => {
-        setExerciseInStore(temporaryExercise);
+        if (temporaryExercise) {
+            setExerciseInStore(temporaryExercise);
+            dispatch({type: 'EXERCISE_VIEW_MODE', mode: 'view'});
+        } else {
+            dispatch({type: 'EXERCISE_VIEW_MODE', mode: 'empty'});
+
+        }
     };
 
     const save = () => {
@@ -78,8 +84,13 @@ export default (props) => {
             .then(response => {
                 if (response.status === 200) {
                     dispatch(getExercisesAction());
-                    dispatch({type: 'CLEAR_EXERCISE'});
-                    dispatch({type: 'EXERCISE_VIEW_MODE', mode: 'empty'});
+                    dispatch({type: 'EXERCISE_VIEW_MODE', mode: 'view'});
+                    return response.json();
+                }
+            })
+            .then(exercise => {
+                if (exercise) {
+                    setExerciseInStore(exercise);
                 }
             })
             .catch(error => {
@@ -93,6 +104,7 @@ export default (props) => {
                 if (response.status === 200) {
                     dispatch(getExercisesAction());
                     dispatch(getTrainingAction(training.id));
+                    dispatch({type: 'EXERCISE_VIEW_MODE', mode: 'empty'});
                 }
             })
     };

@@ -1,5 +1,6 @@
 const logger = store => next => action => {
-    console.log('dispatching', action);
+    const {type, ...value} = action;
+    console.log('Dispatching: ', type, value ? value : null);
     let result = next(action);
     return result;
 }
