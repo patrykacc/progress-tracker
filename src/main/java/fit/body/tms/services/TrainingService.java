@@ -16,18 +16,20 @@ public class TrainingService {
     }
 
     public Training save(Training training) {
-        return  trainingRepository.save(training);
+        return trainingRepository.save(training);
     }
 
     public Training getById(Long id) {
         return this.trainingRepository.findById(id).orElse(null);
     }
 
-    public List<Training> getAll() {
-        return this.trainingRepository.findAll();
+    public List<Training> getAllTrainingsByUserId(Long userId) {
+        return this.trainingRepository.findByUserId(userId);
     }
 
     public void delete(Long id) {
         trainingRepository.deleteById(id);
     }
+
+
 }

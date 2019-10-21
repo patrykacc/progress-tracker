@@ -2,6 +2,7 @@ package fit.body.tms.Controllers;
 
 import fit.body.tms.models.Training;
 import fit.body.tms.services.TrainingService;
+import fit.body.tms.services.UserService;
 import org.springframework.data.rest.webmvc.BasePathAwareController;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +27,7 @@ public class TrainingController {
 
     @GetMapping("/getAll")
     public List<Training> getAll() {
-        return trainingService.getAll();
+        return trainingService.getAllTrainingsByUserId(UserService.getCurrentUserPrincipal().getId());
     }
 
     @PostMapping("/save")

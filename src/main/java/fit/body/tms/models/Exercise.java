@@ -3,7 +3,7 @@ package fit.body.tms.models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 public class Exercise {
@@ -16,7 +16,7 @@ public class Exercise {
     private Integer series;
     private Double weight;
 
-    @NotNull
+    @NotBlank
     @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "training_id")

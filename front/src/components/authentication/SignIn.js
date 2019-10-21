@@ -37,6 +37,9 @@ const useStyles = makeStyles(theme => ({
     submit: {
         margin: theme.spacing(3, 0, 2),
     },
+    message: {
+        margin: theme.spacing(3, 0, 2),
+    },
 }));
 
 export default (props) => {
@@ -47,6 +50,7 @@ export default (props) => {
         password: '',
     };
     const [state, setState] = useState(initialState);
+    const [message, setMessage] = useState('');
     const isAuthorized = useSelector(state => state.isAuthorized);
     const dispatch = useDispatch();
     const redirectToRegistration = () => {
@@ -62,18 +66,20 @@ export default (props) => {
     };
 
     const login = () => {
+        setMessage('');
         fetch('/api/auth/signin', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({usernameOrEmail: state.username, password: state.password})
+            body: JSON.stringify({email: state.username, password: state.password})
         })
             .then(response => {
                 if (response.status === 200) {
                     return response.json();
                 } else {
+                    setMessage('Logowanie nie powiodło się, wprowadzone dane są nieprawidłowe');
                     dispatch(authorizationFailed)
                 }
             })
@@ -120,6 +126,9 @@ export default (props) => {
                                 Nie masz konta? Zarejestruj się
                             </Link>
                         </Grid>
+                    </Grid>
+                    <Grid container>
+                        <Grid item className={classes.message}>{message}</Grid>
                     </Grid>
                 </form>
             </div>
