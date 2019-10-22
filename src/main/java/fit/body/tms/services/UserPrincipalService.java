@@ -1,7 +1,7 @@
 package fit.body.tms.services;
 
-import fit.body.tms.models.User;
-import fit.body.tms.models.UserPrincipal;
+import fit.body.tms.entities.User;
+import fit.body.tms.entities.UserPrincipal;
 import fit.body.tms.repositories.UserRepository;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

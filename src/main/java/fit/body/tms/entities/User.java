@@ -1,8 +1,8 @@
-package fit.body.tms.models;
+package fit.body.tms.entities;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import fit.body.tms.dtos.UserDTO;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -29,9 +29,16 @@ public class User {
     @NotBlank
     private String lastName;
 
-    @JsonManagedReference("user")
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
     private List<Training> trainings;
+
+    public User(UserDTO DTO) {
+        this.email = DTO.getEmail();
+        this.id = DTO.getId();
+        this.authority = DTO.getAuthority();
+        this.firstName = DTO.getFirstName();
+        this.lastName = DTO.getLastName();
+    }
 
     public String getPassword() {
         return password;
@@ -41,7 +48,7 @@ public class User {
         this.password = password;
     }
 
-    String getAuthority() {
+    public String getAuthority() {
         return authority;
     }
 
@@ -63,6 +70,10 @@ public class User {
     public String getEmail() {
         return this.email;
     }
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "training_plan_id")
+    private TrainingPlan activeTrainingPlan;
 
     @Override
     public String toString() {
@@ -92,7 +103,7 @@ public class User {
         this.lastName = lastName;
     }
 
-    Long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -106,5 +117,13 @@ public class User {
 
     public void setTrainings(List<Training> trainings) {
         this.trainings = trainings;
+    }
+
+    public TrainingPlan getActiveTrainingPlan() {
+        return activeTrainingPlan;
+    }
+
+    public void setActiveTrainingPlan(TrainingPlan activeTrainingPlan) {
+        this.activeTrainingPlan = activeTrainingPlan;
     }
 }
