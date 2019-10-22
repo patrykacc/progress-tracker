@@ -1,7 +1,6 @@
 package fit.body.tms.entities;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
@@ -24,7 +23,6 @@ public class TrainingPlan {
         this.id = id;
     }
 
-    @JsonManagedReference
     @OneToMany
     private List<TrainingDay> trainingDays;
 }

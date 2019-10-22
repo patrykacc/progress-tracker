@@ -1,27 +1,29 @@
-package fit.body.tms.entities;
+package fit.body.tms.dtos;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import fit.body.tms.dtos.UserDTO;
+import fit.body.tms.entities.User;
 
-import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 
-@Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class User {
+@JsonIdentityInfo(generator = ObjectIdGenerators.None.class, property = "id")
+public class UserDTO {
+
+    public UserDTO(User user) {
+        this.email = user.getEmail();
+        this.id = user.getId();
+        this.authority = user.getAuthority();
+        this.firstName = user.getFirstName();
+        this.lastName = user.getLastName();
+    }
 
     @Email
     @NotBlank
     private String email;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @NotBlank
-    private String password;
     @NotBlank
     private String authority;
     @NotBlank
@@ -29,24 +31,7 @@ public class User {
     @NotBlank
     private String lastName;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Training> trainings;
-
-    public User(UserDTO DTO) {
-        this.email = DTO.getEmail();
-        this.id = DTO.getId();
-        this.authority = DTO.getAuthority();
-        this.firstName = DTO.getFirstName();
-        this.lastName = DTO.getLastName();
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
+    private List<TrainingDTO> trainings;
 
     public String getAuthority() {
         return authority;
@@ -56,10 +41,10 @@ public class User {
         this.authority = authority;
     }
 
-    public User() {
+    public UserDTO() {
     }
 
-    public User(Long id) {
+    public UserDTO(Long id) {
         this.id = id;
     }
 
@@ -71,16 +56,13 @@ public class User {
         return this.email;
     }
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "training_plan_id")
-    private TrainingPlan activeTrainingPlan;
+//    private TrainingPlan activeTrainingPlan;
 
     @Override
     public String toString() {
         return "User{" +
                 "email='" + email + '\'' +
                 ", id=" + id +
-                ", password='" + password + '\'' +
                 ", authority='" + authority + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
@@ -111,19 +93,21 @@ public class User {
         this.id = id;
     }
 
-    public List<Training> getTrainings() {
+    public List<TrainingDTO> getTrainings() {
         return trainings;
     }
 
-    public void setTrainings(List<Training> trainings) {
+    public void setTrainings(List<TrainingDTO> trainings) {
         this.trainings = trainings;
     }
 
-    public TrainingPlan getActiveTrainingPlan() {
+    /*public TrainingPlan getActiveTrainingPlan() {
         return activeTrainingPlan;
     }
 
     public void setActiveTrainingPlan(TrainingPlan activeTrainingPlan) {
         this.activeTrainingPlan = activeTrainingPlan;
-    }
+    }*/
+
+
 }

@@ -1,8 +1,8 @@
 package fit.body.tms.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import fit.body.tms.dtos.ExerciseDTO;
 
 import javax.persistence.*;
 
@@ -18,10 +18,18 @@ public class Exercise {
     private Integer series;
     private Double weight;
 
-    @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "training_id")
     private Training training;
+
+    public Exercise() {}
+    public Exercise(ExerciseDTO exerciseDTO) {
+        this.id = exerciseDTO.getId();
+        this.name = exerciseDTO.getName();
+        this.repetitions = exerciseDTO.getRepetitions();
+        this.series = exerciseDTO.getSeries();
+        this.weight = exerciseDTO.getWeight();
+    }
 
     @Override
     public String toString() {
