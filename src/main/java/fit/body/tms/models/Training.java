@@ -1,7 +1,6 @@
 package fit.body.tms.models;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import fit.body.tms.repositories.PrePersistListener;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -12,6 +11,7 @@ import java.util.List;
 
 @Entity
 @EntityListeners(PrePersistListener.class)
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Training {
 
     @Id
@@ -30,8 +30,18 @@ public class Training {
     private LocalTime startTime;
 
     @JsonManagedReference
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "training", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "training", cascade = CascadeType.ALL)
     private List<Exercise> exercises;
+
+    @JsonBackReference("user")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "plan_id")
+    private Plan plan;
 
     public Training() {
     }
@@ -92,5 +102,21 @@ public class Training {
 
     public void setStartTime(LocalTime startTime) {
         this.startTime = startTime;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Plan getPlan() {
+        return plan;
+    }
+
+    public void setPlan(Plan plan) {
+        this.plan = plan;
     }
 }

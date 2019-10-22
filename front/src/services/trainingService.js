@@ -35,7 +35,9 @@ export const saveTraining = (training) => {
         body: JSON.stringify(training)
     })
         .then(response => {
-            return response.json();
+            if (response.status === 200) {
+                return response.json();
+            }
         })
         .catch(error => {
             console.error(error);

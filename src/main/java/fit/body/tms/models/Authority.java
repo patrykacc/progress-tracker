@@ -2,7 +2,7 @@ package fit.body.tms.models;
 
 import org.springframework.security.core.GrantedAuthority;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 public class Authority implements GrantedAuthority {
 
@@ -10,7 +10,7 @@ public class Authority implements GrantedAuthority {
 
     private AUTHORITY authority;
 
-    Authority(@NotNull String authority) {
+    Authority(@NotBlank String authority) {
         this.authority = AUTHORITY.valueOf(authority);
     }
 

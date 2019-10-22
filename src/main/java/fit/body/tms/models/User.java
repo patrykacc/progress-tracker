@@ -1,26 +1,37 @@
 package fit.body.tms.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+import javax.persistence.*;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class User {
 
     @Email
+    @NotBlank
     private String email;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String username;
-    @NotNull
+    @NotBlank
     private String password;
-    @NotNull
+    @NotBlank
     private String authority;
+    @NotBlank
+    private String firstName;
+    @NotBlank
+    private String lastName;
+
+    @JsonManagedReference("user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Training> trainings;
 
     public String getPassword() {
         return password;
@@ -38,20 +49,11 @@ public class User {
         this.authority = authority;
     }
 
-    public String getUsername() {
-        return this.username;
-    }
-
-
     public User() {
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "email='" + email + '\'' +
-                ", userName='" + username + '\'' +
-                '}';
+    public User(Long id) {
+        this.id = id;
     }
 
     public void setEmail(String email) {
@@ -62,8 +64,32 @@ public class User {
         return this.email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    @Override
+    public String toString() {
+        return "User{" +
+                "email='" + email + '\'' +
+                ", id=" + id +
+                ", password='" + password + '\'' +
+                ", authority='" + authority + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                '}';
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     Long getId() {
@@ -72,5 +98,13 @@ public class User {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public List<Training> getTrainings() {
+        return trainings;
+    }
+
+    public void setTrainings(List<Training> trainings) {
+        this.trainings = trainings;
     }
 }

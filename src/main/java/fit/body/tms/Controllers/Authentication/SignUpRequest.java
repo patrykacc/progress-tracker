@@ -5,11 +5,11 @@ import javax.validation.constraints.*;
 public class SignUpRequest {
     @NotBlank
     @Size(min = 4, max = 40)
-    private String name;
+    private String firstName;
 
     @NotBlank
-    @Size(min = 3, max = 15)
-    private String username;
+    @Size(min = 4, max = 40)
+    private String lastName;
 
     @NotBlank
     @Size(max = 40)
@@ -20,20 +20,12 @@ public class SignUpRequest {
     @Size(min = 6, max = 20)
     private String password;
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getEmail() {
@@ -52,13 +44,21 @@ public class SignUpRequest {
         this.password = password;
     }
 
-    public SignUpRequest(@NotBlank @Size(min = 4, max = 40) String name,
-                         @NotBlank @Size(min = 3, max = 15) String username,
+    public SignUpRequest(@NotBlank @Size(min = 4, max = 40) String firstName,
+                         @NotBlank @Size(min = 3, max = 15) String lastName,
                          @NotBlank @Size(max = 40) @Email String email,
                          @NotBlank @Size(min = 6, max = 20) String password) {
-        this.name = name;
-        this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
         this.password = password;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }

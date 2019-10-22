@@ -40,13 +40,13 @@ export default (props) => {
     const classes = useStyles();
     const initState = {
         password: '',
-        username: '',
         email: '',
-        name: '',
-        message: '',
+        firstName: '',
+        lastName: '',
     };
 
     const [state, setState] = useState(initState);
+    const [message, setMessage] = useState('');
 
     const redirectToLogin = () => {
         props.history.push('/signin')
@@ -59,37 +59,23 @@ export default (props) => {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                username: state.username,
-                password: state.password,
-                email: state.email,
-                name: state.name
-            })
+            body: JSON.stringify(state)
         })
             .then(response => response.json())
             .then(json => {
-                setState(state => ({
-                    message: json.message ? json.message : 'Bład podczas rejestracji',
-                    password: '',
-                    username: '',
-                    email: '',
-                    name: ''
-                }))
+                setMessage(json.message ? json.message : 'Bład podczas rejestracji, sprawdź wymagane pola')
             })
             .catch(error => {
                 console.error(error);
-                setState(state => ({
-                    message: 'Bład podczas rejestracji',
-                }))
+                setMessage('Bład podczas rejestracji')
             })
     };
 
     const handleInputChange = (e) => {
         let value = e.currentTarget.value;
         let inputName = e.currentTarget.name;
-        setState(state => ({
-            [inputName]: value
-        }));
+        state[inputName] = value
+        setState(state);
     };
 
     return (
@@ -105,8 +91,8 @@ export default (props) => {
                 <form className={classes.form} noValidate>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6}>
-                            <TextField autoComplete="fname" name="firstName" variant="outlined" required fullWidth
-                                       label="Imię" autoFocus onChange={handleInputChange}/>
+                            <TextField autoComplete="fname"  variant="outlined" required fullWidth label="Imię"
+                                       name="firstName"  autoFocus onChange={handleInputChange}/>
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField variant="outlined" required fullWidth label="Nazwisko"
@@ -121,7 +107,7 @@ export default (props) => {
                                        type="password" autoComplete="current-password" onChange={handleInputChange}/>
                         </Grid>
                     </Grid>
-                    <Button onClick={signUp} type="submit" fullWidth variant="contained" color="primary"
+                    <Button onClick={signUp} fullWidth variant="contained" color="primary"
                             className={classes.submit}>
                         Zarejestruj się
                     </Button>
@@ -135,6 +121,7 @@ export default (props) => {
                 </form>
             </div>
             <Box mt={5}>
+                {message}
             </Box>
         </Container>
     );
