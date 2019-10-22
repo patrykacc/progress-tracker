@@ -45,10 +45,11 @@ public class SignUpRequest {
     }
 
     public SignUpRequest(@NotBlank @Size(min = 4, max = 40) String firstName,
-                         @NotBlank @Size(min = 3, max = 15) String username,
+                         @NotBlank @Size(min = 3, max = 15) String lastName,
                          @NotBlank @Size(max = 40) @Email String email,
                          @NotBlank @Size(min = 6, max = 20) String password) {
         this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
         this.password = password;
     }
