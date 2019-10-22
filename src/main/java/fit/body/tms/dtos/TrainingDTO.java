@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 @JsonIdentityInfo(generator = ObjectIdGenerators.None.class, property = "id")
 public class TrainingDTO {
 
-
     private Long id;
     private Integer duration;
     private Integer volume;
@@ -32,6 +31,7 @@ public class TrainingDTO {
     private UserDTO user;
 
 //    private TrainingDay trainingDay;
+    public TrainingDTO() {}
 
     public TrainingDTO(Training training) {
         this.id = training.getId();

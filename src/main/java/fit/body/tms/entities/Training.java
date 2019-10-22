@@ -44,8 +44,7 @@ public class Training {
     @JoinColumn(name = "training_day_id")
     private TrainingDay trainingDay;
 
-    public Training() {
-    }
+    public Training() {}
 
     public Training(TrainingDTO trainingDTO) {
         this.id = trainingDTO.getId();

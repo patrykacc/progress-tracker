@@ -31,17 +31,6 @@ public class Exercise {
         this.weight = exerciseDTO.getWeight();
     }
 
-    @Override
-    public String toString() {
-        return "Exercise{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", repetitions=" + repetitions +
-                ", series=" + series +
-                ", weight=" + weight +
-                '}';
-    }
-
     public Long getId() {
         return id;
     }

@@ -7,12 +7,13 @@ import fit.body.tms.entities.Exercise;
 @JsonIdentityInfo(generator = ObjectIdGenerators.None.class, property = "id")
 public class ExerciseDTO {
 
-
     private Long id;
     private String name;
     private Integer repetitions;
     private Integer series;
     private Double weight;
+
+    public ExerciseDTO() {}
 
     public ExerciseDTO(Exercise exercise) {
         this.id = exercise.getId();
