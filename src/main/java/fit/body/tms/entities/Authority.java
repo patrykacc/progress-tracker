@@ -1,4 +1,4 @@
-package fit.body.tms.models;
+package fit.body.tms.entities;
 
 import org.springframework.security.core.GrantedAuthority;
 

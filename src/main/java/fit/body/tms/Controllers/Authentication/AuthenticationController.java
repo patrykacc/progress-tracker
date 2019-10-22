@@ -1,6 +1,6 @@
 package fit.body.tms.Controllers.Authentication;
 
-import fit.body.tms.models.User;
+import fit.body.tms.entities.User;
 import fit.body.tms.repositories.UserRepository;
 import fit.body.tms.security.JwtTokenProvider;
 import org.slf4j.Logger;

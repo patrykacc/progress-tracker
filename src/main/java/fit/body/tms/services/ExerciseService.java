@@ -1,6 +1,6 @@
 package fit.body.tms.services;
 
-import fit.body.tms.models.Exercise;
+import fit.body.tms.entities.Exercise;
 import fit.body.tms.repositories.ExerciseRepository;
 import org.springframework.stereotype.Service;
 

@@ -1,7 +1,7 @@
-package fit.body.tms.models;
+package fit.body.tms.entities;
 
 import com.fasterxml.jackson.annotation.*;
-import fit.body.tms.repositories.PrePersistListener;
+import fit.body.tms.repositories.TrainingListener;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -10,7 +10,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 @Entity
-@EntityListeners(PrePersistListener.class)
+@EntityListeners(TrainingListener.class)
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Training {
 
@@ -39,21 +39,11 @@ public class Training {
     private User user;
 
     @JsonBackReference
-    @ManyToOne
-    @JoinColumn(name = "plan_id")
-    private Plan plan;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "training_day_id")
+    private TrainingDay trainingDay;
 
     public Training() {
-    }
-
-    @Override
-    public String toString() {
-        return "Training{" +
-                "id=" + id +
-                ", duration=" + duration +
-                ", startTime=" + startTime +
-                ", startDate=" + startDate +
-                '}';
     }
 
     public Integer getVolume() {
@@ -112,11 +102,11 @@ public class Training {
         this.user = user;
     }
 
-    public Plan getPlan() {
-        return plan;
+    public TrainingDay getTrainingDay() {
+        return trainingDay;
     }
 
-    public void setPlan(Plan plan) {
-        this.plan = plan;
+    public void setTrainingDay(TrainingDay trainingDay) {
+        this.trainingDay = trainingDay;
     }
 }

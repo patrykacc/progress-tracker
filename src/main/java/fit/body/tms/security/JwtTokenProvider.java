@@ -1,6 +1,6 @@
 package fit.body.tms.security;
 
-import fit.body.tms.models.UserPrincipal;
+import fit.body.tms.entities.UserPrincipal;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

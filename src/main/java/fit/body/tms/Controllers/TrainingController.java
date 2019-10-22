@@ -1,6 +1,6 @@
 package fit.body.tms.Controllers;
 
-import fit.body.tms.models.Training;
+import fit.body.tms.entities.Training;
 import fit.body.tms.services.TrainingService;
 import fit.body.tms.services.UserService;
 import org.springframework.data.rest.webmvc.BasePathAwareController;

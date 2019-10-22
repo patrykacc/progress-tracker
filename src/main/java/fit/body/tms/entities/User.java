@@ -1,5 +1,6 @@
-package fit.body.tms.models;
+package fit.body.tms.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -64,6 +65,11 @@ public class User {
         return this.email;
     }
 
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "training_plan_id")
+    private TrainingPlan activeTrainingPlan;
+
     @Override
     public String toString() {
         return "User{" +
@@ -106,5 +112,13 @@ public class User {
 
     public void setTrainings(List<Training> trainings) {
         this.trainings = trainings;
+    }
+
+    public TrainingPlan getActiveTrainingPlan() {
+        return activeTrainingPlan;
+    }
+
+    public void setActiveTrainingPlan(TrainingPlan activeTrainingPlan) {
+        this.activeTrainingPlan = activeTrainingPlan;
     }
 }

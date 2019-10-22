@@ -1,4 +1,4 @@
-package fit.body.tms.models;
+package fit.body.tms.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

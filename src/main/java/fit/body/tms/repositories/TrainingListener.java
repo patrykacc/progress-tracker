@@ -1,14 +1,14 @@
 package fit.body.tms.repositories;
 
-import fit.body.tms.models.Training;
-import fit.body.tms.models.User;
+import fit.body.tms.entities.Training;
+import fit.body.tms.entities.User;
 import fit.body.tms.services.UserService;
 
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import java.time.LocalDate;
 
-public class PrePersistListener {
+public class TrainingListener {
 
 
     @PrePersist @PreUpdate

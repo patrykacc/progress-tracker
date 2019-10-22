@@ -1,6 +1,6 @@
 package fit.body.tms.Controllers;
 
-import fit.body.tms.models.User;
+import fit.body.tms.entities.User;
 import fit.body.tms.services.UserService;
 import org.springframework.data.rest.webmvc.BasePathAwareController;
 import org.springframework.web.bind.annotation.*;
