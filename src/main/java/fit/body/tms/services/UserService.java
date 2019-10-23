@@ -1,6 +1,7 @@
 package fit.body.tms.services;
 
-import fit.body.tms.entities.User;
+import fit.body.tms.entities.Person;
+import fit.body.tms.entities.TrainingPlan;
 import fit.body.tms.entities.UserPrincipal;
 import fit.body.tms.repositories.UserRepository;
 import org.springframework.security.core.Authentication;
@@ -27,12 +28,16 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User save(User u) {
+    public Person save(Person u) {
         return userRepository.save(u);
     }
 
-    public List<User> getAll() {
+    public List<Person> getAll() {
         return userRepository.findAll();
+    }
+
+    public TrainingPlan getActivePlanByUserId(Long id) {
+        return userRepository.findById(id).get().getActiveTrainingPlan();
     }
 
 }

@@ -13,14 +13,14 @@ public class TrainingPlanDTO {
 
     private Long id;
     private List<TrainingDayDTO> trainingDays;
-    private UserDTO user;
+    private PersonDTO user;
 
     public TrainingPlanDTO() {
     }
     public TrainingPlanDTO(TrainingPlan trainingPlan) {
         this.id = trainingPlan.getId();
         this.trainingDays = trainingPlan.getTrainingDays().stream().map(TrainingDayDTO::new).collect(Collectors.toList());
-        this.user = new UserDTO(trainingPlan.getUser());
+        this.user = new PersonDTO(trainingPlan.getPerson());
     }
 
     public Long getId() {
@@ -39,11 +39,11 @@ public class TrainingPlanDTO {
         this.trainingDays = trainingDays;
     }
 
-    public UserDTO getUser() {
+    public PersonDTO getUser() {
         return user;
     }
 
-    public void setUser(UserDTO user) {
+    public void setUser(PersonDTO user) {
         this.user = user;
     }
 }

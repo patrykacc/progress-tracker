@@ -1,7 +1,7 @@
 package fit.body.tms.Controllers;
 
-import fit.body.tms.dtos.UserDTO;
-import fit.body.tms.entities.User;
+import fit.body.tms.dtos.PersonDTO;
+import fit.body.tms.entities.Person;
 import fit.body.tms.services.UserService;
 import org.springframework.data.rest.webmvc.BasePathAwareController;
 import org.springframework.web.bind.annotation.*;
@@ -22,14 +22,14 @@ public class UserController {
 
     @ResponseBody
     @RequestMapping(path = "/register", method = RequestMethod.POST)
-    public UserDTO registerNewUser(@RequestBody User newUser) {
-        return new UserDTO(userService.save(newUser));
+    public PersonDTO registerNewUser(@RequestBody Person newPerson) {
+        return new PersonDTO(userService.save(newPerson));
     }
 
     @ResponseBody
     @RequestMapping(path = "/getAll", method = RequestMethod.GET)
-    public List<UserDTO> getAllUsers() {
-        return userService.getAll().stream().map(UserDTO::new).collect(toList());
+    public List<PersonDTO> getAllUsers() {
+        return userService.getAll().stream().map(PersonDTO::new).collect(toList());
     }
 
 

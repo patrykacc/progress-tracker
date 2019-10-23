@@ -1,8 +1,6 @@
 package fit.body.tms.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import fit.body.tms.dtos.TrainingDTO;
 import fit.body.tms.repositories.TrainingListener;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -11,11 +9,11 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Entity
 @EntityListeners(TrainingListener.class)
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Training {
 
     @Id
@@ -33,14 +31,14 @@ public class Training {
     @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     private LocalTime startTime;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "training", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "training", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Exercise> exercises;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "person_id")
+    private Person person;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "training_day_id")
     private TrainingDay trainingDay;
 
@@ -53,7 +51,7 @@ public class Training {
         this.startDate = trainingDTO.getStartDate();
         this.startTime = trainingDTO.getStartTime();
         this.exercises = trainingDTO.getExercises().stream().map(Exercise::new).collect(Collectors.toList());
-        this.user = new User(trainingDTO.getUser());
+        trainingDTO.getUser().ifPresent(userDTO -> this.person = new Person(userDTO));
     }
 
     public Integer getVolume() {
@@ -104,16 +102,16 @@ public class Training {
         this.startTime = startTime;
     }
 
-    public User getUser() {
-        return user;
+    public Person getPerson() {
+        return person;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
-    public TrainingDay getTrainingDay() {
-        return trainingDay;
+    public Optional<TrainingDay> getTrainingDay() {
+        return Optional.ofNullable(trainingDay);
     }
 
     public void setTrainingDay(TrainingDay trainingDay) {

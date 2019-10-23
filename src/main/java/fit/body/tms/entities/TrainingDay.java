@@ -4,6 +4,7 @@ import fit.body.tms.dtos.TrainingDayDTO;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Entity
@@ -15,7 +16,7 @@ public class TrainingDay {
     @ManyToOne
     private TrainingPlan trainingPlan;
     @OneToMany
-    private List<User> users;
+    private List<Person> people;
     @OneToMany
     private List<Training> trainings;
     @OneToMany
@@ -27,7 +28,7 @@ public class TrainingDay {
     public TrainingDay(TrainingDayDTO trainingDayDTO) {
         this.id = trainingDayDTO.getId();
         this.trainingPlan = new TrainingPlan(trainingDayDTO.getTrainingPlan());
-        this.users = trainingDayDTO.getUsers().stream().map(User::new).collect(Collectors.toList());
+        this.people = trainingDayDTO.getUsers().stream().map(Person::new).collect(Collectors.toList());
         this.trainings = trainingDayDTO.getTrainings().stream().map(Training::new).collect(Collectors.toList());
         this.trainingDayExercises = trainingDayDTO.getTrainingDayExercises().stream().map(TrainingDayExercise::new).collect(Collectors.toList());
     }
@@ -40,20 +41,20 @@ public class TrainingDay {
         this.id = id;
     }
 
-    public TrainingPlan getTrainingPlan() {
-        return trainingPlan;
+    public Optional<TrainingPlan> getTrainingPlan() {
+        return Optional.ofNullable(trainingPlan);
     }
 
     public void setTrainingPlan(TrainingPlan trainingPlan) {
         this.trainingPlan = trainingPlan;
     }
 
-    public List<User> getUsers() {
-        return users;
+    public List<Person> getPeople() {
+        return people;
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
+    public void setPeople(List<Person> people) {
+        this.people = people;
     }
 
     public List<Training> getTrainings() {

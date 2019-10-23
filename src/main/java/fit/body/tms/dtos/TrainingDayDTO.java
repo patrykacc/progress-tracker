@@ -3,6 +3,7 @@ package fit.body.tms.dtos;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import fit.body.tms.entities.TrainingDay;
+import fit.body.tms.entities.TrainingPlan;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,7 +13,7 @@ public class TrainingDayDTO {
 
     private Long id;
     private TrainingPlanDTO trainingPlan;
-    private List<UserDTO> users;
+    private List<PersonDTO> users;
     private List<TrainingDTO> trainings;
     private List<TrainingDayExerciseDTO> trainingDayExercises;
 
@@ -21,8 +22,8 @@ public class TrainingDayDTO {
 
     public TrainingDayDTO(TrainingDay trainingDay) {
         this.id = trainingDay.getId();
-        this.trainingPlan = new TrainingPlanDTO(trainingDay.getTrainingPlan());
-        this.users = trainingDay.getUsers().stream().map(UserDTO::new).collect(Collectors.toList());
+        this.trainingPlan = new TrainingPlanDTO(trainingDay.getTrainingPlan().orElseGet(TrainingPlan::new));
+        this.users = trainingDay.getPeople().stream().map(PersonDTO::new).collect(Collectors.toList());
         this.trainings = trainingDay.getTrainings().stream().map(TrainingDTO::new).collect(Collectors.toList());
         this.trainingDayExercises = trainingDay.getTrainingDayExercises().stream().map(TrainingDayExerciseDTO::new).collect(Collectors.toList());
     }
@@ -43,11 +44,11 @@ public class TrainingDayDTO {
         this.trainingPlan = trainingPlan;
     }
 
-    public List<UserDTO> getUsers() {
+    public List<PersonDTO> getUsers() {
         return users;
     }
 
-    public void setUsers(List<UserDTO> users) {
+    public void setUsers(List<PersonDTO> users) {
         this.users = users;
     }
 

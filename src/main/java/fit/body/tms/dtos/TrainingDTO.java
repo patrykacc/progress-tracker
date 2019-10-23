@@ -8,7 +8,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @JsonIdentityInfo(generator = ObjectIdGenerators.None.class, property = "id")
@@ -24,10 +26,12 @@ public class TrainingDTO {
     @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     private LocalTime startTime;
     private List<ExerciseDTO> exercises;
-    private UserDTO user;
+    private PersonDTO user;
     private TrainingDayDTO trainingDay;
 
-    public TrainingDTO() {}
+    public TrainingDTO() {
+        this.exercises = new ArrayList<>();
+    }
 
     public TrainingDTO(Training training) {
         this.id = training.getId();
@@ -36,8 +40,8 @@ public class TrainingDTO {
         this.startDate = training.getStartDate();
         this.startTime = training.getStartTime();
         this.exercises = training.getExercises().stream().map(ExerciseDTO::new).collect(Collectors.toList());
-        this.user = new UserDTO(training.getUser());
-        this.trainingDay = new TrainingDayDTO(training.getTrainingDay());
+        this.user = new PersonDTO(training.getPerson());
+        training.getTrainingDay().ifPresent(td -> this.trainingDay = new TrainingDayDTO(td));
     }
 
     public Integer getVolume() {
@@ -88,11 +92,11 @@ public class TrainingDTO {
         this.startTime = startTime;
     }
 
-    public UserDTO getUser() {
-        return user;
+    public Optional<PersonDTO> getUser() {
+        return Optional.ofNullable(user);
     }
 
-    public void setUser(UserDTO user) {
+    public void setUser(PersonDTO user) {
         this.user = user;
     }
 

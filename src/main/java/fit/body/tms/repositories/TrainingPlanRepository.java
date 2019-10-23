@@ -9,5 +9,6 @@ import java.util.List;
 @Repository
 public interface TrainingPlanRepository extends CrudRepository<TrainingPlan, Long> {
 
-    List<TrainingPlan> findByUserId(Long id);
+    List<TrainingPlan> findAllByPersonId(Long userId);
+
 }

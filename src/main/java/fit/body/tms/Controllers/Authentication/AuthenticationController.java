@@ -1,6 +1,6 @@
 package fit.body.tms.Controllers.Authentication;
 
-import fit.body.tms.entities.User;
+import fit.body.tms.entities.Person;
 import fit.body.tms.repositories.UserRepository;
 import fit.body.tms.security.JwtTokenProvider;
 import org.slf4j.Logger;
@@ -66,17 +66,17 @@ public class AuthenticationController {
         }
 
         // Creating user's account
-        User user = new User();
-        user.setPassword(signUpRequest.getPassword());
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setFirstName(signUpRequest.getFirstName());
-        user.setLastName(signUpRequest.getLastName());
-        user.setEmail(signUpRequest.getEmail());
-        user.setAuthority("ADMIN");
+        Person person = new Person();
+        person.setPassword(signUpRequest.getPassword());
+        person.setPassword(passwordEncoder.encode(person.getPassword()));
+        person.setFirstName(signUpRequest.getFirstName());
+        person.setLastName(signUpRequest.getLastName());
+        person.setEmail(signUpRequest.getEmail());
+        person.setAuthority("ADMIN");
 
-        User result;
+        Person result;
         try {
-            result = userRepository.save(user);
+            result = userRepository.save(person);
         } catch (Exception e) {
             return new ResponseEntity<>(new ApiResponse(false, "Bład podczas rejestracji, sprawdź wymagane pola"),
                     HttpStatus.BAD_REQUEST);

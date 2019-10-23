@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import fit.body.tms.dtos.TrainingPlanDTO;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,16 +18,18 @@ public class TrainingPlan {
     private Long id;
     @OneToMany
     private List<TrainingDay> trainingDays;
+
     @ManyToOne
-    private User user;
+    private Person person;
 
     public TrainingPlan() {
+        this.trainingDays = new ArrayList<>();
     }
 
     public TrainingPlan(TrainingPlanDTO trainingPlanDTO) {
         this.id = trainingPlanDTO.getId();
         this.trainingDays = trainingPlanDTO.getTrainingDays().stream().map(TrainingDay::new).collect(Collectors.toList());
-        this.user = new User(trainingPlanDTO.getUser());
+        this.person = new Person(trainingPlanDTO.getUser());
     }
 
     public Long getId() {
@@ -45,11 +48,11 @@ public class TrainingPlan {
         this.trainingDays = trainingDays;
     }
 
-    public User getUser() {
-        return user;
+    public Person getPerson() {
+        return person;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setPerson(Person person) {
+        this.person = person;
     }
 }

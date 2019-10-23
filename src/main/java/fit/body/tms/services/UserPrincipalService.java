@@ -1,6 +1,6 @@
 package fit.body.tms.services;
 
-import fit.body.tms.entities.User;
+import fit.body.tms.entities.Person;
 import fit.body.tms.entities.UserPrincipal;
 import fit.body.tms.repositories.UserRepository;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -22,7 +22,7 @@ public class UserPrincipalService implements UserDetailsService {
     }
 
     public UserPrincipal loadUserById(Long userId) {
-        User u = userRepository.findById(userId).orElse(null);
+        Person u = userRepository.findById(userId).orElse(null);
         if (u == null) {
             return null;
         }

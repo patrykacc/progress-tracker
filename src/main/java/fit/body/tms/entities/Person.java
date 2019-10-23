@@ -2,7 +2,7 @@ package fit.body.tms.entities;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import fit.body.tms.dtos.UserDTO;
+import fit.body.tms.dtos.PersonDTO;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -14,7 +14,7 @@ import java.util.List;
 
 @Entity
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class User {
+public class Person {
 
     @Email
     @NotBlank
@@ -31,20 +31,20 @@ public class User {
     @NotBlank
     private String lastName;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "person")
     @Fetch(FetchMode.SUBSELECT)
     private List<Training> trainings;
 
-    public User() {}
-    public User(Long id) {
+    public Person() {}
+    public Person(Long id) {
         this.id = id;
     }
-    public User(UserDTO DTO) {
-        this.email = DTO.getEmail();
-        this.id = DTO.getId();
-        this.authority = DTO.getAuthority();
-        this.firstName = DTO.getFirstName();
-        this.lastName = DTO.getLastName();
+    public Person(PersonDTO personDTO) {
+        this.email = personDTO.getEmail();
+        this.id = personDTO.getId();
+        this.authority = personDTO.getAuthority();
+        this.firstName = personDTO.getFirstName();
+        this.lastName = personDTO.getLastName();
     }
 
     public String getPassword() {

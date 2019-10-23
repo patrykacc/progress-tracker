@@ -1,5 +1,6 @@
 import {getTraining} from "../services/trainingService";
 import {getExercisesByTrainingId} from "../services/exerciseService";
+import {getActiveTrainingPlan} from "../services/trainingPlanService";
 
 export const authorizationSuccess = {
     type: 'AUTHORIZATION_SUCCESS'
@@ -21,6 +22,17 @@ export const getTrainingAction = (trainingId) => {
             .then(training => {
                 if (training) {
                     dispatch({type: 'GET_TRAINING_DONE', training});
+                }
+            })
+    }
+}
+
+export const getActiveTrainingPlanAction = () => {
+    return (dispatch) => {
+        getActiveTrainingPlan()
+            .then(trainingPlan => {
+                if (trainingPlan) {
+                    dispatch({type: 'GET_TRAINING_PLAN_DONE', trainingPlan: trainingPlan});
                 }
             })
     }

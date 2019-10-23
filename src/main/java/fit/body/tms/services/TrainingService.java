@@ -26,7 +26,7 @@ public class TrainingService {
     }
 
     public List<Training> getAllTrainingsByUserId(Long userId) {
-        return this.trainingRepository.findByUserId(userId);
+        return this.trainingRepository.findByPersonId(userId);
     }
 
     public void delete(Long id) {

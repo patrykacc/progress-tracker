@@ -2,7 +2,7 @@ package fit.body.tms.dtos;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import fit.body.tms.entities.User;
+import fit.body.tms.entities.Person;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -10,14 +10,14 @@ import java.util.List;
 
 
 @JsonIdentityInfo(generator = ObjectIdGenerators.None.class, property = "id")
-public class UserDTO {
+public class PersonDTO {
 
-    public UserDTO(User user) {
-        this.email = user.getEmail();
-        this.id = user.getId();
-        this.authority = user.getAuthority();
-        this.firstName = user.getFirstName();
-        this.lastName = user.getLastName();
+    public PersonDTO(Person person) {
+        this.email = person.getEmail();
+        this.id = person.getId();
+        this.authority = person.getAuthority();
+        this.firstName = person.getFirstName();
+        this.lastName = person.getLastName();
     }
 
     @Email
@@ -41,10 +41,10 @@ public class UserDTO {
         this.authority = authority;
     }
 
-    public UserDTO() {
+    public PersonDTO() {
     }
 
-    public UserDTO(Long id) {
+    public PersonDTO(Long id) {
         this.id = id;
     }
 
