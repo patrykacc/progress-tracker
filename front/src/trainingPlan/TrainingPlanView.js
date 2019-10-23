@@ -15,10 +15,11 @@ const useStyles = makeStyles(theme => ({
 export default function TrainingPlanView() {
     const classes = useStyles();
     const activePlan = useSelector(state => state.activePlan);
+
     return (
         <Grid item xs={12} md={6} lg={3} >
             <Paper className={classes.paper}>
-                <Typography variant={"subtitle2"}> Aktywny plan treningowy:</Typography>
+                <Typography variant={"subtitle2"}>Aktywny plan treningowy:</Typography>
                 <Typography variant={"h5"}>Full Body Workout</Typography>
                 <Button variant={"outlined"} size={"small"}>Zmień</Button>
             </Paper>

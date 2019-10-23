@@ -3,6 +3,8 @@ package fit.body.tms.entities;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import fit.body.tms.dtos.UserDTO;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -30,8 +32,13 @@ public class User {
     private String lastName;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
+    @Fetch(FetchMode.SUBSELECT)
     private List<Training> trainings;
 
+    public User() {}
+    public User(Long id) {
+        this.id = id;
+    }
     public User(UserDTO DTO) {
         this.email = DTO.getEmail();
         this.id = DTO.getId();
@@ -54,13 +61,6 @@ public class User {
 
     public void setAuthority(String authority) {
         this.authority = authority;
-    }
-
-    public User() {
-    }
-
-    public User(Long id) {
-        this.id = id;
     }
 
     public void setEmail(String email) {

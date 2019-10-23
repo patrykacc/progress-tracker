@@ -17,20 +17,16 @@ public class TrainingDTO {
     private Long id;
     private Integer duration;
     private Integer volume;
-
     @JsonFormat(pattern = "yyyy-MM-dd")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate startDate;
-
     @JsonFormat(pattern = "HH:mm")
     @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     private LocalTime startTime;
-
     private List<ExerciseDTO> exercises;
-
     private UserDTO user;
+    private TrainingDayDTO trainingDay;
 
-//    private TrainingDay trainingDay;
     public TrainingDTO() {}
 
     public TrainingDTO(Training training) {
@@ -41,6 +37,7 @@ public class TrainingDTO {
         this.startTime = training.getStartTime();
         this.exercises = training.getExercises().stream().map(ExerciseDTO::new).collect(Collectors.toList());
         this.user = new UserDTO(training.getUser());
+        this.trainingDay = new TrainingDayDTO(training.getTrainingDay());
     }
 
     public Integer getVolume() {
@@ -99,11 +96,11 @@ public class TrainingDTO {
         this.user = user;
     }
 
-    /*public TrainingDay getTrainingDay() {
+    public TrainingDayDTO getTrainingDay() {
         return trainingDay;
     }
 
-    public void setTrainingDay(TrainingDay trainingDay) {
+    public void setTrainingDay(TrainingDayDTO trainingDay) {
         this.trainingDay = trainingDay;
-    }*/
+    }
 }
