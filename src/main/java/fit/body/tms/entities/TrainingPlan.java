@@ -16,6 +16,8 @@ public class TrainingPlan {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private String description;
+    private Integer trainingDaysNumber;
     @OneToMany
     private List<TrainingDay> trainingDays;
 

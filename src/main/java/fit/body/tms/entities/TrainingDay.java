@@ -16,8 +16,6 @@ public class TrainingDay {
     @ManyToOne
     private TrainingPlan trainingPlan;
     @OneToMany
-    private List<Person> people;
-    @OneToMany
     private List<Training> trainings;
     @OneToMany
     private List<TrainingDayExercise> trainingDayExercises;
@@ -28,7 +26,6 @@ public class TrainingDay {
     public TrainingDay(TrainingDayDTO trainingDayDTO) {
         this.id = trainingDayDTO.getId();
         this.trainingPlan = new TrainingPlan(trainingDayDTO.getTrainingPlan());
-        this.people = trainingDayDTO.getUsers().stream().map(Person::new).collect(Collectors.toList());
         this.trainings = trainingDayDTO.getTrainings().stream().map(Training::new).collect(Collectors.toList());
         this.trainingDayExercises = trainingDayDTO.getTrainingDayExercises().stream().map(TrainingDayExercise::new).collect(Collectors.toList());
     }
@@ -47,14 +44,6 @@ public class TrainingDay {
 
     public void setTrainingPlan(TrainingPlan trainingPlan) {
         this.trainingPlan = trainingPlan;
-    }
-
-    public List<Person> getPeople() {
-        return people;
-    }
-
-    public void setPeople(List<Person> people) {
-        this.people = people;
     }
 
     public List<Training> getTrainings() {

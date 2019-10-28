@@ -13,7 +13,6 @@ public class TrainingDayDTO {
 
     private Long id;
     private TrainingPlanDTO trainingPlan;
-    private List<PersonDTO> users;
     private List<TrainingDTO> trainings;
     private List<TrainingDayExerciseDTO> trainingDayExercises;
 
@@ -23,7 +22,6 @@ public class TrainingDayDTO {
     public TrainingDayDTO(TrainingDay trainingDay) {
         this.id = trainingDay.getId();
         this.trainingPlan = new TrainingPlanDTO(trainingDay.getTrainingPlan().orElseGet(TrainingPlan::new));
-        this.users = trainingDay.getPeople().stream().map(PersonDTO::new).collect(Collectors.toList());
         this.trainings = trainingDay.getTrainings().stream().map(TrainingDTO::new).collect(Collectors.toList());
         this.trainingDayExercises = trainingDay.getTrainingDayExercises().stream().map(TrainingDayExerciseDTO::new).collect(Collectors.toList());
     }
@@ -42,14 +40,6 @@ public class TrainingDayDTO {
 
     public void setTrainingPlan(TrainingPlanDTO trainingPlan) {
         this.trainingPlan = trainingPlan;
-    }
-
-    public List<PersonDTO> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<PersonDTO> users) {
-        this.users = users;
     }
 
     public List<TrainingDTO> getTrainings() {

@@ -41,7 +41,7 @@ export default ({index, training, ...props}) => {
                 <TableCell align="right">{training.volume}</TableCell>
                 <TableCell align="right">
                     <IconButton onClick={(event) => removeTraining(event, training.id)} style={buttonStyle}>
-                        <DeleteIcon fontSize="small"/>
+                        <DeleteIcon fontSize="small" color={"secondary"}/>
                     </IconButton>
                 </TableCell>
             </TableRow>
