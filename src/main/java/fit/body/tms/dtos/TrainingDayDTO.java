@@ -3,26 +3,30 @@ package fit.body.tms.dtos;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import fit.body.tms.entities.TrainingDay;
-import fit.body.tms.entities.TrainingPlan;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @JsonIdentityInfo(generator = ObjectIdGenerators.None.class, property = "id")
 public class TrainingDayDTO {
 
     private Long id;
+    private String name;
     private TrainingPlanDTO trainingPlan;
     private List<TrainingDTO> trainings;
     private List<TrainingDayExerciseDTO> trainingDayExercises;
 
     public TrainingDayDTO() {
+        this.trainings = new ArrayList<>();
+        this.trainingDayExercises = new ArrayList<>();
     }
 
     public TrainingDayDTO(TrainingDay trainingDay) {
         this.id = trainingDay.getId();
-        this.trainingPlan = new TrainingPlanDTO(trainingDay.getTrainingPlan().orElseGet(TrainingPlan::new));
-        this.trainings = trainingDay.getTrainings().stream().map(TrainingDTO::new).collect(Collectors.toList());
+        this.name = trainingDay.getName();
+//        this.trainingPlan = new TrainingPlanDTO(trainingDay.getTrainingPlan().orElseGet(TrainingPlan::new));
         this.trainingDayExercises = trainingDay.getTrainingDayExercises().stream().map(TrainingDayExerciseDTO::new).collect(Collectors.toList());
     }
 
@@ -34,8 +38,8 @@ public class TrainingDayDTO {
         this.id = id;
     }
 
-    public TrainingPlanDTO getTrainingPlan() {
-        return trainingPlan;
+    public Optional<TrainingPlanDTO> getTrainingPlan() {
+        return Optional.ofNullable(trainingPlan);
     }
 
     public void setTrainingPlan(TrainingPlanDTO trainingPlan) {
@@ -56,5 +60,13 @@ public class TrainingDayDTO {
 
     public void setTrainingDayExercises(List<TrainingDayExerciseDTO> trainingDayExercises) {
         this.trainingDayExercises = trainingDayExercises;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

@@ -29,18 +29,22 @@ public class TrainingPlanController {
     }
 
     @GetMapping("/getActiveTrainingPlan")
-    public TrainingPlanDTO getActivePlan(@Valid @PathVariable Long trainingPlanId) {
+    public TrainingPlanDTO getActivePlan() {
         return new TrainingPlanDTO(trainingPlanService.getActivePlanForUser(UserService.getCurrentUserPrincipal().getId()));
     }
 
     @GetMapping("/getAll")
     public List<TrainingPlanDTO> getAll() {
-        return trainingPlanService.getAllByUserId(UserService.getCurrentUserPrincipal().getId()).stream().map(TrainingPlanDTO::new).collect(toList());
+        return trainingPlanService.getAllByUserId(
+                UserService.getCurrentUserPrincipal().getId()
+        ).stream().map(TrainingPlanDTO::new).collect(toList());
     }
 
     @PostMapping("/save")
     public TrainingPlanDTO save(@Valid @RequestBody TrainingPlanDTO trainingPlanDTO) {
-        return new TrainingPlanDTO(trainingPlanService.save(new TrainingPlan(trainingPlanDTO)));
+        TrainingPlan trainingPlan = new TrainingPlan(trainingPlanDTO);
+        trainingPlanService.save(trainingPlan);
+        return new TrainingPlanDTO(trainingPlan);
     }
 
     @DeleteMapping("/{trainingPlanId}")

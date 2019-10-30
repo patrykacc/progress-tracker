@@ -2,7 +2,7 @@ import {useEffect} from "react";
 import * as React from "react";
 import ExercisesTable from "./ExercisesTable";
 import {useDispatch, useSelector} from "react-redux";
-import {getExercisesAction} from "../actions";
+import {getExercisesAction} from "../../redux/actions";
 
 export default ({trainingId}) => {
     const exercises = useSelector(state => state.exercises);

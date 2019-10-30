@@ -3,13 +3,10 @@ package fit.body.tms.entities;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import fit.body.tms.dtos.PersonDTO;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import java.util.List;
 
 
 @Entity
@@ -30,10 +27,6 @@ public class Person {
     private String firstName;
     @NotBlank
     private String lastName;
-
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "person")
-    @Fetch(FetchMode.SUBSELECT)
-    private List<Training> trainings;
 
     public Person() {}
     public Person(Long id) {
@@ -109,14 +102,6 @@ public class Person {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public List<Training> getTrainings() {
-        return trainings;
-    }
-
-    public void setTrainings(List<Training> trainings) {
-        this.trainings = trainings;
     }
 
     public TrainingPlan getActiveTrainingPlan() {

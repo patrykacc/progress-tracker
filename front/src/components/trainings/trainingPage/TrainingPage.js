@@ -1,8 +1,8 @@
 import {Grid} from "@material-ui/core";
 import * as React from "react";
 import TrainingDetails from "../trainingDetails/TrainingDetails";
-import ExerciseDetails from "../../exercises/ExerciseDetails";
-import Exercises from "../../exercises/Exercises";
+import ExerciseDetails from "../../../components/exercises/ExerciseDetails";
+import Exercises from "../../../components/exercises/Exercises";
 
 export default (props) => {
     return (

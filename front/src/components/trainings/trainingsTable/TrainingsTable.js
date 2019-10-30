@@ -1,10 +1,9 @@
 import * as React from "react";
 import AddNewTrainingButton from "./AddNewTrainingButton";
-import '../../WorkoutsHome.css';
 import {connect} from "react-redux";
-import {trainingsFetched} from "./../../actions";
+import {trainingsFetched} from "../../../redux/actions";
 import TrainingRow from "./TrainingRowView";
-import {getAll} from "./../../services/trainingService";
+import {getAll} from "../../../services/trainingService";
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
 import TableBody from "@material-ui/core/TableBody";

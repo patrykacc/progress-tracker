@@ -1,24 +1,29 @@
 package fit.body.tms.entities;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import fit.body.tms.dtos.TrainingPlanDTO;
+import fit.body.tms.repositories.TrainingPlanListener;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@EntityListeners(TrainingPlanListener.class)
 public class TrainingPlan {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private String name;
     private String description;
     private Integer trainingDaysNumber;
-    @OneToMany
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "trainingPlan")
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<TrainingDay> trainingDays;
 
     @ManyToOne
@@ -28,10 +33,18 @@ public class TrainingPlan {
         this.trainingDays = new ArrayList<>();
     }
 
+    public TrainingPlan(Long id) {
+        this.id = id;
+        this.trainingDays = new ArrayList<>();
+    }
+
     public TrainingPlan(TrainingPlanDTO trainingPlanDTO) {
         this.id = trainingPlanDTO.getId();
+        this.name = trainingPlanDTO.getName();
+        this.description = trainingPlanDTO.getDescription();
         this.trainingDays = trainingPlanDTO.getTrainingDays().stream().map(TrainingDay::new).collect(Collectors.toList());
-        this.person = new Person(trainingPlanDTO.getUser());
+        this.trainingDays.forEach(trainingDay -> trainingDay.setTrainingPlan(this));
+        trainingPlanDTO.getPerson().ifPresent(user -> this.person = new Person(user));
     }
 
     public Long getId() {
@@ -50,11 +63,35 @@ public class TrainingPlan {
         this.trainingDays = trainingDays;
     }
 
-    public Person getPerson() {
-        return person;
+    public Optional<Person> getPerson() {
+        return Optional.ofNullable(person);
     }
 
     public void setPerson(Person person) {
         this.person = person;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Integer getTrainingDaysNumber() {
+        return trainingDaysNumber;
+    }
+
+    public void setTrainingDaysNumber(Integer trainingDaysNumber) {
+        this.trainingDaysNumber = trainingDaysNumber;
     }
 }

@@ -1,6 +1,6 @@
 import * as React from "react";
-import {store} from "../../store";
-import {getAll, deleteTraining} from "../../services/trainingService";
+import {store} from "../../../store";
+import {getAll, deleteTraining} from "../../../services/trainingService";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import IconButton from "@material-ui/core/IconButton";
@@ -9,7 +9,6 @@ import {Link} from "@material-ui/core";
 
 
 export default ({index, training, ...props}) => {
-
     const removeTraining = (event, trainingId) => {
         event.stopPropagation();
         deleteTraining(trainingId)

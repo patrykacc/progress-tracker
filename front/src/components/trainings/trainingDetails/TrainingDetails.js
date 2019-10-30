@@ -1,5 +1,5 @@
 import * as React from "react";
-import {deleteTraining, saveTraining} from "../../services/trainingService";
+import {deleteTraining, saveTraining} from "../../../services/trainingService";
 import {makeStyles, Typography} from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 import {useEffect} from "react";
@@ -8,7 +8,7 @@ import IconButton from "@material-ui/core/IconButton";
 import {DatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import {Fragment} from "react";
-import {getTrainingAction} from "../../actions";
+import {getTrainingAction} from "../../../redux/actions";
 import {useDispatch, useSelector} from "react-redux";
 import InputAdornment from "@material-ui/core/InputAdornment";
 

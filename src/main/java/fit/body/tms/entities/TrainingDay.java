@@ -1,6 +1,8 @@
 package fit.body.tms.entities;
 
 import fit.body.tms.dtos.TrainingDayDTO;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.List;
@@ -13,11 +15,14 @@ public class TrainingDay {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private String name;
+
     @ManyToOne
+    @JoinColumn(name = "training_plan_id")
     private TrainingPlan trainingPlan;
-    @OneToMany
-    private List<Training> trainings;
-    @OneToMany
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "trainingDay")
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<TrainingDayExercise> trainingDayExercises;
 
     public TrainingDay() {
@@ -25,8 +30,8 @@ public class TrainingDay {
 
     public TrainingDay(TrainingDayDTO trainingDayDTO) {
         this.id = trainingDayDTO.getId();
-        this.trainingPlan = new TrainingPlan(trainingDayDTO.getTrainingPlan());
-        this.trainings = trainingDayDTO.getTrainings().stream().map(Training::new).collect(Collectors.toList());
+        this.name = trainingDayDTO.getName();
+        trainingDayDTO.getTrainingPlan().ifPresent(trainingPlanDTO -> this.trainingPlan = new TrainingPlan(trainingPlanDTO));
         this.trainingDayExercises = trainingDayDTO.getTrainingDayExercises().stream().map(TrainingDayExercise::new).collect(Collectors.toList());
     }
 
@@ -46,19 +51,19 @@ public class TrainingDay {
         this.trainingPlan = trainingPlan;
     }
 
-    public List<Training> getTrainings() {
-        return trainings;
-    }
-
-    public void setTrainings(List<Training> trainings) {
-        this.trainings = trainings;
-    }
-
     public List<TrainingDayExercise> getTrainingDayExercises() {
         return trainingDayExercises;
     }
 
     public void setTrainingDayExercises(List<TrainingDayExercise> trainingDayExercises) {
         this.trainingDayExercises = trainingDayExercises;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

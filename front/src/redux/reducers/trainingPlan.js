@@ -1,4 +1,7 @@
-const defaultTrainingPlan = {volume: 0};
+const defaultTrainingPlan = {
+    volume: 0,
+    trainingDays: []
+};
 
 const trainingPlan = (state = defaultTrainingPlan, action) => {
 

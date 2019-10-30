@@ -6,7 +6,7 @@ import React from "react";
 import {BrowserRouter, Route} from "react-router-dom";
 import {Container} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
-import TrainingPage from "../trainings/trainingPage/TrainingPage";
+import TrainingPage from "../components/trainings/trainingPage/TrainingPage";
 import TokenWatcher from "../components/authentication/TokenWatcher";
 
 export default function Body() {

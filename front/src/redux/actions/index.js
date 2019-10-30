@@ -1,6 +1,6 @@
-import {getTraining} from "../services/trainingService";
-import {getExercisesByTrainingId} from "../services/exerciseService";
-import {getActiveTrainingPlan} from "../services/trainingPlanService";
+import {getTraining} from "../../services/trainingService";
+import {getExercisesByTrainingId} from "../../services/exerciseService";
+import {getActiveTrainingPlan} from "../../services/trainingPlanService";
 
 export const authorizationSuccess = {
     type: 'AUTHORIZATION_SUCCESS'
