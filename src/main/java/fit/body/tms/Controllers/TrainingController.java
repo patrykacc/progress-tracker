@@ -14,7 +14,7 @@ import static java.util.stream.Collectors.toList;
 
 @RestController
 @BasePathAwareController
-@RequestMapping(value = "/components/trainings")
+@RequestMapping(value = "/trainings")
 public class TrainingController {
 
     private final TrainingService trainingService;
@@ -30,7 +30,7 @@ public class TrainingController {
 
     @GetMapping("/getAll")
     public List<TrainingDTO> getAll() {
-        return trainingService.getAllTrainingsByUserId(UserService.getCurrentUserPrincipal().getId()).stream().map(TrainingDTO::new).collect(toList());
+        return trainingService.getAllTrainingsByUserId(UserService.getPrincipal().getId()).stream().map(TrainingDTO::new).collect(toList());
     }
 
     @PostMapping("/save")

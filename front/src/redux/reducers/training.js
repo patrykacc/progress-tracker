@@ -1,4 +1,7 @@
-const defaultTraining = {volume: 0};
+const defaultTraining = {
+    volume: 0,
+    exercises: []
+};
 
 const training = (state = defaultTraining, action) => {
 

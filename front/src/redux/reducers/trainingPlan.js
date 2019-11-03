@@ -1,19 +1,22 @@
 const defaultTrainingPlan = {
     volume: 0,
-    trainingDays: []
+    name: '',
+    description: '',
+    trainingDays: [{
+        name: 'Dzień 1',
+        trainingDayExercises: [],
+    }]
 };
 
 const trainingPlan = (state = defaultTrainingPlan, action) => {
 
     switch (action.type) {
-        case 'GET_TRAINING_PLAN_DONE':
-            return {...action.trainingPlan};
-            case 'TRAINING_PLAN_UPDATED':
+        case 'TRAINING_PLAN_UPDATED':
             return {...action.trainingPlan};
         case 'CLEAR_TRAINING_PLAN':
             return {...defaultTrainingPlan};
         default:
-            return state;
+            return {...state};
     }
 };
 

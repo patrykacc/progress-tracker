@@ -5,10 +5,10 @@ import Box from "@material-ui/core/Box";
 import {useDispatch, useSelector} from "react-redux";
 import IconButton from "@material-ui/core/IconButton";
 import {Cancel, Delete, Edit, Save} from "@material-ui/icons";
-import {deleteExercise} from "../../services/exerciseService";
-import {getExercisesAction, getTrainingAction} from "../../redux/actions";
+import {ExerciseApi} from "../../services/exerciseService";
 import ExerciseFormEdit from "./ExerciseFormEdit";
 import ExerciseFormView from "./ExerciseFormView";
+import {getExercisesAction, getTrainingAction} from "../../redux/actions/trainingActions";
 
 
 const useStyles = makeStyles(theme => ({
@@ -99,7 +99,7 @@ export default (props) => {
     };
 
     const remove = () => {
-        deleteExercise(exercise.id)
+        ExerciseApi.delete(exercise.id)
             .then(response => {
                 if (response.status === 200) {
                     dispatch(getExercisesAction());

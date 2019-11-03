@@ -1,19 +1,8 @@
+import API from "./API";
 
-export const deleteExercise = (exerciseId) => {
-    if (exerciseId) {
-        return fetch('/api/exercises/' + exerciseId, {
-            method: 'DELETE',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.getItem('token')
-            },
-        })
-            .catch(error => {
-                console.error(error);
-            })
-    }
-}
+const PATH = 'exercises';
+
+export const ExerciseApi = new API(PATH);
 
 export const getExercisesByTrainingId = (trainingId) => {
     return fetch('/api/exercises/getAllByTrainingId/' + trainingId, {

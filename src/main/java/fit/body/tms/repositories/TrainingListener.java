@@ -26,7 +26,7 @@ public class TrainingListener {
 
     private void addCurrentUserRelation(Training training) {
         if (training.getPerson() == null) {
-            training.setPerson(new Person(UserService.getCurrentUserPrincipal().getId()));
+            training.setPerson(new Person(UserService.getPrincipal().getId()));
         }
     }
 }

@@ -10,6 +10,7 @@ public class TrainingDayExercise {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private String name;
 
     @ManyToOne
     @JoinColumn(name = "training_day_id")
@@ -19,7 +20,8 @@ public class TrainingDayExercise {
 
     public TrainingDayExercise(TrainingDayExerciseDTO trainingDayExerciseDTO) {
         this.id = trainingDayExerciseDTO.getId();
-        this.trainingDay = new TrainingDay(trainingDayExerciseDTO.getTrainingDay());
+        this.name = trainingDayExerciseDTO.getName();
+        this.trainingDay = new TrainingDay(trainingDayExerciseDTO.getTrainingDay().getId());
     }
 
     public Long getId() {
@@ -36,5 +38,13 @@ public class TrainingDayExercise {
 
     public void setTrainingDay(TrainingDay trainingDay) {
         this.trainingDay = trainingDay;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

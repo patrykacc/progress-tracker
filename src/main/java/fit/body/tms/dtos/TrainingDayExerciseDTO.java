@@ -8,6 +8,7 @@ import fit.body.tms.entities.TrainingDayExercise;
 public class TrainingDayExerciseDTO {
 
     private Long id;
+    private String name;
     private TrainingDayDTO trainingDay;
 
     public TrainingDayExerciseDTO() {
@@ -15,7 +16,6 @@ public class TrainingDayExerciseDTO {
 
     public TrainingDayExerciseDTO(TrainingDayExercise trainingDayExercise) {
         this.id = trainingDayExercise.getId();
-        this.trainingDay = new TrainingDayDTO(trainingDayExercise.getTrainingDay());
     }
 
     public Long getId() {
@@ -32,5 +32,13 @@ public class TrainingDayExerciseDTO {
 
     public void setTrainingDay(TrainingDayDTO trainingDay) {
         this.trainingDay = trainingDay;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

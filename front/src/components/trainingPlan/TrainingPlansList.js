@@ -1,30 +1,39 @@
-import React, {Fragment, useEffect} from "react";
+import React, {useEffect} from "react";
 import {Button, List, ListItem, ListItemText, Typography, ListItemIcon, ButtonGroup} from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import IconButton from "@material-ui/core/IconButton";
-import {CheckCircle, Edit} from "@material-ui/icons";
-import {getAll} from "../../services/trainingPlanService";
+import {CheckCircle} from "@material-ui/icons";
+import {getAllTrainingPlansAction, setActiveTrainingPlanAction} from "../../redux/actions/trainingPlanActions";
 
 export default function TrainingPlansList() {
     const trainingPlans = useSelector(state => state.trainingPlans);
     const trainingPlanViewMode = useSelector(state => state.trainingPlanViewMode);
+    const activeTrainingPlan = useSelector(state => state.activeTrainingPlan);
+    let activePlanId = activeTrainingPlan ? activeTrainingPlan.id : null;
     const dispatch = useDispatch();
+
     useEffect(() => {
-        getAll().then(plans => {
-            if (plans) {
-                dispatch({type: 'GET_TRAINING_PLANS_DONE', trainingPlans: plans})
-            }
-        })
-    }, [trainingPlanViewMode])
+        dispatch(getAllTrainingPlansAction());
+    }, [dispatch, trainingPlanViewMode]);
+
+    const setActivePlan = (event, trainingPlanId) => {
+        event.stopPropagation();
+        dispatch(setActiveTrainingPlanAction(trainingPlanId, true))
+    };
+
+    const rowClick = (plan) => {
+        dispatch({type: 'TRAINING_PLAN_UPDATED', trainingPlan: plan});
+        dispatch({type: 'TRAINING_PLAN_VIEW_MODE', mode: 'edit'});
+    }
+
     let trainingPlansComponents = trainingPlans.map(plan => {
         return (
-            <ListItem button key={plan.id}>
+            <ListItem onClick={() => rowClick(plan)} button key={plan.id}>
                 <ListItemText primary={plan.name}/>
-                <ListItemIcon title={'Edytuj'}>
-                    <IconButton><Edit/></IconButton>
-                </ListItemIcon>
                 <ListItemIcon title={'Ustaw jako aktywny plan'}>
-                    <IconButton color="primary"><CheckCircle/></IconButton>
+                    <IconButton onClick={(event) => setActivePlan(event, plan.id)} color={plan.id === activePlanId ? 'primary' : 'default'}>
+                        <CheckCircle/>
+                    </IconButton>
                 </ListItemIcon>
             </ListItem>
         )

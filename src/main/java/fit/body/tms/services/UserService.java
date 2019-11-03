@@ -9,11 +9,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
 
-    public static UserPrincipal  getCurrentUserPrincipal() {
+    public static UserPrincipal getPrincipal() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
             return (UserPrincipal) authentication.getPrincipal();
@@ -36,8 +37,17 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public Person getById(Long id) {
+        return userRepository.findById(id).orElseGet(null);
+    }
+
+    public Optional<Person> getCurrentPerson() {
+        return userRepository.findById(getPrincipal().getId());
+    }
+
     public TrainingPlan getActivePlanByUserId(Long id) {
         return userRepository.findById(id).get().getActiveTrainingPlan();
     }
+
 
 }

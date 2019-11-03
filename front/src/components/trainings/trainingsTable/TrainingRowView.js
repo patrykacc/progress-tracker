@@ -1,28 +1,24 @@
 import * as React from "react";
-import {store} from "../../../store";
-import {getAll, deleteTraining} from "../../../services/trainingService";
+import {TrainingApi} from "../../../services/trainingService";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from '@material-ui/icons/Delete';
 import {Link} from "@material-ui/core";
+import {useDispatch} from "react-redux";
 
 
 export default ({index, training, ...props}) => {
+    const dispatch = useDispatch();
     const removeTraining = (event, trainingId) => {
         event.stopPropagation();
-        deleteTraining(trainingId)
+        TrainingApi.delete(trainingId)
             .then(response => {
                 if (response.status === 200) {
-                    getAll()
-                        .then(res => {
-                            if (res.status === 200) {
-                                return res.json()
-                            }
-                        })
+                    TrainingApi.getAll()
                         .then(trainings => {
                             if (trainings) {
-                                store.dispatch({type: "TRAININGS_FETCHED", trainings: trainings});
+                                dispatch({type: "TRAININGS_FETCHED", trainings: trainings});
                             }
                         })
                 }

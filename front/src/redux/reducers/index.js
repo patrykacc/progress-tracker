@@ -6,10 +6,22 @@ import exercises from "./exercises";
 import exercise from "./exercise";
 import exerciseView from "./exerciseView";
 import trainingPlan from "./trainingPlan";
-import trainingPlanViewMode from "./trainingPlanViewMode";
+import trainingPlanView from "./trainingPlanView";
 import trainingPlans from "./trainingPlans";
+import activeTrainingPlan from "./activeTrainingPlan";
+import trainingDay from "./trainingDay";
 
 export default combineReducers({
-    isAuthorized, trainings, training, exercises, exercise, exerciseView, trainingPlan, trainingPlanViewMode, trainingPlans
+    isAuthorized,
+    trainings,
+    training,
+    exercises,
+    exercise,
+    exerciseView,
+    trainingPlan,
+    trainingPlanViewMode: trainingPlanView,
+    trainingPlans,
+    activeTrainingPlan,
+    trainingDay
 });
 

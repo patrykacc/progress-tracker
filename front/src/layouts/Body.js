@@ -8,6 +8,7 @@ import {Container} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import TrainingPage from "../components/trainings/trainingPage/TrainingPage";
 import TokenWatcher from "../components/authentication/TokenWatcher";
+import TrainingPlanPage from "../components/trainingPlan/TrainingPlanPage";
 
 export default function Body() {
     return (
@@ -21,6 +22,7 @@ export default function Body() {
                         <PrivateRoute exact path="/" component={Home}/>
                         <PrivateRoute path="/training/:id" component={TrainingPage}/>
                         <PrivateRoute exact path="/training" component={TrainingPage}/>
+                        <PrivateRoute exact path="/plans" component={TrainingPlanPage}/>
                     </BrowserRouter>
                 </Grid>
             </Grid>

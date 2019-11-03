@@ -26,7 +26,6 @@ public class TrainingDayDTO {
     public TrainingDayDTO(TrainingDay trainingDay) {
         this.id = trainingDay.getId();
         this.name = trainingDay.getName();
-//        this.trainingPlan = new TrainingPlanDTO(trainingDay.getTrainingPlan().orElseGet(TrainingPlan::new));
         this.trainingDayExercises = trainingDay.getTrainingDayExercises().stream().map(TrainingDayExerciseDTO::new).collect(Collectors.toList());
     }
 

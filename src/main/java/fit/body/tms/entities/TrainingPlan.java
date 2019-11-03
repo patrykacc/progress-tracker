@@ -22,7 +22,7 @@ public class TrainingPlan {
     private String description;
     private Integer trainingDaysNumber;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "trainingPlan")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "trainingPlan")
     @Fetch(value = FetchMode.SUBSELECT)
     private List<TrainingDay> trainingDays;
 
@@ -43,7 +43,7 @@ public class TrainingPlan {
         this.name = trainingPlanDTO.getName();
         this.description = trainingPlanDTO.getDescription();
         this.trainingDays = trainingPlanDTO.getTrainingDays().stream().map(TrainingDay::new).collect(Collectors.toList());
-        this.trainingDays.forEach(trainingDay -> trainingDay.setTrainingPlan(this));
+        this.trainingDays.forEach(trainingDay -> trainingDay.setTrainingPlan(new TrainingPlan(this.getId())));
         trainingPlanDTO.getPerson().ifPresent(user -> this.person = new Person(user));
     }
 

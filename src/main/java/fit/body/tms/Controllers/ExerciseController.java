@@ -13,7 +13,7 @@ import static java.util.stream.Collectors.toList;
 
 @RestController
 @BasePathAwareController
-@RequestMapping(value = "/components/exercises")
+@RequestMapping(value = "/exercises")
 public class ExerciseController {
 
     private final ExerciseService exerciseService;

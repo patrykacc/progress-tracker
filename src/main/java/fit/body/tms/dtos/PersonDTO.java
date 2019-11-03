@@ -3,6 +3,7 @@ package fit.body.tms.dtos;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import fit.body.tms.entities.Person;
+import fit.body.tms.entities.TrainingPlan;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -56,7 +57,7 @@ public class PersonDTO {
         return this.email;
     }
 
-//    private TrainingPlan activeTrainingPlan;
+    private TrainingPlan activeTrainingPlan;
 
     @Override
     public String toString() {
@@ -101,13 +102,11 @@ public class PersonDTO {
         this.trainings = trainings;
     }
 
-    /*public TrainingPlan getActiveTrainingPlan() {
+    public TrainingPlan getActiveTrainingPlan() {
         return activeTrainingPlan;
     }
 
     public void setActiveTrainingPlan(TrainingPlan activeTrainingPlan) {
         this.activeTrainingPlan = activeTrainingPlan;
-    }*/
-
-
+    }
 }

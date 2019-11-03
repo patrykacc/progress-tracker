@@ -1,5 +1,4 @@
 import React from "react";
-import TrainingPlanView from "./TrainingPlanView";
 import {useSelector} from "react-redux";
 import TrainingPlanEdit from "./TrainingPlanEdit";
 import TrainingPlansList from "./TrainingPlansList";
@@ -15,16 +14,17 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-export default function TrainingPlan() {
+export default function TrainingPlanPage() {
     const classes = useStyles();
     const trainingPlanViewMode = useSelector(state => state.trainingPlanViewMode);
     let view;
 
     const render = () => {
         switch (trainingPlanViewMode) {
-            case 'view':  view =  <TrainingPlanView/>; break;
+            case 'view':  view =  <TrainingPlanEdit/>; break;
             case 'list':  view =  <TrainingPlansList/>; break;
             case 'edit':  view =  <TrainingPlanEdit/>; break;
+            default: view = <TrainingPlansList/>; break;
         }
         return (
             <Grid item xs={12} md={6}  xl={6} lg={6} >

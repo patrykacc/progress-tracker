@@ -5,6 +5,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -21,17 +22,24 @@ public class TrainingDay {
     @JoinColumn(name = "training_plan_id")
     private TrainingPlan trainingPlan;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "trainingDay")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "trainingDay")
     @Fetch(value = FetchMode.SUBSELECT)
     private List<TrainingDayExercise> trainingDayExercises;
 
     public TrainingDay() {
+        this.trainingDayExercises = new ArrayList<>();
+    }
+
+    public TrainingDay(Long id) {
+        this.id = id;
+        this.trainingDayExercises = new ArrayList<>();
     }
 
     public TrainingDay(TrainingDayDTO trainingDayDTO) {
         this.id = trainingDayDTO.getId();
         this.name = trainingDayDTO.getName();
-        trainingDayDTO.getTrainingPlan().ifPresent(trainingPlanDTO -> this.trainingPlan = new TrainingPlan(trainingPlanDTO));
+        trainingDayDTO.getTrainingPlan().ifPresent(trainingPlanDTO -> this.trainingPlan = new TrainingPlan(trainingPlanDTO.getId()));
+        trainingDayDTO.getTrainingDayExercises().forEach(trainingDayExerciseDTO -> trainingDayExerciseDTO.setTrainingDay(trainingDayDTO));
         this.trainingDayExercises = trainingDayDTO.getTrainingDayExercises().stream().map(TrainingDayExercise::new).collect(Collectors.toList());
     }
 

@@ -1,4 +1,4 @@
-const trainingPlanViewMode = (state = 'view', action) => {
+const trainingPlanView = (state = 'list', action) => {
 
     switch (action.type) {
         case 'TRAINING_PLAN_VIEW_MODE':
@@ -8,4 +8,4 @@ const trainingPlanViewMode = (state = 'view', action) => {
     }
 };
 
-export default trainingPlanViewMode;
+export default trainingPlanView;

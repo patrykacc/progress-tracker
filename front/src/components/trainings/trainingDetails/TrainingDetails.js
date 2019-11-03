@@ -1,5 +1,5 @@
 import * as React from "react";
-import {deleteTraining, saveTraining} from "../../../services/trainingService";
+import {TrainingApi} from "../../../services/trainingService";
 import {makeStyles, Typography} from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 import {useEffect} from "react";
@@ -8,9 +8,9 @@ import IconButton from "@material-ui/core/IconButton";
 import {DatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import {Fragment} from "react";
-import {getTrainingAction} from "../../../redux/actions";
 import {useDispatch, useSelector} from "react-redux";
 import InputAdornment from "@material-ui/core/InputAdornment";
+import {getTrainingAction} from "../../../redux/actions/trainingActions";
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -57,7 +57,7 @@ export default (props) => {
     };
 
     const save = () => {
-        saveTraining(training)
+        TrainingApi.save(training)
             .then(training => {
                 if (!training) {
                     return;
@@ -71,7 +71,7 @@ export default (props) => {
     };
 
     const remove = () => {
-        deleteTraining(training.id)
+        TrainingApi.delete(training.id)
             .then(response => {
                 if (response.status === 200) {
                     dispatch({type: 'CLEAR_TRAINING'});
