@@ -45,8 +45,8 @@ public class UserService {
         return userRepository.findById(getPrincipal().getId());
     }
 
-    public TrainingPlan getActivePlanByUserId(Long id) {
-        return userRepository.findById(id).get().getActiveTrainingPlan();
+    public Optional<TrainingPlan> getActivePlanByUserId(Long id) {
+        return userRepository.findById(id).map(Person::getActiveTrainingPlan);
     }
 
 

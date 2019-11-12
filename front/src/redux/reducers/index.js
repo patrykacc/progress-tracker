@@ -10,6 +10,8 @@ import trainingPlanView from "./trainingPlanView";
 import trainingPlans from "./trainingPlans";
 import activeTrainingPlan from "./activeTrainingPlan";
 import trainingDay from "./trainingDay";
+import sideBar from "./sideBar";
+import trainingDayView from "./trainingDayView";
 
 export default combineReducers({
     isAuthorized,
@@ -19,9 +21,11 @@ export default combineReducers({
     exercise,
     exerciseView,
     trainingPlan,
-    trainingPlanViewMode: trainingPlanView,
+    trainingPlanView,
     trainingPlans,
     activeTrainingPlan,
-    trainingDay
+    trainingDay,
+    sideBar,
+    trainingDayView
 });
 

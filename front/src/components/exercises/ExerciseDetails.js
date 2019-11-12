@@ -5,7 +5,7 @@ import Box from "@material-ui/core/Box";
 import {useDispatch, useSelector} from "react-redux";
 import IconButton from "@material-ui/core/IconButton";
 import {Cancel, Delete, Edit, Save} from "@material-ui/icons";
-import {ExerciseApi} from "../../services/exerciseService";
+import ExerciseAPI from "../../services/exerciseAPI";
 import ExerciseFormEdit from "./ExerciseFormEdit";
 import ExerciseFormView from "./ExerciseFormView";
 import {getExercisesAction, getTrainingAction} from "../../redux/actions/trainingActions";
@@ -72,24 +72,11 @@ export default (props) => {
 
     const save = () => {
         exercise.training = {id: training.id};
-        fetch('/api/exercises/save', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.getItem('token')
-            },
-            body: JSON.stringify(exercise)
-        })
-            .then(response => {
-                if (response.status === 200) {
-                    dispatch(getExercisesAction());
-                    dispatch({type: 'EXERCISE_VIEW_MODE', mode: 'view'});
-                    return response.json();
-                }
-            })
+        ExerciseAPI.save(exercise)
             .then(exercise => {
                 if (exercise) {
+                    dispatch(getExercisesAction());
+                    dispatch({type: 'EXERCISE_VIEW_MODE', mode: 'view'});
                     setExerciseInStore(exercise);
                 }
             })
@@ -99,7 +86,7 @@ export default (props) => {
     };
 
     const remove = () => {
-        ExerciseApi.delete(exercise.id)
+        ExerciseAPI.delete(exercise.id)
             .then(response => {
                 if (response.status === 200) {
                     dispatch(getExercisesAction());

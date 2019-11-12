@@ -17,12 +17,13 @@ public class TrainingDay {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
+    private Integer dayNumber;
 
     @ManyToOne
     @JoinColumn(name = "training_plan_id")
     private TrainingPlan trainingPlan;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "trainingDay")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "trainingDay", cascade = CascadeType.REMOVE)
     @Fetch(value = FetchMode.SUBSELECT)
     private List<TrainingDayExercise> trainingDayExercises;
 
@@ -38,6 +39,7 @@ public class TrainingDay {
     public TrainingDay(TrainingDayDTO trainingDayDTO) {
         this.id = trainingDayDTO.getId();
         this.name = trainingDayDTO.getName();
+        this.dayNumber = trainingDayDTO.getDayNumber();
         trainingDayDTO.getTrainingPlan().ifPresent(trainingPlanDTO -> this.trainingPlan = new TrainingPlan(trainingPlanDTO.getId()));
         trainingDayDTO.getTrainingDayExercises().forEach(trainingDayExerciseDTO -> trainingDayExerciseDTO.setTrainingDay(trainingDayDTO));
         this.trainingDayExercises = trainingDayDTO.getTrainingDayExercises().stream().map(TrainingDayExercise::new).collect(Collectors.toList());
@@ -73,5 +75,13 @@ public class TrainingDay {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getDayNumber() {
+        return dayNumber;
+    }
+
+    public void setDayNumber(Integer dayNumber) {
+        this.dayNumber = dayNumber;
     }
 }

@@ -3,9 +3,13 @@ import {Button, List, ListItem, ListItemText, Typography, ListItemIcon, ButtonGr
 import {useDispatch, useSelector} from "react-redux";
 import IconButton from "@material-ui/core/IconButton";
 import {CheckCircle} from "@material-ui/icons";
-import {getAllTrainingPlansAction, setActiveTrainingPlanAction} from "../../redux/actions/trainingPlanActions";
+import {
+    getActiveTrainingPlanAction,
+    getAllTrainingPlansAction,
+    setActiveTrainingPlanAction
+} from "../../redux/actions/trainingPlanActions";
 
-export default function TrainingPlansList() {
+export default function TrainingPlansList({history}) {
     const trainingPlans = useSelector(state => state.trainingPlans);
     const trainingPlanViewMode = useSelector(state => state.trainingPlanViewMode);
     const activeTrainingPlan = useSelector(state => state.activeTrainingPlan);
@@ -14,6 +18,7 @@ export default function TrainingPlansList() {
 
     useEffect(() => {
         dispatch(getAllTrainingPlansAction());
+        dispatch(getActiveTrainingPlanAction());
     }, [dispatch, trainingPlanViewMode]);
 
     const setActivePlan = (event, trainingPlanId) => {
@@ -23,7 +28,8 @@ export default function TrainingPlansList() {
 
     const rowClick = (plan) => {
         dispatch({type: 'TRAINING_PLAN_UPDATED', trainingPlan: plan});
-        dispatch({type: 'TRAINING_PLAN_VIEW_MODE', mode: 'edit'});
+        dispatch({type: 'TRAINING_PLAN_VIEW_MODE', mode: 'view'});
+        history.push('/plans/' + plan.id);
     }
 
     let trainingPlansComponents = trainingPlans.map(plan => {
@@ -31,7 +37,7 @@ export default function TrainingPlansList() {
             <ListItem onClick={() => rowClick(plan)} button key={plan.id}>
                 <ListItemText primary={plan.name}/>
                 <ListItemIcon title={'Ustaw jako aktywny plan'}>
-                    <IconButton onClick={(event) => setActivePlan(event, plan.id)} color={plan.id === activePlanId ? 'primary' : 'default'}>
+                    <IconButton size={"medium"} onClick={(event) => setActivePlan(event, plan.id)} color={plan.id === activePlanId ? 'primary' : 'default'}>
                         <CheckCircle/>
                     </IconButton>
                 </ListItemIcon>
@@ -44,7 +50,8 @@ export default function TrainingPlansList() {
     };
 
     const createNewPlan = () => {
-        dispatch({type: 'TRAINING_PLAN_VIEW_MODE', mode: 'edit'});
+        dispatch({type: 'CLEAR_TRAINING_PLAN'});
+        history.push('/plans/new');
     };
 
     return (

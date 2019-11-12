@@ -1,5 +1,5 @@
 import * as React from "react";
-import {TrainingApi} from "../../../services/trainingService";
+import TrainingAPI from "../../../services/trainingAPI";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import IconButton from "@material-ui/core/IconButton";
@@ -12,10 +12,10 @@ export default ({index, training, ...props}) => {
     const dispatch = useDispatch();
     const removeTraining = (event, trainingId) => {
         event.stopPropagation();
-        TrainingApi.delete(trainingId)
+        TrainingAPI.delete(trainingId)
             .then(response => {
                 if (response.status === 200) {
-                    TrainingApi.getAll()
+                    TrainingAPI.getAll()
                         .then(trainings => {
                             if (trainings) {
                                 dispatch({type: "TRAININGS_FETCHED", trainings: trainings});

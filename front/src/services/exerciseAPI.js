@@ -2,7 +2,7 @@ import API from "./API";
 
 const PATH = 'exercises';
 
-export const ExerciseApi = new API(PATH);
+export default new API(PATH);
 
 export const getExercisesByTrainingId = (trainingId) => {
     return fetch('/api/exercises/getAllByTrainingId/' + trainingId, {

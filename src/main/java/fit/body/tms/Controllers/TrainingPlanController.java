@@ -30,12 +30,12 @@ public class TrainingPlanController {
 
     @GetMapping("/{trainingPlanId}")
     public TrainingPlanDTO get(@Valid @PathVariable Long trainingPlanId) {
-        return new TrainingPlanDTO(trainingPlanService.getById(UserService.getPrincipal().getId()));
+        return new TrainingPlanDTO(trainingPlanService.getById(trainingPlanId));
     }
 
     @GetMapping("/getActiveTrainingPlan")
     public TrainingPlanDTO getActivePlan() {
-        return new TrainingPlanDTO(trainingPlanService.getActivePlanForUser(UserService.getPrincipal().getId()));
+        return trainingPlanService.getActivePlanForUser(UserService.getPrincipal().getId()).map(TrainingPlanDTO::new).orElse(null);
     }
 
     @GetMapping("/getAll")

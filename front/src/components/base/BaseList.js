@@ -1,21 +1,37 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
+import {Divider, makeStyles, Typography} from "@material-ui/core";
 
+const useStyles = makeStyles(theme => ({
+    list: {
+        width: '100%',
+    }
+}))
 
-export const BaseList = ({objects}) => {
+const BaseList = ({objects, title, rowClick, fields = ['name']}) => {
+    const classes = useStyles();
 
     const rows = !objects ? [] : objects.map(object => {
         return (
-            <ListItem key={object.id}>
-                <ListItemText primary={object.name}/>
-            </ListItem>
+            <Fragment key={object.name + object.id}>
+                <ListItem onClick={() => rowClick(object)} button >
+                    {fields.map( field =>
+                        <ListItemText  primary={object[field]}/>
+                    )}
+                </ListItem>
+                <Divider/>
+            </Fragment>
         )
     });
     return (
-        <List>
+        <List className={classes.list}>
+            <Typography variant={"h6"}>{title}</Typography>
+            <Divider/>
             {rows}
         </List>
     )
-}
+};
+
+export default BaseList;

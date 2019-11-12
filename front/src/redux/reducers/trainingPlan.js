@@ -2,10 +2,7 @@ const defaultTrainingPlan = {
     volume: 0,
     name: '',
     description: '',
-    trainingDays: [{
-        name: 'Dzień 1',
-        trainingDayExercises: [],
-    }]
+    trainingDays: []
 };
 
 const trainingPlan = (state = defaultTrainingPlan, action) => {

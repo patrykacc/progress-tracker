@@ -3,8 +3,8 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import {Button, ButtonGroup, Divider, Typography} from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import TextField from "@material-ui/core/TextField";
-import TrainingPlanAPI from "../../services/trainingPlanAPI";
-import TrainingDaysList from "../trainingDays/TrainingDaysList";
+import TrainingDayAPI from "../../services/trainingDayAPI";
+import {getTrainingPlanAction} from "../../redux/actions/trainingPlanActions";
 
 const useStyles = makeStyles(theme => ({
     button: {marginTop: "5px"},
@@ -18,55 +18,49 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function TrainingPlanEdit({history}) {
+export default () => {
     const classes = useStyles();
-    const trainingPlan = useSelector(state => state.trainingPlan);
+    const trainingDay = useSelector(state => state.trainingDay);
     const dispatch = useDispatch();
 
-    const setTrainingPlanInStore = (trainingPlan) => {
-        dispatch({type: 'TRAINING_PLAN_UPDATED', trainingPlan});
+    const setTrainingDayInStore = (trainingDay) => {
+        dispatch({type: 'TRAINING_DAY_UPDATED', trainingDay: trainingDay});
     };
 
     const handleInputChange = (e) => {
         let value = e.currentTarget.value;
         let inputName = e.currentTarget.name;
-        trainingPlan[inputName] = value;
-        setTrainingPlanInStore(trainingPlan);
+        trainingDay[inputName] = value;
+        setTrainingDayInStore(trainingDay);
     };
 
     const save = () => {
-        TrainingPlanAPI.save(trainingPlan)
+        TrainingDayAPI.save(trainingDay)
             .then(response => {
                 if (response) {
-                    setTrainingPlanInStore(response);
-                    if (history.location.pathname.includes('new')) {
-                        history.replace('/plans/' + response.id)
-                    } else {
-                        dispatch({type: 'TRAINING_PLAN_VIEW_MODE', mode: 'view'});
-                    }
+                    dispatch({type: 'TRAINING_DAY_VIEW_MODE', mode: 'view'});
+                    dispatch(getTrainingPlanAction());
                 }
             });
     };
 
     const cancel = () => {
-        dispatch({type: 'TRAINING_PLAN_VIEW_MODE', mode: 'view'});
+        dispatch({type: 'TRAINING_PLAN_VIEW_MODE', mode: 'list'});
     };
+
+
 
     return (
         <Fragment>
-            <Typography variant={"subtitle2"}>Nowy plan treningowy:</Typography>
+            <Typography variant={"body1"}>Nowy dzień treningowy:</Typography>
             <form noValidate autoComplete="off">
-                <TextField label="Nazwa" margin="normal" value={trainingPlan.name}
+                <TextField label="Nazwa" margin="normal" value={trainingDay.name}
                            type="text" onChange={handleInputChange} name="name" className={classes.textField}/>
-                <TextField label="Opis" rowsMax={4} multiline value={trainingPlan.description || ''}
+                <TextField label="Opis" rowsMax={4} multiline value={trainingDay.description || ''}
                            onChange={handleInputChange} name="description"
                            className={classes.textField} margin="normal"/>
             </form>
             <Divider/>
-            <TrainingDaysList/>
-
-
-
             <ButtonGroup size={"small"} variant={"contained"}>
                 <Button color={"primary"} onClick={save}>Zapisz</Button>
                 <Button onClick={cancel}>Anuluj</Button>

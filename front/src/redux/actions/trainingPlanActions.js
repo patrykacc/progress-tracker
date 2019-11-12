@@ -1,9 +1,7 @@
-import {
+import TrainingPlanAPI, {
     getActiveTrainingPlan,
-    getAll,
-    getTrainingPlan,
     setActiveTrainingPlan
-} from "../../services/trainingPlanService";
+} from "../../services/trainingPlanAPI";
 
 
 export const getActiveTrainingPlanAction = () => {
@@ -18,8 +16,8 @@ export const getActiveTrainingPlanAction = () => {
 };
 
 export const getTrainingPlanAction = trainingPlanId => {
-    return (dispatch, state) => {
-        getTrainingPlan(trainingPlanId || state.trainingPlan.id)
+    return (dispatch, getState) => {
+        TrainingPlanAPI.get(trainingPlanId || getState().trainingPlan.id)
             .then(trainingPlan => {
                 if (trainingPlan) {
                     dispatch({type: 'TRAINING_PLAN_UPDATED', trainingPlan: trainingPlan});
@@ -30,7 +28,7 @@ export const getTrainingPlanAction = trainingPlanId => {
 
 export const getAllTrainingPlansAction = () => {
     return (dispatch) => {
-        getAll()
+        TrainingPlanAPI.getAll()
             .then(plans => {
                 if (plans) {
                     dispatch({type: 'GET_TRAINING_PLANS_DONE', trainingPlans: plans})

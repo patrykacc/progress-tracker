@@ -1,5 +1,5 @@
-import {TrainingApi} from "../../services/trainingService";
-import {getExercisesByTrainingId} from "../../services/exerciseService";
+import TrainingAPI from "../../services/trainingAPI";
+import {getExercisesByTrainingId} from "../../services/exerciseAPI";
 
 export const trainingsFetched = trainings => ({
     type: 'TRAININGS_FETCHED',
@@ -7,7 +7,7 @@ export const trainingsFetched = trainings => ({
 });
 export const getTrainingAction = (trainingId) => {
     return (dispatch, getState) => {
-        TrainingApi.get(trainingId || getState.training.id, dispatch)
+        TrainingAPI.get(trainingId || getState.training.id, dispatch)
             .then(training => {
                 if (training) {
                     dispatch({type: 'GET_TRAINING_DONE', training});

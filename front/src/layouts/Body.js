@@ -9,6 +9,8 @@ import Grid from "@material-ui/core/Grid";
 import TrainingPage from "../components/trainings/trainingPage/TrainingPage";
 import TokenWatcher from "../components/authentication/TokenWatcher";
 import TrainingPlanPage from "../components/trainingPlan/TrainingPlanPage";
+import TrainingPlansList from "../components/trainingPlan/TrainingPlansList";
+import NavigationDrawer from "./NavigationDrawer";
 
 export default function Body() {
     return (
@@ -16,13 +18,16 @@ export default function Body() {
             <Grid container spacing={3} >
                 <Grid item xs={12}>
                     <BrowserRouter>
+                        <NavigationDrawer/>
                         <TokenWatcher/>
                         <Route path="/signin" component={SignIn}/>
                         <Route path="/signup" component={SignUp}/>
                         <PrivateRoute exact path="/" component={Home}/>
                         <PrivateRoute path="/training/:id" component={TrainingPage}/>
                         <PrivateRoute exact path="/training" component={TrainingPage}/>
-                        <PrivateRoute exact path="/plans" component={TrainingPlanPage}/>
+                        <PrivateRoute exact path="/plans" component={TrainingPlansList}/>
+                        <PrivateRoute path="/plans/:id" component={TrainingPlanPage}/>
+                        <PrivateRoute exact path="/plans/new" component={TrainingPlanPage}/>
                     </BrowserRouter>
                 </Grid>
             </Grid>

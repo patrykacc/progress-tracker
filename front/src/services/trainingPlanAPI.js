@@ -1,19 +1,7 @@
 import API from "./API";
 
 const PATH = 'trainingPlans';
-const api = new API(PATH);
-
-export const getAll = () => {
-    return api.getAll()
-};
-
-export const getTrainingPlan = (trainingPlanId) => {
-    return api.get(trainingPlanId)
-};
-
-export const saveTrainingPlanApi = (trainingPlan) => {
-    return api.save(trainingPlan);
-};
+export default new API(PATH);
 
 export const setActiveTrainingPlan = (trainingPlanId) => {
     return fetch('/api/trainingPlans/setActiveTrainingPlan', {

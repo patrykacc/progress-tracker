@@ -15,6 +15,7 @@ public class TrainingDayExerciseDTO {
     }
 
     public TrainingDayExerciseDTO(TrainingDayExercise trainingDayExercise) {
+        this.name = trainingDayExercise.getName();
         this.id = trainingDayExercise.getId();
     }
 

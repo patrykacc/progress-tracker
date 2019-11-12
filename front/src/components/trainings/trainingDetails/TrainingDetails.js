@@ -1,5 +1,5 @@
 import * as React from "react";
-import {TrainingApi} from "../../../services/trainingService";
+import TrainingAPI from "../../../services/trainingAPI";
 import {makeStyles, Typography} from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 import {useEffect} from "react";
@@ -57,7 +57,7 @@ export default (props) => {
     };
 
     const save = () => {
-        TrainingApi.save(training)
+        TrainingAPI.save(training)
             .then(training => {
                 if (!training) {
                     return;
@@ -71,7 +71,7 @@ export default (props) => {
     };
 
     const remove = () => {
-        TrainingApi.delete(training.id)
+        TrainingAPI.delete(training.id)
             .then(response => {
                 if (response.status === 200) {
                     dispatch({type: 'CLEAR_TRAINING'});

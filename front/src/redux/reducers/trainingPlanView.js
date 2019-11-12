@@ -1,4 +1,4 @@
-const trainingPlanView = (state = 'list', action) => {
+const trainingPlanView = (state = 'view', action) => {
 
     switch (action.type) {
         case 'TRAINING_PLAN_VIEW_MODE':

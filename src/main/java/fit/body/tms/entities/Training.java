@@ -31,7 +31,7 @@ public class Training {
     @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     private LocalTime startTime;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "training", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "training")
     private List<Exercise> exercises;
 
     @ManyToOne(fetch = FetchType.EAGER)

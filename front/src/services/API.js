@@ -1,23 +1,23 @@
 class API {
     constructor(defaultPath) {
-        this.defaultPath = defaultPath;
-        this.path = defaultPath;
+        this.defaultURI = defaultPath;
+        this.URI = defaultPath;
     }
 
     clearPath() {
-        this.path = this.defaultPath;
+        this.URI = this.defaultURI;
     }
 
     setPath(path) {
-        this.path = path
+        this.URI = path
     }
 
-    defaultPath;
-    path;
+    defaultURI;
+    URI;
 
     save = (object) => {
-        if (this.path) {
-            return fetch('/api/' + this.path + '/save', {
+        if (this.URI) {
+            return fetch('/api/' + this.URI + '/save', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -42,7 +42,7 @@ class API {
     };
 
     getAll = () => {
-        return fetch('/api/' + this.path + '/getAll', {
+        return fetch('/api/' + this.URI + '/getAll', {
             headers: {
                 'Accept': 'application/json',
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
@@ -61,7 +61,7 @@ class API {
     }
 
     get = (objectId) => {
-        return fetch('/api/' + this.path + '/' + objectId, {
+        return fetch('/api/' + this.URI + '/' + objectId, {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
@@ -81,7 +81,7 @@ class API {
     };
 
     delete = (objectId) => {
-        return fetch('/api/' + this.path + '/' + objectId, {
+        return fetch('/api/' + this.URI + '/' + objectId, {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',

@@ -14,6 +14,7 @@ public class TrainingDayDTO {
 
     private Long id;
     private String name;
+    private Integer dayNumber;
     private TrainingPlanDTO trainingPlan;
     private List<TrainingDTO> trainings;
     private List<TrainingDayExerciseDTO> trainingDayExercises;
@@ -67,5 +68,13 @@ public class TrainingDayDTO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getDayNumber() {
+        return dayNumber;
+    }
+
+    public void setDayNumber(Integer dayNumber) {
+        this.dayNumber = dayNumber;
     }
 }

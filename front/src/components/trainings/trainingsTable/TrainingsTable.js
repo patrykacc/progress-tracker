@@ -2,7 +2,7 @@ import * as React from "react";
 import AddNewTrainingButton from "./AddNewTrainingButton";
 import {connect} from "react-redux";
 import TrainingRow from "./TrainingRowView";
-import {TrainingApi} from "../../../services/trainingService";
+import TrainingAPI from "../../../services/trainingAPI";
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
 import TableBody from "@material-ui/core/TableBody";
@@ -18,7 +18,7 @@ class TrainingsTable extends React.Component {
 
     constructor(props) {
         super(props);
-        TrainingApi.getAll()
+        TrainingAPI.getAll()
             .then(trainings => {
                 if (trainings) {
                     this.props.trainingsFetched(trainings)

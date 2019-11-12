@@ -6,6 +6,7 @@ import fit.body.tms.repositories.TrainingPlanRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TrainingPlanService {
@@ -26,7 +27,7 @@ public class TrainingPlanService {
         return this.trainingPlanRepository.findById(id).orElse(null);
     }
 
-    public TrainingPlan getActivePlanForUser(Long userId) {
+    public Optional<TrainingPlan> getActivePlanForUser(Long userId) {
         return userService.getActivePlanByUserId(userId);
     }
 
