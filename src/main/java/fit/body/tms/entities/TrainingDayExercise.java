@@ -11,6 +11,9 @@ public class TrainingDayExercise {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
+    private String description;
+    private Integer repetitions;
+    private Integer series;
 
     @ManyToOne
     @JoinColumn(name = "training_day_id")
@@ -21,6 +24,9 @@ public class TrainingDayExercise {
     public TrainingDayExercise(TrainingDayExerciseDTO trainingDayExerciseDTO) {
         this.id = trainingDayExerciseDTO.getId();
         this.name = trainingDayExerciseDTO.getName();
+        this.description = trainingDayExerciseDTO.getDescription();
+        this.repetitions = trainingDayExerciseDTO.getRepetitions();
+        this.series = trainingDayExerciseDTO.getSeries();
         this.trainingDay = new TrainingDay(trainingDayExerciseDTO.getTrainingDay().getId());
     }
 
@@ -46,5 +52,29 @@ public class TrainingDayExercise {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Integer getRepetitions() {
+        return repetitions;
+    }
+
+    public void setRepetitions(Integer repetitions) {
+        this.repetitions = repetitions;
+    }
+
+    public Integer getSeries() {
+        return series;
+    }
+
+    public void setSeries(Integer series) {
+        this.series = series;
     }
 }

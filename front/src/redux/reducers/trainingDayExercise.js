@@ -1,7 +1,7 @@
 const trainingDayExercise = (state = null, action) => {
     switch (action.type) {
         case 'TRAINING_DAY_EXERCISE_UPDATED':
-            return {...action.trainingDay};
+            return {...action.trainingDayExercise};
         case 'CLEAR_TRAINING_EXERCISE_DAY':
             return null;
         default:

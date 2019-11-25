@@ -1,36 +1,54 @@
-import {Container, TableBody, TableCell, TableHead, TableRow, Typography} from "@material-ui/core";
-import Table from "@material-ui/core/Table";
-import AddNewExerciseButton from "./AddNewExerciseButton.js";
 import * as React from "react";
-import ExerciseRowView from "./ExerciseRowView";
+import {useDispatch} from "react-redux";
+import {Table} from "antd";
+import AddNewExerciseButton from "./AddNewExerciseButton";
 
 
-export default ({exercises, trainingId, ableToAddExercise, reloadExercises}) => {
-    if (Array.isArray(exercises)) {
-        exercises = exercises.map(exercise => {
-            return <ExerciseRowView key={exercise.id} exercise={exercise} reloadExercises={reloadExercises}/>
-        })
-    }
+export default ({exercises, ableToAddExercise, reloadExercises}) => {
+    const dispatch = useDispatch();
+    const setExerciseInStore = (exercise) => {
+        dispatch({type: 'EXERCISE_SELECTED', exercise});
+        dispatch({type: 'EXERCISE_VIEW_MODE', mode: 'view'});
+    };
 
+    const columns = [
+        {
+            title: 'Cwiczenie',
+            dataIndex: 'name',
+            key: 'name',
+        },
+        {
+            title: 'Serii',
+            dataIndex: 'series',
+            key: 'series',
+        },
+        {
+            title: 'Powtórzeń',
+            dataIndex: 'repetitions',
+            key: 'repetitions',
+        },
+        {
+            title: 'Obciążenie',
+            dataIndex: 'weight',
+            key: 'weight',
+        }
+    ];
     return (
         <div>
-            <Container>
-            <Typography variant={"h6"}>Cwiczenia:</Typography>
-            <Table padding={"checkbox"} >
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Cwiczenie</TableCell>
-                        <TableCell>Serii</TableCell>
-                        <TableCell>Powtórzeń</TableCell>
-                        <TableCell>Obciążenie</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {exercises}
-                    {ableToAddExercise ? <AddNewExerciseButton/> : null}
-                </TableBody>
-            </Table>
-            </Container>
+            <Table
+                locale={{emptyText: ' '}}
+                stickyHeader={true}
+                pagination={false}
+                onRow={(exercise, rowIndex) => {
+                    return {
+                        onClick: event => setExerciseInStore(exercise), // click row
+                    };
+                }}
+                rowKey={record => record.id}
+                columns={columns}
+                dataSource={exercises}
+            />
+            {ableToAddExercise && <AddNewExerciseButton/>}
         </div>
 
     )

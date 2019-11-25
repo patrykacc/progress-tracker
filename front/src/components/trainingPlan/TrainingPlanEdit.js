@@ -1,25 +1,12 @@
 import React, {Fragment} from "react";
-import makeStyles from "@material-ui/core/styles/makeStyles";
-import {Button, ButtonGroup, Divider, Typography} from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
-import TextField from "@material-ui/core/TextField";
 import TrainingPlanAPI from "../../services/trainingPlanAPI";
 import TrainingDaysList from "../trainingDays/TrainingDaysList";
+import {Button, Col, Divider, Form, Input, Row} from "antd";
+import ButtonGroup from "antd/lib/button/button-group";
 
-const useStyles = makeStyles(theme => ({
-    button: {marginTop: "5px"},
-    tabs: {
-        flexGrow: 1, width: '100%'
-    },
-    textField: {
-        marginLeft: theme.spacing(1),
-        marginRight: theme.spacing(1),
-        width: 200,
-    },
-}));
 
 export default function TrainingPlanEdit({history}) {
-    const classes = useStyles();
     const trainingPlan = useSelector(state => state.trainingPlan);
     const dispatch = useDispatch();
 
@@ -52,25 +39,39 @@ export default function TrainingPlanEdit({history}) {
         dispatch({type: 'TRAINING_PLAN_VIEW_MODE', mode: 'view'});
     };
 
+    const formItemLayout = {
+        labelCol: { span: 4 },
+        wrapperCol: { span: 14 },
+    };
+
     return (
         <Fragment>
-            <Typography variant={"subtitle2"}>Nowy plan treningowy:</Typography>
-            <form noValidate autoComplete="off">
-                <TextField label="Nazwa" margin="normal" value={trainingPlan.name}
-                           type="text" onChange={handleInputChange} name="name" className={classes.textField}/>
-                <TextField label="Opis" rowsMax={4} multiline value={trainingPlan.description || ''}
-                           onChange={handleInputChange} name="description"
-                           className={classes.textField} margin="normal"/>
-            </form>
+            <Form title={'Nowy plan treningowy'} onSubmit={save} layout={"horizontal"} labelAlign={"left"}>
+                <Row type={'flex'} justify={'space-around'}>
+                    <Col sm={24} xs={24} md={12}>
+                        <Form.Item {...formItemLayout} label={'Nazwa'}  labelAlign={"left"}>
+                            <Input name={'name'} onChange={handleInputChange}
+                                   value={trainingPlan.name}/>
+                        </Form.Item>
+                    </Col>
+                    <Col sm={24} xs={24} md={12}>
+                        <Form.Item {...formItemLayout} label={'Opis'}  labelAlign={"left"}>
+                            <Input name={'description'} onChange={handleInputChange}
+                                   value={trainingPlan.description}/>
+                        </Form.Item>
+                    </Col>
+                </Row>
+                <Row type={'flex'} justify={'space-around'}>
+                    <Col span={4} style={{textAlign: 'right'}}>
+                        <ButtonGroup size={"small"} >
+                            <Button type={"primary"} onClick={save}>Zapisz</Button>
+                            <Button onClick={cancel}>Anuluj</Button>
+                        </ButtonGroup>
+                    </Col>
+                </Row>
+            </Form>
             <Divider/>
             <TrainingDaysList/>
-
-
-
-            <ButtonGroup size={"small"} variant={"contained"}>
-                <Button color={"primary"} onClick={save}>Zapisz</Button>
-                <Button onClick={cancel}>Anuluj</Button>
-            </ButtonGroup>
         </Fragment>
     )
 

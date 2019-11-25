@@ -14,6 +14,7 @@ public class TrainingDayDTO {
 
     private Long id;
     private String name;
+    private String description;
     private Integer dayNumber;
     private TrainingPlanDTO trainingPlan;
     private List<TrainingDTO> trainings;
@@ -27,6 +28,8 @@ public class TrainingDayDTO {
     public TrainingDayDTO(TrainingDay trainingDay) {
         this.id = trainingDay.getId();
         this.name = trainingDay.getName();
+        this.description = trainingDay.getDescription();
+        this.dayNumber = trainingDay.getDayNumber();
         this.trainingDayExercises = trainingDay.getTrainingDayExercises().stream().map(TrainingDayExerciseDTO::new).collect(Collectors.toList());
     }
 
@@ -76,5 +79,13 @@ public class TrainingDayDTO {
 
     public void setDayNumber(Integer dayNumber) {
         this.dayNumber = dayNumber;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

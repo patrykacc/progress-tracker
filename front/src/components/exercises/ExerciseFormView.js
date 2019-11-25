@@ -1,26 +1,41 @@
-import TextField from "@material-ui/core/TextField";
 import React from "react";
-import {makeStyles} from "@material-ui/core";
-import Typography from "@material-ui/core/Typography";
+import {Button, Descriptions} from "antd";
+import ExerciseAPI from "../../services/exerciseAPI";
+import {getExercisesAction, getTrainingAction} from "../../redux/actions/trainingActions";
+import {useDispatch, useSelector} from "react-redux";
 
-const useStyles = makeStyles(theme => ({
-    textField: {
-        marginLeft: theme.spacing(1),
-        marginRight: theme.spacing(1),
-        width: 200,
-    },
-}));
 export default ({exercise}) => {
-    const classes = useStyles();
+    const [temporaryExercise, setTemporaryExercise] = React.useState();
+    const training = useSelector(state => state.training);
+    const dispatch = useDispatch(state => state.exercise);
+
+    const edit = () => {
+        setTemporaryExercise({...exercise});
+        dispatch({type: 'EXERCISE_VIEW_MODE', mode: 'edit'});
+    };
+
+
+    const remove = () => {
+        ExerciseAPI.delete(exercise.id)
+            .then(response => {
+                if (response.status === 200) {
+                    dispatch(getExercisesAction());
+                    dispatch(getTrainingAction(training.id));
+                    dispatch({type: 'EXERCISE_VIEW_MODE', mode: 'empty'});
+                }
+            })
+    };
+
     return (
-        <form autoComplete="off">
-            <Typography variant={"h4"}>{exercise.name}</Typography>
-            <TextField disabled label="Serie:" margin="normal" type="number"
-                       value={exercise.series} name="series" className={classes.textField}/>
-            <TextField disabled label="Powtórzenia:" margin="normal" type="number"
-                       value={exercise.repetitions} name="repetitions" className={classes.textField}/>
-            <TextField disabled label="Obciążenie:" margin="normal" type="number"
-                       value={exercise.weight} name="weight" className={classes.textField}/>
-        </form>
+        <React.Fragment>
+        <Descriptions title="Szczegóły ćwiczenia" bordered >
+            <Descriptions.Item label="Nazwa">{exercise.name}</Descriptions.Item>
+            <Descriptions.Item label="Obciążenie">{exercise.weight}</Descriptions.Item>
+            <Descriptions.Item label="Ilość powtórzeń">{exercise.repetitions}</Descriptions.Item>
+            <Descriptions.Item label="Ilość serii">{exercise.repetitions}</Descriptions.Item>
+        </Descriptions>
+            <Button onClick={edit}>Edytuj</Button>
+            <Button onClick={remove}>Usuń</Button>
+        </React.Fragment>
     )
 }

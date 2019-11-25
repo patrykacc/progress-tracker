@@ -22,7 +22,7 @@ public class TrainingPlan {
     private String description;
     private Integer trainingDaysNumber;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "trainingPlan")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "trainingPlan", cascade = CascadeType.REMOVE)
     @Fetch(value = FetchMode.SUBSELECT)
     private List<TrainingDay> trainingDays;
 

@@ -1,16 +1,13 @@
 import React, {useEffect} from "react";
-import makeStyles from "@material-ui/core/styles/makeStyles";
-import {Grid, Paper, Typography} from "@material-ui/core";
+import {Col, Row, Typography} from "antd";
 import {useDispatch, useSelector} from "react-redux";
 import {getActiveTrainingPlanAction} from "../../redux/actions/trainingPlanActions";
-import Button from "@material-ui/core/Button";
+import {Button} from "antd";
+import {useHistory} from 'react-router-dom'
 
-const useStyles = makeStyles(theme => ({
-    button: {margin: "5px"},
-    paper: {padding: '5px'}
-}));
-export default function ActiveTrainingPlanView(props) {
-    const classes = useStyles();
+
+export default function ActiveTrainingPlanView() {
+    let history = useHistory()
     const activeTrainingPlan = useSelector(state => state.activeTrainingPlan);
     const dispatch = useDispatch();
     useEffect(() => {
@@ -18,19 +15,22 @@ export default function ActiveTrainingPlanView(props) {
     }, [dispatch]);
 
     const change = () => {
-        props.history.push('/plans')
+        history.push('/plans')
     }
 
     return (
-        <Grid item xs={12} md={6} lg={6}>
-            <Paper className={classes.paper}>
-                <Typography variant={"subtitle2"}>Aktywny plan treningowy:</Typography>
-                <Typography variant={"subtitle1"}>
-                    {activeTrainingPlan ? activeTrainingPlan.name : 'Brak aktywnego planu - atywuj jeden z istniejących lub utwórz nowy'}
-                </Typography>
-                <Button className={classes.button} variant={"contained"} size={"small"} onClick={change}
-                        color={"primary"}>Zmień</Button>
-            </Paper>
-        </Grid>
+        <div>
+            <Row type="flex" justify={'space-around'}>
+                <Col>
+                    <Typography.Text variant={"subtitle2"}>Aktywny plan treningowy:</Typography.Text>
+                    <Typography.Text variant={"subtitle1"}>
+                        {activeTrainingPlan ? activeTrainingPlan.name : 'Brak aktywnego planu - atywuj jeden z istniejących lub utwórz nowy'}
+                    </Typography.Text>
+                </Col>
+                <Col>
+                    <Button onClick={change}>Zmień</Button>
+                </Col>
+            </Row>
+        </div>
     )
 }

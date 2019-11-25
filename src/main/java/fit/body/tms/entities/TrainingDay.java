@@ -17,6 +17,7 @@ public class TrainingDay {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
+    private String description;
     private Integer dayNumber;
 
     @ManyToOne
@@ -40,6 +41,7 @@ public class TrainingDay {
         this.id = trainingDayDTO.getId();
         this.name = trainingDayDTO.getName();
         this.dayNumber = trainingDayDTO.getDayNumber();
+        this.description = trainingDayDTO.getDescription();
         trainingDayDTO.getTrainingPlan().ifPresent(trainingPlanDTO -> this.trainingPlan = new TrainingPlan(trainingPlanDTO.getId()));
         trainingDayDTO.getTrainingDayExercises().forEach(trainingDayExerciseDTO -> trainingDayExerciseDTO.setTrainingDay(trainingDayDTO));
         this.trainingDayExercises = trainingDayDTO.getTrainingDayExercises().stream().map(TrainingDayExercise::new).collect(Collectors.toList());
@@ -83,5 +85,13 @@ public class TrainingDay {
 
     public void setDayNumber(Integer dayNumber) {
         this.dayNumber = dayNumber;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

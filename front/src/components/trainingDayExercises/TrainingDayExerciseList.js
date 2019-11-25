@@ -1,23 +1,23 @@
 import {useDispatch, useSelector} from "react-redux";
-import React, {Fragment} from "react";
+import React from "react";
 import BaseList from "../base/BaseList";
-import {AddCircle} from "@material-ui/icons";
-import IconButton from "@material-ui/core/IconButton";
 import TrainingDayExerciseAPI from "../../services/trainingDayExerciseAPI";
 import {getTrainingPlanAction} from "../../redux/actions/trainingPlanActions";
 import {getTrainingDayAction} from "../../redux/actions/trainingDayActions";
+import {Button} from "antd";
 
 
 const TrainingDayExerciseList = () => {
     const trainingDay = useSelector(state => state.trainingDay);
     const dispatch = useDispatch();
 
-    const trainingDayExerciseClick = () => {
-
-    }
+    const trainingDayExerciseClick = (trainingDayExercise) => {
+        dispatch({type: 'TRAINING_DAY_EXERCISE_VIEW_MODE', mode: 'view'});
+        dispatch({type: 'TRAINING_DAY_EXERCISE_UPDATED', trainingDayExercise: trainingDayExercise});
+    };
     const addTrainingDayExercise = () => {
         const newTrainingDayExercise = {
-            name: 'nowe cwiczenie',
+            name: 'Nowe cwiczenie',
             trainingDay: {id: trainingDay.id}
         };
         TrainingDayExerciseAPI.save(newTrainingDayExercise)
@@ -28,12 +28,10 @@ const TrainingDayExerciseList = () => {
     };
 
     return (
-        <Fragment>
+        <div>
             <BaseList objects={trainingDay.trainingDayExercises} title={'Ćwiczenia'} rowClick={trainingDayExerciseClick} fields={['name']}/>
-            <IconButton onClick={addTrainingDayExercise}>
-                <AddCircle color={"primary"}/>
-            </IconButton>
-        </Fragment>
+            <Button onClick={addTrainingDayExercise}>Dodaj ćwiczenie</Button>
+        </div>
     )
 };
 

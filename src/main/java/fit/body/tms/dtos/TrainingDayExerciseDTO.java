@@ -9,6 +9,9 @@ public class TrainingDayExerciseDTO {
 
     private Long id;
     private String name;
+    private String description;
+    private Integer repetitions;
+    private Integer series;
     private TrainingDayDTO trainingDay;
 
     public TrainingDayExerciseDTO() {
@@ -17,6 +20,9 @@ public class TrainingDayExerciseDTO {
     public TrainingDayExerciseDTO(TrainingDayExercise trainingDayExercise) {
         this.name = trainingDayExercise.getName();
         this.id = trainingDayExercise.getId();
+        this.description = trainingDayExercise.getDescription();
+        this.repetitions = trainingDayExercise.getRepetitions();
+        this.series = trainingDayExercise.getSeries();
     }
 
     public Long getId() {
@@ -41,5 +47,29 @@ public class TrainingDayExerciseDTO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Integer getRepetitions() {
+        return repetitions;
+    }
+
+    public void setRepetitions(Integer repetitions) {
+        this.repetitions = repetitions;
+    }
+
+    public Integer getSeries() {
+        return series;
+    }
+
+    public void setSeries(Integer series) {
+        this.series = series;
     }
 }

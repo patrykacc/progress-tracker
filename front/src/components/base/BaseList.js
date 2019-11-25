@@ -1,36 +1,25 @@
 import React, {Fragment} from 'react';
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import {Divider, makeStyles, Typography} from "@material-ui/core";
+import {List, Skeleton} from "antd";
 
-const useStyles = makeStyles(theme => ({
-    list: {
-        width: '100%',
-    }
-}))
 
-const BaseList = ({objects, title, rowClick, fields = ['name']}) => {
-    const classes = useStyles();
+const BaseList = ({objects, title, rowClick, fields = ['name', 'description']}) => {
 
-    const rows = !objects ? [] : objects.map(object => {
-        return (
-            <Fragment key={object.name + object.id}>
-                <ListItem onClick={() => rowClick(object)} button >
-                    {fields.map( field =>
-                        <ListItemText  primary={object[field]}/>
-                    )}
-                </ListItem>
-                <Divider/>
-            </Fragment>
-        )
-    });
     return (
-        <List className={classes.list}>
-            <Typography variant={"h6"}>{title}</Typography>
-            <Divider/>
-            {rows}
-        </List>
+        <React.Fragment>
+            <List header={<div>{title}</div>}
+                  dataSource={objects}
+                  renderItem={object => (
+                      <List.Item onClick={() => rowClick(object)}>
+                          <Skeleton title={false} loading={false}>
+                              <List.Item.Meta
+                                  title={object[fields[0]]}
+                                  description={object[fields[1]]}
+                              />
+                          </Skeleton>
+                      </List.Item>
+                  )}
+            />
+        </React.Fragment>
     )
 };
 
