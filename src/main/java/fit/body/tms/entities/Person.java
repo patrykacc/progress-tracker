@@ -13,6 +13,10 @@ import javax.validation.constraints.NotBlank;
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Person {
 
+    /*public static Descriptor.MetaEntity describe() {
+        return descriptor.describe(Person.class);
+    }*/
+
     @Email
     @NotBlank
     private String email;
@@ -64,8 +68,8 @@ public class Person {
         return this.email;
     }
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "training_plan_id")
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "active_training_plan_id")
     private TrainingPlan activeTrainingPlan;
 
     @Override

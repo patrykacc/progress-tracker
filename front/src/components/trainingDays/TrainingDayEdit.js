@@ -1,65 +1,60 @@
 import React, {Fragment} from "react";
-import {useDispatch, useSelector} from "react-redux";
 import ButtonGroup from "antd/lib/button/button-group";
 import TrainingDayAPI from "../../services/trainingDayAPI";
-import {getTrainingPlanAction} from "../../redux/actions/trainingPlanActions";
 import {Button, Col, Divider, Form, Input, Row} from "antd";
+import {useParams} from "react-router";
 
 
-export default () => {
-    const trainingDay = useSelector(state => state.trainingDay);
-    const trainingPlan = useSelector(state => state.trainingPlan);
-    const dispatch = useDispatch();
+export default ({trainingDayProps, setTrainingDay, setViewMode}) => {
+    const [temporaryTrainingDay, setTemporaryTrainingDay] = React.useState(trainingDayProps);
+    const {planId} = useParams();
 
-    const setTrainingDayInStore = (trainingDay) => {
-        dispatch({type: 'TRAINING_DAY_UPDATED', trainingDay: trainingDay});
-    };
 
     const handleInputChange = (e) => {
         let value = e.currentTarget.value;
         let inputName = e.currentTarget.name;
-        trainingDay[inputName] = value;
-        setTrainingDayInStore(trainingDay);
+        temporaryTrainingDay[inputName] = value;
+        setTemporaryTrainingDay({...temporaryTrainingDay});
     };
 
     const save = () => {
-        trainingDay.trainingPlan = {id: trainingPlan.id}
-        TrainingDayAPI.save(trainingDay)
+        trainingDayProps.trainingPlan = {id: planId};
+        TrainingDayAPI.save(temporaryTrainingDay)
             .then(response => {
                 if (response) {
-                    dispatch({type: 'TRAINING_DAY_VIEW_MODE', mode: 'view'});
-                    dispatch(getTrainingPlanAction());
+                    setViewMode('view');
+                    setTrainingDay(response);
                 }
             });
     };
 
     const cancel = () => {
-        dispatch({type: 'TRAINING_DAY_VIEW_MODE', mode: 'view'});
+        setViewMode('view');
     };
 
     const formItemLayout = {
         labelCol: { span: 4 },
         wrapperCol: { span: 14 },
-    }
+    };
 
     return (
         <Fragment>
             <Form title={'Nowy dzień treningowy'} onSubmit={save} layout={"horizontal"} labelAlign={"left"}>
-                <Row type={'flex'} justify={'space-around'}>
+                <Row type={'flex'} justify={'space-between'}>
                     <Col sm={24} xs={24} md={12}>
                         <Form.Item {...formItemLayout} label={'Nazwa'}  labelAlign={"left"}>
                             <Input name={'name'} onChange={handleInputChange}
-                                   value={trainingDay.name}/>
+                                   value={temporaryTrainingDay.name}/>
                         </Form.Item>
                     </Col>
                     <Col sm={24} xs={24} md={12}>
                         <Form.Item {...formItemLayout} label={'Opis'}  labelAlign={"left"}>
                             <Input name={'description'} onChange={handleInputChange}
-                                   value={trainingDay.description}/>
+                                   value={temporaryTrainingDay.description}/>
                         </Form.Item>
                     </Col>
                 </Row>
-                <Row type={'flex'} justify={'space-around'}>
+                <Row type={'flex'} justify={'space-between'}>
                     <Col span={4} style={{textAlign: 'right'}}>
                         <ButtonGroup size={"small"} >
                             <Button type={"primary"} onClick={save}>Zapisz</Button>

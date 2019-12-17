@@ -1,40 +1,57 @@
-import React, {Fragment, useEffect} from "react";
+import React, {Fragment, useCallback, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import TrainingPlanEdit from "./TrainingPlanEdit";
-import TrainingDay from "../trainingDays/TrainingDay";
 import TrainingPlanView from "./TrainingPlanView";
-import {getTrainingPlanAction} from "../../redux/actions/trainingPlanActions";
+import TrainingPlanAPI from "../../services/trainingPlanAPI";
+import {useParams} from "react-router";
+
 
 export default function TrainingPlanPage(props) {
-    const trainingPlanViewMode = useSelector(state => state.trainingPlanView);
-    const dispatch = useDispatch();
+    const [viewMode, setViewMode] = React.useState('view');
+    const [trainingPlan, setTrainingPlan] = React.useState();
+    const {planId} = useParams();
     let view;
 
+    const refreshTrainingPlan = useCallback(() => {
+        TrainingPlanAPI.get(planId)
+            .then(trainingPlan => {
+                setTrainingPlan(trainingPlan);
+                setViewMode('view');
+            });
+    }, [planId])
+
     useEffect(() => {
-        if (Number.isInteger(Number.parseInt(props.match.params.planId))) {
-            dispatch(getTrainingPlanAction(props.match.params.planId));
-            dispatch({type: 'TRAINING_PLAN_VIEW_MODE', mode: 'view'});
+        if (Number.isInteger(Number.parseInt(planId))) {
+            refreshTrainingPlan();
         } else {
-            dispatch({type: 'TRAINING_PLAN_VIEW_MODE', mode: 'edit'});
+            setViewMode('edit');
         }
-    }, [dispatch, props.match.params]);
+    }, [planId, refreshTrainingPlan]);
+    
+
 
     const render = () => {
-        switch (trainingPlanViewMode) {
-            case 'view':
-                view = <TrainingPlanView {...props}/>;
-                break;
-            case 'edit':
-                view = <TrainingPlanEdit {...props}/>;
-                break;
-            default:
-                break;
+        if (trainingPlan) {
+            if (viewMode === 'view') {
+                view = <TrainingPlanView trainingPlan={trainingPlan} setViewMode={setViewMode} refreshTrainingPlan={refreshTrainingPlan}/>;
+            } else if (viewMode === 'edit') {
+                view = <TrainingPlanEdit trainingPlanProps={trainingPlan} setViewMode={setViewMode}
+                                         setTrainingPlan={setTrainingPlan}/>;
+            }
+        } else {
+            view = <TrainingPlanEdit trainingPlanProps={{}} setViewMode={setViewMode}
+                                     setTrainingPlan={setTrainingPlan}/>;
         }
         return (
-            <Fragment>
+            <div style={{
+                border: '2px solid lightblue',
+                borderRadius: '5px',
+                background: 'white',
+                margin: '10px',
+                padding: '15px',
+            }}>
                 {view}
-                <TrainingDay/>
-            </Fragment>
+            </div>
         )
     };
 

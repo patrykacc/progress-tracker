@@ -49,7 +49,7 @@ export default ({trainingProps}) => {
 
     return (
         <Form className='training-form' title={'Trening'} onSubmit={save}>
-            <Row justify={'space-around'} type={'flex'}>
+            <Row justify={'space-between'} type={'flex'}>
                 <Col span={12} style={{display: 'block'}}>
                     <Form.Item label={'Data'}>
                         <DatePicker name={'startDate'} onChange={handleDateChange}

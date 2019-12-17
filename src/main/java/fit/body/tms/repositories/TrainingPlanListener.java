@@ -5,6 +5,7 @@ import fit.body.tms.entities.TrainingPlan;
 import fit.body.tms.services.UserService;
 
 import javax.persistence.PrePersist;
+import javax.persistence.PreRemove;
 import javax.persistence.PreUpdate;
 
 public class TrainingPlanListener {
@@ -17,5 +18,10 @@ public class TrainingPlanListener {
 
     private void addCurrentUserRelation(TrainingPlan trainingPlan) {
         trainingPlan.getPerson().ifPresentOrElse(person -> {}, () -> trainingPlan.setPerson(new Person(UserService.getPrincipal().getId())));
+    }
+
+    @PreRemove
+    private void preRemove(TrainingPlan trainingPlan) {
+        trainingPlan.getPerson().ifPresent(person -> person.setActiveTrainingPlan(null));
     }
 }

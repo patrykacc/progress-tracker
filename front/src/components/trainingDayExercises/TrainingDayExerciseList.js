@@ -1,35 +1,32 @@
-import {useDispatch, useSelector} from "react-redux";
 import React from "react";
 import BaseList from "../base/BaseList";
 import TrainingDayExerciseAPI from "../../services/trainingDayExerciseAPI";
-import {getTrainingPlanAction} from "../../redux/actions/trainingPlanActions";
-import {getTrainingDayAction} from "../../redux/actions/trainingDayActions";
 import {Button} from "antd";
+import {useParams} from "react-router";
 
 
-const TrainingDayExerciseList = () => {
-    const trainingDay = useSelector(state => state.trainingDay);
-    const dispatch = useDispatch();
+const TrainingDayExerciseList = ({refreshTrainingDay, trainingDayExercises}) => {
+    const {dayId} = useParams();
 
     const trainingDayExerciseClick = (trainingDayExercise) => {
-        dispatch({type: 'TRAINING_DAY_EXERCISE_VIEW_MODE', mode: 'view'});
-        dispatch({type: 'TRAINING_DAY_EXERCISE_UPDATED', trainingDayExercise: trainingDayExercise});
+
     };
+
     const addTrainingDayExercise = () => {
         const newTrainingDayExercise = {
             name: 'Nowe cwiczenie',
-            trainingDay: {id: trainingDay.id}
+            trainingDay: {id: dayId}
         };
         TrainingDayExerciseAPI.save(newTrainingDayExercise)
             .then(response => {
-                dispatch(getTrainingPlanAction());
-                dispatch(getTrainingDayAction());
+                debugger
+                refreshTrainingDay();
             })
     };
 
     return (
         <div>
-            <BaseList objects={trainingDay.trainingDayExercises} title={'Ćwiczenia'} rowClick={trainingDayExerciseClick} fields={['name']}/>
+            <BaseList objects={trainingDayExercises} title={'Ćwiczenia'} rowClick={trainingDayExerciseClick} fields={['name']}/>
             <Button onClick={addTrainingDayExercise}>Dodaj ćwiczenie</Button>
         </div>
     )

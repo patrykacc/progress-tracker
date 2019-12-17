@@ -1,11 +1,11 @@
 import React from 'react';
 import './App.css';
-import TrainingsList from "./components/trainings/trainingsTable/TrainingsTable";
+import TrainingsList from "./components/trainings/trainingsTable/TrainingsList";
 
 function Home(props) {
     return (
         <div className="Home">
-            <TrainingsList {...props} />
+            HOME :)
         </div>
     );
 }

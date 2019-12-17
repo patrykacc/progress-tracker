@@ -1,11 +1,11 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 import {List, Skeleton} from "antd";
 
 
 const BaseList = ({objects, title, rowClick, fields = ['name', 'description']}) => {
 
     return (
-        <React.Fragment>
+        <div style={{minWidth: '240px'}}>
             <List header={<div>{title}</div>}
                   dataSource={objects}
                   renderItem={object => (
@@ -19,7 +19,7 @@ const BaseList = ({objects, title, rowClick, fields = ['name', 'description']}) 
                       </List.Item>
                   )}
             />
-        </React.Fragment>
+        </div>
     )
 };
 

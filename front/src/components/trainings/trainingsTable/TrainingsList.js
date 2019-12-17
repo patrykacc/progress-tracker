@@ -5,7 +5,7 @@ import {Typography, Table, Button} from "antd";
 import {trainingsFetched} from "../../../redux/actions/trainingActions";
 import {store} from './../../../store';
 
-class TrainingsTable extends React.Component {
+class TrainingsList extends React.Component {
 
     columns = [
         {
@@ -37,21 +37,27 @@ class TrainingsTable extends React.Component {
 
     render() {
         return (
-            <div>
+            <div style={{
+                border: '2px solid lightblue',
+                borderRadius: '5px',
+                background: 'white',
+                margin: '10px',
+                padding: '15px',
+            }}>
                 <Typography.Text>Treningi:</Typography.Text>
                 <Table
                     pagination={false}
                     scroll={true}
                     onRow={(training, rowIndex) => {
                         return {
-                            onClick: event => this.navigateToTraining(training.id), // click row
+                            onClick: event => this.navigateToTraining(training.id),
                         };
                     }}
                     rowKey={record => record.id}
                     columns={this.columns}
                     dataSource={this.props.trainings}
                 />
-                <Button onClick={() => this.navigateToTraining(null)} type="primary" style={{ marginBottom: 16 }}>
+                <Button onClick={() => this.navigateToTraining(null)} type="primary" style={{margin: 16}}>
                     Dodaj trening
                 </Button>
             </div>
@@ -59,9 +65,6 @@ class TrainingsTable extends React.Component {
     }
 
     navigateToTraining = (trainingId) => {
-        if (!trainingId) {
-            store.dispatch({type: 'CLEAR_TRAINING'});
-        }
         this.props.history.push('/training/' + (trainingId || ''));
     }
 
@@ -71,4 +74,4 @@ const mapStateToProps = (state) => {
     return {trainings: state.trainings};
 };
 const mapDispatchToProps = {trainingsFetched};
-export default connect(mapStateToProps, mapDispatchToProps)(TrainingsTable);
+export default connect(mapStateToProps, mapDispatchToProps)(TrainingsList);

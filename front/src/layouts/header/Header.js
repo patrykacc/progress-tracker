@@ -11,9 +11,9 @@ export default () => {
     };
 
     return (
-        <Layout.Header style={{position: 'fixed', zIndex: 1, width: '100%', background: '#f0f2f5'}}>
+        <Layout.Header style={{position: 'fixed', zIndex: 1, width: '100%', background: 'white'}}>
             <div>
-                <Row type="flex" justify={'space-around'}>
+                <Row type="flex" justify={'space-between'}>
                     <Col>
                         <Menu
                             theme="light"
@@ -22,8 +22,8 @@ export default () => {
                             style={{lineHeight: '64px'}}
                         >
                             <Menu.Item onClick={redirect} key="/">Home</Menu.Item>
-                            <Menu.Item onClick={redirect} key="trainings">Treningi</Menu.Item>
-                            <Menu.Item onClick={redirect} key="plans">Plany treningowe</Menu.Item>
+                            <Menu.Item onClick={redirect} key="/trainings">Treningi</Menu.Item>
+                            <Menu.Item onClick={redirect} key="/plans">Plany treningowe</Menu.Item>
                         </Menu>
                     </Col>
                     <Col>

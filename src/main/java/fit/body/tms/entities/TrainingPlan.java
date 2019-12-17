@@ -26,7 +26,8 @@ public class TrainingPlan {
     @Fetch(value = FetchMode.SUBSELECT)
     private List<TrainingDay> trainingDays;
 
-    @ManyToOne
+    @OneToOne
+    @JoinColumn(name = "person_id")
     private Person person;
 
     public TrainingPlan() {

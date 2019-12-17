@@ -4,11 +4,14 @@ import TrainingPlanAPI from "../../services/trainingPlanAPI";
 import TrainingDaysList from "../trainingDays/TrainingDaysList";
 import {Button, Col, Divider, Form, Input, Row} from "antd";
 import ButtonGroup from "antd/lib/button/button-group";
+import {useHistory, useParams} from 'react-router-dom'
 
 
-export default function TrainingPlanEdit({history}) {
-    const trainingPlan = useSelector(state => state.trainingPlan);
+export default function TrainingPlanEdit({trainingPlanProps, setViewMode, setTrainingPlan}) {
+    let history = useHistory();
     const dispatch = useDispatch();
+    const {planId} = useParams();
+    const [temporaryTrainingPlan, setTemporaryTrainingPlan] = React.useState({...trainingPlanProps});
 
     const setTrainingPlanInStore = (trainingPlan) => {
         dispatch({type: 'TRAINING_PLAN_UPDATED', trainingPlan});
@@ -17,26 +20,27 @@ export default function TrainingPlanEdit({history}) {
     const handleInputChange = (e) => {
         let value = e.currentTarget.value;
         let inputName = e.currentTarget.name;
-        trainingPlan[inputName] = value;
-        setTrainingPlanInStore(trainingPlan);
+        temporaryTrainingPlan[inputName] = value;
+        setTemporaryTrainingPlan({...temporaryTrainingPlan});
     };
 
     const save = () => {
-        TrainingPlanAPI.save(trainingPlan)
+        TrainingPlanAPI.save(temporaryTrainingPlan)
             .then(response => {
                 if (response) {
+                    setTrainingPlan({...response})
                     setTrainingPlanInStore(response);
-                    if (history.location.pathname.includes('new')) {
+                    if (planId === 'new') {
                         history.replace('/plans/' + response.id)
                     } else {
-                        dispatch({type: 'TRAINING_PLAN_VIEW_MODE', mode: 'view'});
+                        setViewMode('view');
                     }
                 }
             });
     };
 
     const cancel = () => {
-        dispatch({type: 'TRAINING_PLAN_VIEW_MODE', mode: 'view'});
+        setViewMode('view');
     };
 
     const formItemLayout = {
@@ -47,21 +51,21 @@ export default function TrainingPlanEdit({history}) {
     return (
         <Fragment>
             <Form title={'Nowy plan treningowy'} onSubmit={save} layout={"horizontal"} labelAlign={"left"}>
-                <Row type={'flex'} justify={'space-around'}>
+                <Row type={'flex'} justify={'space-between'}>
                     <Col sm={24} xs={24} md={12}>
                         <Form.Item {...formItemLayout} label={'Nazwa'}  labelAlign={"left"}>
                             <Input name={'name'} onChange={handleInputChange}
-                                   value={trainingPlan.name}/>
+                                   value={temporaryTrainingPlan.name}/>
                         </Form.Item>
                     </Col>
                     <Col sm={24} xs={24} md={12}>
                         <Form.Item {...formItemLayout} label={'Opis'}  labelAlign={"left"}>
                             <Input name={'description'} onChange={handleInputChange}
-                                   value={trainingPlan.description}/>
+                                   value={temporaryTrainingPlan.description}/>
                         </Form.Item>
                     </Col>
                 </Row>
-                <Row type={'flex'} justify={'space-around'}>
+                <Row type={'flex'} justify={'space-between'}>
                     <Col span={4} style={{textAlign: 'right'}}>
                         <ButtonGroup size={"small"} >
                             <Button type={"primary"} onClick={save}>Zapisz</Button>
@@ -71,7 +75,6 @@ export default function TrainingPlanEdit({history}) {
                 </Row>
             </Form>
             <Divider/>
-            <TrainingDaysList/>
         </Fragment>
     )
 

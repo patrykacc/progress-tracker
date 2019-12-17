@@ -1,10 +1,8 @@
 import TrainingAPI from "../../services/trainingAPI";
 import {getExercisesByTrainingId} from "../../services/exerciseAPI";
 
-export const trainingsFetched = trainings => ({
-    type: 'TRAININGS_FETCHED',
-    trainings
-});
+export const trainingsFetched = trainings => ({type: 'TRAININGS_FETCHED', trainings});
+
 export const getTrainingAction = (trainingId) => {
     return (dispatch, getState) => {
         TrainingAPI.get(trainingId || getState.training.id, dispatch)

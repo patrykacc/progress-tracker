@@ -1,4 +1,4 @@
-const trainingDayView = (state = 'empty', action) => {
+const trainingDayView = (state = 'view', action) => {
 
     switch (action.type) {
         case 'TRAINING_DAY_VIEW_MODE':

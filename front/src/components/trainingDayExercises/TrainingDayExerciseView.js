@@ -3,6 +3,7 @@ import {Button, Descriptions} from "antd";
 import TrainingDayExerciseAPI from "../../services/trainingDayExerciseAPI";
 import {getExercisesAction, getTrainingAction} from "../../redux/actions/trainingActions";
 import {useDispatch, useSelector} from "react-redux";
+import BaseButtonGroup from "../base/BaseButtonGroup";
 
 export default ({trainingDayExercise}) => {
     const [temporaryExercise, setTemporaryExercise] = React.useState();
@@ -33,8 +34,7 @@ export default ({trainingDayExercise}) => {
                 <Descriptions.Item label="Ilość powtórzeń">{trainingDayExercise.repetitions}</Descriptions.Item>
                 <Descriptions.Item label="Ilość serii">{trainingDayExercise.series}</Descriptions.Item>
             </Descriptions>
-            <Button onClick={edit}>Edytuj</Button>
-            <Button onClick={remove}>Usuń</Button>
+            <BaseButtonGroup actions={[{type: 'primary', label: 'Edytuj', handler: edit},{label: 'Usuń', handler: remove}]} />
         </React.Fragment>
     )
 }

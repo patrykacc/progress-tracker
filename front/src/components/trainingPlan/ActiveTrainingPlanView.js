@@ -20,15 +20,15 @@ export default function ActiveTrainingPlanView() {
 
     return (
         <div>
-            <Row type="flex" justify={'space-around'}>
+            <Row type="flex" justify={'space-between'}>
                 <Col>
                     <Typography.Text variant={"subtitle2"}>Aktywny plan treningowy:</Typography.Text>
-                    <Typography.Text variant={"subtitle1"}>
+                    <Typography.Text variant={"subtitle1"} style={{marginLeft: '10px'}}>
                         {activeTrainingPlan ? activeTrainingPlan.name : 'Brak aktywnego planu - atywuj jeden z istniejących lub utwórz nowy'}
                     </Typography.Text>
                 </Col>
                 <Col>
-                    <Button onClick={change}>Zmień</Button>
+                    <Button style={{marginLeft: '10px'}} onClick={change}>Zmień</Button>
                 </Col>
             </Row>
         </div>

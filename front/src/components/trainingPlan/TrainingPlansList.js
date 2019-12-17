@@ -40,7 +40,13 @@ export default function TrainingPlansList({history}) {
     };
 
     return (
-        <React.Fragment>
+        <div style={{
+            border: '2px solid lightblue',
+            borderRadius: '5px',
+            background: 'white',
+            margin: '10px',
+            padding: '15px',
+        }}>
             <List header={<div>Dostępne plany: </div>}
                   dataSource={trainingPlans}
                   renderItem={plan => (
@@ -64,6 +70,6 @@ export default function TrainingPlansList({history}) {
                 <Button onClick={createNewPlan}>Stwórz nowy plan</Button>
                 <Button onClick={cancel}>Anuluj</Button>
             </ButtonGroup>
-        </React.Fragment>
+        </div>
     )
 }

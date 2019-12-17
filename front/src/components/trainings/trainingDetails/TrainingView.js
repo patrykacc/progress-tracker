@@ -3,6 +3,7 @@ import TrainingAPI from "../../../services/trainingAPI";
 import {useDispatch} from "react-redux";
 import {Button, Descriptions, Row} from "antd";
 import { useHistory } from 'react-router-dom'
+import BaseButtonGroup from "../../base/BaseButtonGroup";
 
 
 export default ({training}) => {
@@ -30,8 +31,7 @@ export default ({training}) => {
                 <Descriptions.Item label="Objętość">{training.volume}</Descriptions.Item>
             </Descriptions>
             <Row type={'flex'}>
-                <Button onClick={edit} type={"primary"}>Edytuj</Button>
-                <Button onClick={remove} >Usuń</Button>
+                <BaseButtonGroup actions={[{type: 'primary', label: 'Edytuj', handler: edit},{label: 'Usuń', handler: remove}]} />
             </Row>
         </div>
 

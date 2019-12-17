@@ -1,31 +1,33 @@
 import {Button, Col, Descriptions, Row} from 'antd';
 import React, {Fragment} from "react";
-import {useDispatch, useSelector} from "react-redux";
 import TrainingDayAPI from "../../services/trainingDayAPI";
-import {getTrainingPlanAction} from "../../redux/actions/trainingPlanActions";
 import TrainingDayExerciseList from "../trainingDayExercises/TrainingDayExerciseList";
+import {useHistory} from "react-router";
+import BaseButtonGroup from "../base/BaseButtonGroup";
 
-
-export default () => {
-    const trainingDay = useSelector(state => state.trainingDay);
-    const dispatch = useDispatch();
+export default ({trainingDay, setViewMode, refreshTrainingDay}) => {
+    const history = useHistory();
 
     function remove() {
         TrainingDayAPI.delete(trainingDay.id)
             .then(response => {
-                dispatch({type: 'TRAINING_DAY_VIEW_MODE', mode: 'empty'});
-                dispatch({type: 'CLEAR_TRAINING_DAY'});
-                dispatch(getTrainingPlanAction());
+                history.goBack();
             })
     }
 
     function edit() {
-        dispatch({type: 'TRAINING_DAY_VIEW_MODE', mode: 'edit'});
+        setViewMode('edit');
     }
 
     return (
-        <React.Fragment>
-            <Row type="flex" justify={'start'}>
+        <div style={{
+            border: '2px solid lightblue',
+            borderRadius: '5px',
+            background: 'white',
+            margin: '10px',
+            padding: '15px',
+        }}>
+            <Row type="flex" justify={'space-between'}>
                 <Col>
                     <Descriptions title={'Dzień treningowy'} bordered>
                         <Descriptions.Item label="Nazwa">{trainingDay.name}</Descriptions.Item>
@@ -34,15 +36,12 @@ export default () => {
                         <Descriptions.Item
                             label="Ilość ćwiczeń">{trainingDay.trainingDayExercises.length}</Descriptions.Item>
                     </Descriptions>
-                    <Fragment>
-                        <Button color="primary" onClick={edit}>Edytuj</Button>
-                        <Button onClick={remove} color="secondary">Usuń</Button>
-                    </Fragment>
+                    <BaseButtonGroup actions={[{type: 'primary', label: 'Edytuj', handler: edit},{label: 'Usuń', handler: remove}]} />
                 </Col>
                 <Col>
-                    <TrainingDayExerciseList/>
+                    <TrainingDayExerciseList refreshTrainingDay={refreshTrainingDay} trainingDayExercises={trainingDay.trainingDayExercises}/>
                 </Col>
             </Row>
-        </React.Fragment>
+        </div>
     )
 }
