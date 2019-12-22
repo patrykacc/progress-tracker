@@ -1,5 +1,7 @@
 package fit.body.tms.entities;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import fit.body.tms.dtos.TrainingDayDTO;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -11,6 +13,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
 public class TrainingDay {
 
     @Id

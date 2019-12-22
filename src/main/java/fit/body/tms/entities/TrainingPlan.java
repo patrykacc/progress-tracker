@@ -1,5 +1,7 @@
 package fit.body.tms.entities;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import fit.body.tms.dtos.TrainingPlanDTO;
 import fit.body.tms.repositories.TrainingPlanListener;
 import org.hibernate.annotations.Fetch;
@@ -13,6 +15,7 @@ import java.util.stream.Collectors;
 
 @Entity
 @EntityListeners(TrainingPlanListener.class)
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
 public class TrainingPlan {
 
     @Id

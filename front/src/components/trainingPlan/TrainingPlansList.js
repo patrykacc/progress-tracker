@@ -27,7 +27,7 @@ export default function TrainingPlansList({history}) {
     const rowClick = (plan) => {
         dispatch({type: 'TRAINING_PLAN_UPDATED', trainingPlan: plan});
         dispatch({type: 'TRAINING_PLAN_VIEW_MODE', mode: 'view'});
-        history.push('/plans/' + plan.id);
+        history.push('/trainingPlan/' + plan.id);
     }
 
     const cancel = () => {

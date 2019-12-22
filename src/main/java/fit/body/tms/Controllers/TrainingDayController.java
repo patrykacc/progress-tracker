@@ -10,7 +10,7 @@ import javax.validation.Valid;
 
 @RestController
 @BasePathAwareController
-@RequestMapping(value = "/trainingDays")
+@RequestMapping(value = "/trainingDay")
 public class TrainingDayController {
 
     private final TrainingDayService trainingDayService;

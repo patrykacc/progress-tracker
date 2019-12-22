@@ -1,10 +1,13 @@
 package fit.body.tms.entities;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import fit.body.tms.dtos.ExerciseDTO;
 
 import javax.persistence.*;
 
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.None.class, property = "id")
 public class Exercise {
 
     @Id

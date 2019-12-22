@@ -6,8 +6,11 @@ import org.springframework.stereotype.Component;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -15,9 +18,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
-public class Descriptor {
+public class EntityDescriptor {
 
-    public Descriptor(MessageSource messageSource) {
+    public EntityDescriptor(MessageSource messageSource) {
         this.messageSource = messageSource;
     }
 
@@ -60,14 +63,19 @@ public class Descriptor {
             Class<?> type = field.getType();
             if (type == Integer.class) {
                 return "NUMBER";
-            }
-            else if (type == String.class) {
+            } else if (type == String.class) {
                 return "TEXT";
+            } else if (type == LocalDate.class) {
+                return "DATE";
+            } else if (type == LocalTime.class) {
+                return "TIME";
             } else {
                 List<Annotation> annotations = Arrays.asList(field.getDeclaredAnnotations());
                 if (annotations.stream().anyMatch(annotation -> annotation.annotationType() == Id.class)) {
                     return "ID";
-                } else if (annotations.stream().anyMatch(annotation -> annotation.annotationType() == ManyToOne.class)) {
+                } else if (annotations.stream().anyMatch(annotation ->
+                        annotation.annotationType() == ManyToOne.class || annotation.annotationType() == OneToOne.class))
+                {
                     return "REFERENCE";
                 } else if (annotations.stream().anyMatch(annotation -> annotation.annotationType() == OneToMany.class)) {
                     return "LIST";

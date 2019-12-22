@@ -8,11 +8,9 @@ import SignIn from "./components/authentication/SignIn";
 import SignUp from "./components/authentication/SignUp";
 import PrivateRoute from "./components/authentication/PrivateRoute";
 import Home from "./Home";
-import TrainingPage from "./components/trainings/trainingPage/TrainingPage";
 import TrainingPlansList from "./components/trainingPlan/TrainingPlansList";
-import TrainingPlanPage from "./components/trainingPlan/TrainingPlanPage";
 import TrainingsList from "./components/trainings/trainingsTable/TrainingsList";
-import TrainingDay from "./components/trainingDays/TrainingDay";
+import RecordDetail from "./components/base/recordDetail/RecordDetail";
 
 
 export default function App() {
@@ -26,12 +24,14 @@ export default function App() {
                         <Route path="/signin" component={SignIn}/>
                         <Route path="/signup" component={SignUp}/>
                         <PrivateRoute exact path="/" component={Home}/>
-                        <PrivateRoute path="/training/:trainingId" component={TrainingPage}/>
-                        <PrivateRoute exact path="/training" component={TrainingPage}/>
-                        <PrivateRoute exact path="/trainings/" component={TrainingsList}/>
-                        <PrivateRoute exact path="/plans" component={TrainingPlansList}/>
-                        <PrivateRoute exact path="/plans/:planId" component={TrainingPlanPage}/>
-                        <PrivateRoute exact path="/plans/:planId/days/:dayId" component={TrainingDay}/>
+                        <PrivateRoute path="/training/:id" component={RecordDetail}/>
+                        <PrivateRoute path="/training" component={RecordDetail}/>
+                        <PrivateRoute path="/exercise/:id" component={RecordDetail}/>
+                        <PrivateRoute path="/exercise" component={RecordDetail}/>
+                        <PrivateRoute path="/trainings" component={TrainingsList}/>
+                        <PrivateRoute path="/plans" component={TrainingPlansList}/>
+                        <PrivateRoute path="/trainingPlan/:id" component={RecordDetail}/>
+                        <PrivateRoute path="/trainingPlan" component={RecordDetail}/>
                     </Layout.Content>
                     <Layout.Footer style={{textAlign: 'center', background: 'white'}}>
                         Progress Tracker ©2020 Created by Patryk

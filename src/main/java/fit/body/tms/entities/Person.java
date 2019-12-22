@@ -1,6 +1,7 @@
 package fit.body.tms.entities;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import fit.body.tms.dtos.PersonDTO;
 
@@ -12,10 +13,6 @@ import javax.validation.constraints.NotBlank;
 @Entity
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Person {
-
-    /*public static Descriptor.MetaEntity describe() {
-        return descriptor.describe(Person.class);
-    }*/
 
     @Email
     @NotBlank
@@ -31,6 +28,12 @@ public class Person {
     private String firstName;
     @NotBlank
     private String lastName;
+    private String name;
+
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "active_training_plan_id")
+    private TrainingPlan activeTrainingPlan;
 
     public Person() {}
     public Person(Long id) {
@@ -67,10 +70,6 @@ public class Person {
     public String getEmail() {
         return this.email;
     }
-
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "active_training_plan_id")
-    private TrainingPlan activeTrainingPlan;
 
     @Override
     public String toString() {

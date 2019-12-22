@@ -14,7 +14,7 @@ import static java.util.stream.Collectors.toList;
 
 @RestController
 @BasePathAwareController
-@RequestMapping(value = "/trainings")
+@RequestMapping(value = "/training")
 public class TrainingController {
 
     private final TrainingService trainingService;
@@ -24,8 +24,8 @@ public class TrainingController {
     }
 
     @GetMapping("/{trainingId}")
-    public TrainingDTO get(@Valid @PathVariable Long trainingId) {
-        return new TrainingDTO(trainingService.getById(trainingId));
+    public Training get(@Valid @PathVariable Long trainingId) {
+        return trainingService.getById(trainingId);
     }
 
     @GetMapping("/getAll")
@@ -34,8 +34,8 @@ public class TrainingController {
     }
 
     @PostMapping("/save")
-    public TrainingDTO save(@Valid @RequestBody TrainingDTO trainingDTO) {
-        return new TrainingDTO(trainingService.save(new Training(trainingDTO)));
+    public Training save(@Valid @RequestBody Training training) {
+        return trainingService.save(training);
     }
 
     @DeleteMapping("/{trainingId}")

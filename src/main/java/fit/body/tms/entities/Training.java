@@ -1,7 +1,8 @@
 package fit.body.tms.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import fit.body.tms.dtos.TrainingDTO;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import fit.body.tms.repositories.TrainingListener;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -10,10 +11,10 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Entity
 @EntityListeners(TrainingListener.class)
+@JsonIdentityInfo(generator = ObjectIdGenerators.None.class, property = "id")
 public class Training {
 
     @Id
@@ -31,7 +32,7 @@ public class Training {
     @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     private LocalTime startTime;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "training")
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "training")
     private List<Exercise> exercises;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -44,7 +45,7 @@ public class Training {
 
     public Training() {}
 
-    public Training(TrainingDTO trainingDTO) {
+    /*public Training(TrainingDTO trainingDTO) {
         this.id = trainingDTO.getId();
         this.duration = trainingDTO.getDuration();
         this.volume = trainingDTO.getVolume();
@@ -52,7 +53,7 @@ public class Training {
         this.startTime = trainingDTO.getStartTime();
         this.exercises = trainingDTO.getExercises().stream().map(Exercise::new).collect(Collectors.toList());
         trainingDTO.getUser().ifPresent(userDTO -> this.person = new Person(userDTO));
-    }
+    }*/
 
     public Integer getVolume() {
         return volume;

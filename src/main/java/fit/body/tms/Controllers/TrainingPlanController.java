@@ -17,7 +17,7 @@ import static java.util.stream.Collectors.toList;
 
 @RestController
 @BasePathAwareController
-@RequestMapping(value = "/trainingPlans")
+@RequestMapping(value = "/trainingPlan")
 public class TrainingPlanController {
 
     private final TrainingPlanService trainingPlanService;
@@ -29,13 +29,13 @@ public class TrainingPlanController {
     }
 
     @GetMapping("/{trainingPlanId}")
-    public TrainingPlanDTO get(@Valid @PathVariable Long trainingPlanId) {
-        return new TrainingPlanDTO(trainingPlanService.getById(trainingPlanId));
+    public TrainingPlan get(@Valid @PathVariable Long trainingPlanId) {
+        return trainingPlanService.getById(trainingPlanId);
     }
 
     @GetMapping("/getActiveTrainingPlan")
-    public TrainingPlanDTO getActivePlan() {
-        return trainingPlanService.getActivePlanForUser(UserService.getPrincipal().getId()).map(TrainingPlanDTO::new).orElse(null);
+    public TrainingPlan getActivePlan() {
+        return trainingPlanService.getActivePlanForUser(UserService.getPrincipal().getId()).orElse(null);
     }
 
     @GetMapping("/getAll")
