@@ -46,5 +46,9 @@
     "@material-ui/pickers": "^3.2.6",
     "babel-plugin-import": "^1.12.2",
     "redux-thunk": "^2.3.0"
+  },
+  "engines": {
+    "node": ">= 6.9.4",
+    "npm": ">= 4.4.0"
   }
 }
