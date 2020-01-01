@@ -12,6 +12,7 @@ import TableHead from "@material-ui/core/TableHead";
 import Table from "@material-ui/core/Table";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
+import {Grid} from "@material-ui/core";
 
 class TrainingsTable extends React.Component {
 
@@ -40,35 +41,30 @@ class TrainingsTable extends React.Component {
         }
 
         return (
-            <Paper>
-                <Typography variant="h5" component="h3">Treningi:</Typography>
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>#</TableCell>
-                            <TableCell align="right">Data:</TableCell>
-                            <TableCell align="right">Objętość:</TableCell>
-                            <TableCell align="right"/>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {rows}
-                        <AddNewTrainingButton navigateToTraining={this.navigateToTraining}/>
-                    </TableBody>
-                </Table>
-            </Paper>
-
+            <Grid item xs={12} md={6} lg={6} >
+                <Paper>
+                    <Typography variant="h5" component="h3">Treningi:</Typography>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>#</TableCell>
+                                <TableCell align="right">Data:</TableCell>
+                                <TableCell align="right">Objętość:</TableCell>
+                                <TableCell align="right"/>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {rows}
+                            <AddNewTrainingButton navigateToTraining={this.navigateToTraining}/>
+                        </TableBody>
+                    </Table>
+                </Paper>
+            </Grid>
         );
     }
 
     navigateToTraining = (trainingId) => {
-        let path;
-        if (trainingId) {
-            path = trainingId;
-        } else {
-            path = 'new';
-        }
-        this.props.history.push('/training/' + path);
+        this.props.history.push('/training/' + (trainingId || ''));
     }
 
 }

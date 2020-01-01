@@ -1,13 +1,13 @@
 import {getTraining} from "../services/trainingService";
 import {getExercisesByTrainingId} from "../services/exerciseService";
 
-export const authorizationSuccess = () => ({
+export const authorizationSuccess = {
     type: 'AUTHORIZATION_SUCCESS'
-});
+};
 
-export const authorizationFailed = () => ({
+export const authorizationFailed = {
     type: 'AUTHORIZATION_FAILED'
-});
+};
 
 export const trainingsFetched = trainings => ({
     type: 'TRAININGS_FETCHED',
@@ -22,9 +22,6 @@ export const getTrainingAction = (trainingId) => {
                 if (training) {
                     dispatch({type: 'GET_TRAINING_DONE', training});
                 }
-            })
-            .catch(error => {
-                console.log(error)
             })
     }
 }

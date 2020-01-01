@@ -52,14 +52,14 @@ public class UserControllerTest {
 
         MvcResult result = this.mockMvc.perform(post("/api/auth/signin").contentType(MediaType.APPLICATION_JSON)
                 .content(objectWriter.writeValueAsString(new LoginRequest(
-                "Test User",
+                "test@us.er",
                 "123456"
         ))))
                 .andDo(print())
                 .andExpect(status().isOk()).andReturn();
         JwtAuthenticationResponse jwtAuthenticationResponse = (JwtAuthenticationResponse)objectReader.readValue(result.getResponse().getContentAsString());
 
-        this.mockMvc.perform(get("/api/user/getAll").header("Authorization", jwtAuthenticationResponse.getTokenType() + " " + jwtAuthenticationResponse.getAccessToken()))
+        this.mockMvc.perform(get("/api/trainings/getAll").header("Authorization", jwtAuthenticationResponse.getTokenType() + " " + jwtAuthenticationResponse.getAccessToken()))
                 .andDo(print())
                 .andExpect(status().isOk());
     }

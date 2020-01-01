@@ -1,8 +1,6 @@
 import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import {Toolbar, Typography} from '@material-ui/core';
-import {AccountCircle} from "@material-ui/icons";
-import IconButton from "@material-ui/core/IconButton";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 
 const useStyles = makeStyles(theme => ({
@@ -19,16 +17,14 @@ export default function Header(props) {
                 position: 'static',
                 top: 0,
                 overflow: 'hidden',
-                maxHeight: 57,
                 paddingLeft:0
             }}>
-                <Toolbar>
+                <Toolbar variant={"dense"} >
                     <Typography variant="h5" className={classes.title}>
                         Progress Tracker
                     </Typography>
                 </Toolbar>
             </AppBar>
-            ARE YOU AUTHORIZED? {props.isAuthorized ? 'SURE!' : 'NAH, not yet'}
         </div>
     );
 }

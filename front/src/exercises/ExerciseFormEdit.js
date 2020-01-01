@@ -1,6 +1,7 @@
 import TextField from "@material-ui/core/TextField";
 import React from "react";
 import {makeStyles} from "@material-ui/core";
+import InputAdornment from "@material-ui/core/InputAdornment";
 
 const useStyles = makeStyles(theme => ({
     textField: {
@@ -24,7 +25,7 @@ export default ({handleChange, exercise}) => {
                        name="repetitions" className={classes.textField}/>
             <TextField label="Obciążenie:" margin="normal" type="number"
                        value={exercise.weight} onChange={handleChange} variant={"filled"}
-                       name="weight" className={classes.textField}/>
+                       name="weight" className={classes.textField} InputProps={{startAdornment: <InputAdornment position="start">Kg</InputAdornment>}}/>
         </form>
     )
 }

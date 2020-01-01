@@ -1,37 +1,29 @@
-package fit.body.tms.models;
+package fit.body.tms.dtos;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import fit.body.tms.entities.Exercise;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+@JsonIdentityInfo(generator = ObjectIdGenerators.None.class, property = "id")
+public class ExerciseDTO {
 
-@Entity
-public class Exercise {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
     private Integer repetitions;
     private Integer series;
     private Double weight;
 
-    @NotNull
-    @JsonBackReference
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "training_id")
-    private Training training;
+    public ExerciseDTO() {}
 
-    @Override
-    public String toString() {
-        return "Exercise{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", repetitions=" + repetitions +
-                ", series=" + series +
-                ", weight=" + weight +
-                '}';
+    public ExerciseDTO(Exercise exercise) {
+        this.id = exercise.getId();
+        this.name = exercise.getName();
+        this.repetitions = exercise.getRepetitions();
+        this.series = exercise.getSeries();
+        this.weight = exercise.getWeight();
     }
+
+    private TrainingDTO training;
 
     public Long getId() {
         return id;
@@ -73,11 +65,11 @@ public class Exercise {
         this.weight = weight;
     }
 
-    public Training getTraining() {
+    public TrainingDTO getTraining() {
         return training;
     }
 
-    public void setTraining(Training training) {
+    public void setTraining(TrainingDTO training) {
         this.training = training;
     }
 }

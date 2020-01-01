@@ -1,11 +1,11 @@
-package fit.body.tms.models;
+package fit.body.tms.entities;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -14,22 +14,22 @@ public class UserPrincipal implements UserDetails {
     @Id
     @GeneratedValue
     private Long id;
-    @NotNull
-    private String username;
-    @NotNull
+    @NotBlank
+    private String email;
+    @NotBlank
     private String password;
-    @NotNull
+    @NotBlank
     private Authority grantedAuthority;
 
-    public UserPrincipal(@NotNull String username, @NotNull String password, @NotNull String grantedAuthority) {
-        this.username = username;
+    public UserPrincipal(@NotBlank String email, @NotBlank String password, @NotBlank String grantedAuthority) {
+        this.email = email;
         this.password = password;
         this.grantedAuthority = new Authority(grantedAuthority);
     }
 
     public UserPrincipal(User user) {
         this.id = user.getId();
-        this.username = user.getUsername();
+        this.email = user.getEmail();
         this.password = user.getPassword();
         this.grantedAuthority = new Authority(user.getAuthority());
     }
@@ -46,7 +46,7 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.username;
+        return this.email;
     }
 
     @Override

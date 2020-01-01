@@ -1,17 +1,21 @@
-package fit.body.tms.models;
+package fit.body.tms.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import fit.body.tms.repositories.PrePersistListener;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import fit.body.tms.dtos.TrainingDTO;
+import fit.body.tms.repositories.TrainingListener;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
-@EntityListeners(PrePersistListener.class)
+@EntityListeners(TrainingListener.class)
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Training {
 
     @Id
@@ -29,21 +33,27 @@ public class Training {
     @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     private LocalTime startTime;
 
-    @JsonManagedReference
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "training")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "training", cascade = CascadeType.ALL)
     private List<Exercise> exercises;
 
-    public Training() {
-    }
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @Override
-    public String toString() {
-        return "Training{" +
-                "id=" + id +
-                ", duration=" + duration +
-                ", startTime=" + startTime +
-                ", startDate=" + startDate +
-                '}';
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "training_day_id")
+    private TrainingDay trainingDay;
+
+    public Training() {}
+
+    public Training(TrainingDTO trainingDTO) {
+        this.id = trainingDTO.getId();
+        this.duration = trainingDTO.getDuration();
+        this.volume = trainingDTO.getVolume();
+        this.startDate = trainingDTO.getStartDate();
+        this.startTime = trainingDTO.getStartTime();
+        this.exercises = trainingDTO.getExercises().stream().map(Exercise::new).collect(Collectors.toList());
+        this.user = new User(trainingDTO.getUser());
     }
 
     public Integer getVolume() {
@@ -92,5 +102,21 @@ public class Training {
 
     public void setStartTime(LocalTime startTime) {
         this.startTime = startTime;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public TrainingDay getTrainingDay() {
+        return trainingDay;
+    }
+
+    public void setTrainingDay(TrainingDay trainingDay) {
+        this.trainingDay = trainingDay;
     }
 }

@@ -1,6 +1,7 @@
 export const getAll = () => {
     return fetch('/api/trainings/getAll', {
         headers: {
+            'Accept': 'application/json',
             'Authorization': 'Bearer ' + localStorage.getItem('token')
         }
     })
@@ -10,13 +11,15 @@ export const getAll = () => {
 export const getTraining = (trainingId) => {
     return fetch('/api/trainings/' + trainingId, {
         headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + localStorage.getItem('token')
         }
     })
         .then(response => {
-            {if (response.status === 200) {
-                response.json()
-            }}
+            if (response.status === 200) {
+                return response.json()
+            }
         })
         .catch(error => console.error(error))
 };
@@ -32,7 +35,9 @@ export const saveTraining = (training) => {
         body: JSON.stringify(training)
     })
         .then(response => {
-            return response.json();
+            if (response.status === 200) {
+                return response.json();
+            }
         })
         .catch(error => {
             console.error(error);

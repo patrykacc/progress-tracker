@@ -1,6 +1,6 @@
 package fit.body.tms.Controllers.Authentication;
 
-import fit.body.tms.models.User;
+import fit.body.tms.entities.User;
 import fit.body.tms.repositories.UserRepository;
 import fit.body.tms.security.JwtTokenProvider;
 import org.slf4j.Logger;
@@ -44,7 +44,7 @@ public class AuthenticationController {
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        loginRequest.getUsernameOrEmail(),
+                        loginRequest.getEmail(),
                         loginRequest.getPassword()
                 )
         );
@@ -56,11 +56,11 @@ public class AuthenticationController {
 
     @PostMapping(value = "/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
-        if(userRepository.existsByEmail(signUpRequest.getEmail())) {
+        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
             return new ResponseEntity<>(new ApiResponse(false, "Podany adres email jest już zajęty"),
                     HttpStatus.BAD_REQUEST);
         }
-        if(userRepository.existsByUsername(signUpRequest.getUsername())) {
+        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
             return new ResponseEntity<>(new ApiResponse(false, "Podany login jest już zajęty"),
                     HttpStatus.BAD_REQUEST);
         }
@@ -69,15 +69,22 @@ public class AuthenticationController {
         User user = new User();
         user.setPassword(signUpRequest.getPassword());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setFirstName(signUpRequest.getFirstName());
+        user.setLastName(signUpRequest.getLastName());
         user.setEmail(signUpRequest.getEmail());
-        user.setUsername(signUpRequest.getUsername());
         user.setAuthority("ADMIN");
 
-        User result = userRepository.save(user);
+        User result;
+        try {
+            result = userRepository.save(user);
+        } catch (Exception e) {
+            return new ResponseEntity<>(new ApiResponse(false, "Bład podczas rejestracji, sprawdź wymagane pola"),
+                    HttpStatus.BAD_REQUEST);
+        }
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/api/users/{username}")
-                .buildAndExpand(result.getUsername()).toUri();
+                .buildAndExpand(result.getEmail()).toUri();
 
         return ResponseEntity.created(location).body(new ApiResponse(true, "Użytkownik został zarejstrowany"));
     }
