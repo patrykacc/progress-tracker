@@ -1,0 +1,75 @@
+package fit.body.tms.dtos;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import fit.body.tms.entities.TrainingDayExercise;
+
+@JsonIdentityInfo(generator = ObjectIdGenerators.None.class, property = "id")
+public class TrainingDayExerciseDTO {
+
+    private Long id;
+    private String name;
+    private String description;
+    private Integer repetitions;
+    private Integer series;
+    private TrainingDayDTO trainingDay;
+
+    public TrainingDayExerciseDTO() {
+    }
+
+    public TrainingDayExerciseDTO(TrainingDayExercise trainingDayExercise) {
+        this.name = trainingDayExercise.getName();
+        this.id = trainingDayExercise.getId();
+        this.description = trainingDayExercise.getDescription();
+        this.repetitions = trainingDayExercise.getRepetitions();
+        this.series = trainingDayExercise.getSeries();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public TrainingDayDTO getTrainingDay() {
+        return trainingDay;
+    }
+
+    public void setTrainingDay(TrainingDayDTO trainingDay) {
+        this.trainingDay = trainingDay;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Integer getRepetitions() {
+        return repetitions;
+    }
+
+    public void setRepetitions(Integer repetitions) {
+        this.repetitions = repetitions;
+    }
+
+    public Integer getSeries() {
+        return series;
+    }
+
+    public void setSeries(Integer series) {
+        this.series = series;
+    }
+}

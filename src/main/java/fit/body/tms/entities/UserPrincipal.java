@@ -27,11 +27,11 @@ public class UserPrincipal implements UserDetails {
         this.grantedAuthority = new Authority(grantedAuthority);
     }
 
-    public UserPrincipal(User user) {
-        this.id = user.getId();
-        this.email = user.getEmail();
-        this.password = user.getPassword();
-        this.grantedAuthority = new Authority(user.getAuthority());
+    public UserPrincipal(Person person) {
+        this.id = person.getId();
+        this.email = person.getEmail();
+        this.password = person.getPassword();
+        this.grantedAuthority = new Authority(person.getAuthority());
     }
 
     @Override

@@ -3,19 +3,20 @@ package fit.body.tms.entities;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import fit.body.tms.dtos.TrainingDTO;
 import fit.body.tms.repositories.TrainingListener;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Entity
 @EntityListeners(TrainingListener.class)
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
 public class Training {
 
     @Id
@@ -33,28 +34,19 @@ public class Training {
     @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     private LocalTime startTime;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "training", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "training")
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<Exercise> exercises;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "person_id")
+    private Person person;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "training_day_id")
     private TrainingDay trainingDay;
 
     public Training() {}
-
-    public Training(TrainingDTO trainingDTO) {
-        this.id = trainingDTO.getId();
-        this.duration = trainingDTO.getDuration();
-        this.volume = trainingDTO.getVolume();
-        this.startDate = trainingDTO.getStartDate();
-        this.startTime = trainingDTO.getStartTime();
-        this.exercises = trainingDTO.getExercises().stream().map(Exercise::new).collect(Collectors.toList());
-        this.user = new User(trainingDTO.getUser());
-    }
 
     public Integer getVolume() {
         return volume;
@@ -104,16 +96,16 @@ public class Training {
         this.startTime = startTime;
     }
 
-    public User getUser() {
-        return user;
+    public Person getPerson() {
+        return person;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
-    public TrainingDay getTrainingDay() {
-        return trainingDay;
+    public Optional<TrainingDay> getTrainingDay() {
+        return Optional.ofNullable(trainingDay);
     }
 
     public void setTrainingDay(TrainingDay trainingDay) {

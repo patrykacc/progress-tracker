@@ -1,30 +1,38 @@
 import React from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import {Toolbar, Typography} from '@material-ui/core';
-import makeStyles from "@material-ui/core/styles/makeStyles";
+import {Col, Layout, Menu, Row} from 'antd';
+import {useHistory} from 'react-router-dom'
+import ActiveTrainingPlanView from "../../components/trainingPlan/ActiveTrainingPlanView";
 
-const useStyles = makeStyles(theme => ({
-    title: {
-        flexGrow: 1,
-    },
-}));
+export default () => {
+    let history = useHistory();
 
-export default function Header(props) {
-    const classes = useStyles();
+    const redirect = event => {
+        history.push(event.key);
+    };
+
     return (
-        <div>
-            <AppBar position="fixed" style={{
-                position: 'static',
-                top: 0,
-                overflow: 'hidden',
-                paddingLeft:0
-            }}>
-                <Toolbar variant={"dense"} >
-                    <Typography variant="h5" className={classes.title}>
-                        Progress Tracker
-                    </Typography>
-                </Toolbar>
-            </AppBar>
-        </div>
+        <Layout.Header style={{position: 'fixed', zIndex: 1, width: '100%', background: 'white'}}>
+            <div>
+                <Row type="flex" justify={'space-between'}>
+                    <Col>
+                        <Menu
+                            theme="light"
+                            mode="horizontal"
+                            defaultSelectedKeys={['2']}
+                            style={{lineHeight: '64px'}}
+                        >
+                            <Menu.Item onClick={redirect} key="/">Home</Menu.Item>
+                            <Menu.Item onClick={redirect} key="/trainings">Treningi</Menu.Item>
+                            <Menu.Item onClick={redirect} key="/plans">Plany treningowe</Menu.Item>
+                        </Menu>
+                    </Col>
+                    <Col>
+                        <ActiveTrainingPlanView/>
+                    </Col>
+                </Row>
+            </div>
+
+        </Layout.Header>
     );
 }
+

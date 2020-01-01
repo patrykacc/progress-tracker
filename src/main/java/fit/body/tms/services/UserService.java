@@ -1,6 +1,7 @@
 package fit.body.tms.services;
 
-import fit.body.tms.entities.User;
+import fit.body.tms.entities.Person;
+import fit.body.tms.entities.TrainingPlan;
 import fit.body.tms.entities.UserPrincipal;
 import fit.body.tms.repositories.UserRepository;
 import org.springframework.security.core.Authentication;
@@ -8,11 +9,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
 
-    public static UserPrincipal  getCurrentUserPrincipal() {
+    public static UserPrincipal getPrincipal() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
             return (UserPrincipal) authentication.getPrincipal();
@@ -27,12 +29,25 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User save(User u) {
+    public Person save(Person u) {
         return userRepository.save(u);
     }
 
-    public List<User> getAll() {
+    public List<Person> getAll() {
         return userRepository.findAll();
     }
+
+    public Person getById(Long id) {
+        return userRepository.findById(id).orElseGet(null);
+    }
+
+    public Optional<Person> getCurrentPerson() {
+        return userRepository.findById(getPrincipal().getId());
+    }
+
+    public Optional<TrainingPlan> getActivePlanByUserId(Long id) {
+        return userRepository.findById(id).map(Person::getActiveTrainingPlan);
+    }
+
 
 }

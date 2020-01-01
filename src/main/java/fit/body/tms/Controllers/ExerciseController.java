@@ -8,18 +8,24 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 
 @RestController
 @BasePathAwareController
-@RequestMapping(value = "/exercises")
+@RequestMapping(value = "/Exercise")
 public class ExerciseController {
 
     private final ExerciseService exerciseService;
 
     public ExerciseController(ExerciseService exerciseService) {
         this.exerciseService = exerciseService;
+    }
+
+    @GetMapping("/{exerciseId}")
+    public Optional<Exercise> get(@Valid @PathVariable Long exerciseId) {
+        return exerciseService.getById(exerciseId);
     }
 
     @PostMapping("/save")

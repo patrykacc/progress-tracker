@@ -9,5 +9,6 @@ import java.util.List;
 @Repository
 public interface ExerciseRepository extends CrudRepository<Exercise, Long> {
 
-     List<Exercise> findAllByTrainingId(Long trainingId);
+     List<Exercise> findAllByTrainingId(Long id);
+     void deleteById(Long id);
 }

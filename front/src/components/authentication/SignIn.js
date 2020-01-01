@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {authorizationFailed, authorizationSuccess} from "../../actions";
+import {authorizationFailed, authorizationSuccess} from "../../redux/actions/authActions";
 import {Redirect} from "react-router-dom";
 import {makeStyles} from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";

@@ -8,7 +8,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @JsonIdentityInfo(generator = ObjectIdGenerators.None.class, property = "id")
@@ -17,21 +19,19 @@ public class TrainingDTO {
     private Long id;
     private Integer duration;
     private Integer volume;
-
     @JsonFormat(pattern = "yyyy-MM-dd")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate startDate;
-
     @JsonFormat(pattern = "HH:mm")
     @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     private LocalTime startTime;
-
     private List<ExerciseDTO> exercises;
+    private PersonDTO user;
+    private TrainingDayDTO trainingDay;
 
-    private UserDTO user;
-
-//    private TrainingDay trainingDay;
-    public TrainingDTO() {}
+    public TrainingDTO() {
+        this.exercises = new ArrayList<>();
+    }
 
     public TrainingDTO(Training training) {
         this.id = training.getId();
@@ -40,7 +40,8 @@ public class TrainingDTO {
         this.startDate = training.getStartDate();
         this.startTime = training.getStartTime();
         this.exercises = training.getExercises().stream().map(ExerciseDTO::new).collect(Collectors.toList());
-        this.user = new UserDTO(training.getUser());
+        this.user = new PersonDTO(training.getPerson());
+        training.getTrainingDay().ifPresent(td -> this.trainingDay = new TrainingDayDTO(td));
     }
 
     public Integer getVolume() {
@@ -91,19 +92,19 @@ public class TrainingDTO {
         this.startTime = startTime;
     }
 
-    public UserDTO getUser() {
-        return user;
+    public Optional<PersonDTO> getUser() {
+        return Optional.ofNullable(user);
     }
 
-    public void setUser(UserDTO user) {
+    public void setUser(PersonDTO user) {
         this.user = user;
     }
 
-    /*public TrainingDay getTrainingDay() {
+    public TrainingDayDTO getTrainingDay() {
         return trainingDay;
     }
 
-    public void setTrainingDay(TrainingDay trainingDay) {
+    public void setTrainingDay(TrainingDayDTO trainingDay) {
         this.trainingDay = trainingDay;
-    }*/
+    }
 }
