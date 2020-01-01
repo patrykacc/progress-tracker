@@ -7,7 +7,7 @@ import fit.body.tms.dtos.ExerciseDTO;
 import javax.persistence.*;
 
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.None.class, property = "id")
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
 public class Exercise {
 
     @Id

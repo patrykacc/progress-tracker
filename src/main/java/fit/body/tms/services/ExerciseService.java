@@ -5,6 +5,7 @@ import fit.body.tms.repositories.ExerciseRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ExerciseService {
@@ -17,6 +18,10 @@ public class ExerciseService {
 
     public Exercise save(Exercise exercise) {
         return exerciseRepository.save(exercise);
+    }
+
+    public Optional<Exercise> getById(Long exerciseId) {
+        return exerciseRepository.findById(exerciseId);
     }
 
     public void deleteById(Long exerciseId) {

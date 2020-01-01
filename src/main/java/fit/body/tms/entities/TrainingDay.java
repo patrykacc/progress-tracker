@@ -23,7 +23,7 @@ public class TrainingDay {
     private String description;
     private Integer dayNumber;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "training_plan_id")
     private TrainingPlan trainingPlan;
 

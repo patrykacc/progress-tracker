@@ -2,7 +2,7 @@ import React from 'react';
 import {List, Skeleton} from "antd";
 
 
-const BaseList = ({objects, title, rowClick, fields = ['name', 'description']}) => {
+const BaseList = ({objects, title, rowClick, fields = ['name']}) => {
 
     return (
         <div style={{minWidth: '240px'}}>

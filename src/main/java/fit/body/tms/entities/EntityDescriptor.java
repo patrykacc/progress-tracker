@@ -9,6 +9,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Arrays;
@@ -58,6 +59,8 @@ public class EntityDescriptor {
         public String apiName;
         public String label;
         public String type;
+        public String childrenApiName;
+        public String parentRelationName;
 
         private String determineFieldType(Field field) {
             Class<?> type = field.getType();
@@ -74,10 +77,13 @@ public class EntityDescriptor {
                 if (annotations.stream().anyMatch(annotation -> annotation.annotationType() == Id.class)) {
                     return "ID";
                 } else if (annotations.stream().anyMatch(annotation ->
-                        annotation.annotationType() == ManyToOne.class || annotation.annotationType() == OneToOne.class))
-                {
+                        annotation.annotationType() == ManyToOne.class || annotation.annotationType() == OneToOne.class)) {
                     return "REFERENCE";
                 } else if (annotations.stream().anyMatch(annotation -> annotation.annotationType() == OneToMany.class)) {
+                    this.childrenApiName = ((Class) ((ParameterizedType) field.getGenericType())
+                            .getActualTypeArguments()[0])
+                            .getSimpleName();
+                    this.parentRelationName = field.getAnnotation(OneToMany.class).mappedBy();
                     return "LIST";
                 }
             }

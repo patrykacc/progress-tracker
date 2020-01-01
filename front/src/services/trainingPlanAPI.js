@@ -1,10 +1,10 @@
 import API from "./API";
 
-const PATH = 'trainingPlan';
+const PATH = 'TrainingPlan';
 export default new API(PATH);
 
 export const setActiveTrainingPlan = (trainingPlanId) => {
-    return fetch('/api/trainingPlan/setActiveTrainingPlan', {
+    return fetch('/api/'+ PATH + '/setActiveTrainingPlan', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -17,7 +17,7 @@ export const setActiveTrainingPlan = (trainingPlanId) => {
 };
 
 export const getActiveTrainingPlan = () => {
-    return fetch('/api/trainingPlan/getActiveTrainingPlan', {
+    return fetch('/api/'+ PATH + '/getActiveTrainingPlan', {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',

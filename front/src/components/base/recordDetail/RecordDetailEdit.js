@@ -31,6 +31,7 @@ export default ({recordProp = {}, recordInfo, refresh, actions = [], setMode, Sp
     const cancel = () => {
         setMode('view');
     };
+
     const save = () => {
         SpecificAPI.save(record)
             .then(response => {
@@ -42,7 +43,7 @@ export default ({recordProp = {}, recordInfo, refresh, actions = [], setMode, Sp
                     }
                 }
             })
-    }
+    };
 
     const fields = recordInfo.fields.map(field => {
         if (field.type === 'ID' || field.type === 'LIST'|| field.type === 'REFERENCE') {
@@ -56,7 +57,7 @@ export default ({recordProp = {}, recordInfo, refresh, actions = [], setMode, Sp
         } else {
             value = record[field.apiName];
         }
-        return <Col><Form.Item colon label={field.label} labelAlign={"right"}>
+        return <Col key={field.apiName}><Form.Item colon label={field.label} labelAlign={"right"}>
             <Input name={field.apiName} onChange={handleChange}
                    value={value} type={field.type}/>
         </Form.Item></Col>;

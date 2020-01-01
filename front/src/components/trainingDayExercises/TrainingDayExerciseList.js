@@ -19,7 +19,6 @@ const TrainingDayExerciseList = ({refreshTrainingDay, trainingDayExercises}) => 
         };
         TrainingDayExerciseAPI.save(newTrainingDayExercise)
             .then(response => {
-                debugger
                 refreshTrainingDay();
             })
     };

@@ -2,11 +2,11 @@ import {Button} from "antd";
 import ButtonGroup from "antd/lib/button/button-group";
 import React from "react";
 
-export default ({actions}) => {
+export default ({actions = []}) => {
     return (
         <ButtonGroup style={{marginTop: '10px'}}>
             {actions.map(action => {
-                return <Button type={action.type || ''} onClick={action.handler}>{action.label}</Button>
+                return <Button key={action.label} type={action.type || ''} onClick={action.handler}>{action.label}</Button>
             })}
         </ButtonGroup>
     )

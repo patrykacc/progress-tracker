@@ -1,6 +1,6 @@
 import API from "./API";
 
-const PATH = 'training';
+const PATH = 'Training';
 
 export default new API(PATH);
 

@@ -13,7 +13,6 @@ export default ({trainingDays, refreshTrainingPlan}) => {
     const {planId} = useParams();
 
     const trainingDayClick = (trainingDay) => {
-        debugger
         dispatch({type: 'TRAINING_DAY_UPDATED', trainingDay: trainingDay});
         dispatch({type: 'TRAINING_DAY_VIEW_MODE', mode: 'view'});
         history.push(history.location.pathname + '/days/' + trainingDay.id);

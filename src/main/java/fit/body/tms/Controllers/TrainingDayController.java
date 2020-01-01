@@ -1,6 +1,5 @@
 package fit.body.tms.Controllers;
 
-import fit.body.tms.dtos.TrainingDayDTO;
 import fit.body.tms.entities.TrainingDay;
 import fit.body.tms.services.TrainingDayService;
 import org.springframework.data.rest.webmvc.BasePathAwareController;
@@ -10,7 +9,7 @@ import javax.validation.Valid;
 
 @RestController
 @BasePathAwareController
-@RequestMapping(value = "/trainingDay")
+@RequestMapping(value = "/TrainingDay")
 public class TrainingDayController {
 
     private final TrainingDayService trainingDayService;
@@ -20,13 +19,13 @@ public class TrainingDayController {
     }
 
     @GetMapping("/{trainingDayId}")
-    public TrainingDayDTO save(@Valid @PathVariable(value = "trainingDayId") Long trainingDayId) {
-        return new TrainingDayDTO(trainingDayService.getById(trainingDayId));
+    public TrainingDay save(@Valid @PathVariable(value = "trainingDayId") Long trainingDayId) {
+        return trainingDayService.getById(trainingDayId);
     }
 
     @PostMapping("/save")
-    public TrainingDayDTO save(@Valid @RequestBody TrainingDayDTO trainingDayDTO) {
-        return new TrainingDayDTO(trainingDayService.save(new TrainingDay(trainingDayDTO)));
+    public TrainingDay save(@Valid @RequestBody TrainingDay trainingDay) {
+        return trainingDayService.save(trainingDay);
     }
 
     @DeleteMapping("/{trainingDayId}")
