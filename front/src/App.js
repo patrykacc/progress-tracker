@@ -28,11 +28,11 @@ export default function App() {
                         <PrivateRoute path="/Training" component={ContextRecordDetail}/>
                         <PrivateRoute path="/TrainingDay/:id" component={ContextRecordDetail}/>
                         <PrivateRoute path="/TrainingDay" component={ContextRecordDetail}/>
-                         <PrivateRoute path="/TrainingDayExercise/:id" component={ContextRecordDetail}/>
+                        <PrivateRoute path="/TrainingDayExercise/:id" component={ContextRecordDetail}/>
                         <PrivateRoute path="/TrainingDayExercise" component={ContextRecordDetail}/>
                         <PrivateRoute path="/Exercise/:id" component={ContextRecordDetail}/>
                         <PrivateRoute path="/Exercise" component={ContextRecordDetail}/>
-                        <PrivateRoute path="/trainings" component={TrainingsList}/>
+                        <PrivateRoute path="/Trainings" component={TrainingsList}/>
                         <PrivateRoute path="/plans" component={TrainingPlansList}/>
                         <PrivateRoute path="/TrainingPlan/:id" component={ContextRecordDetail}/>
                         <PrivateRoute path="/TrainingPlan" component={ContextRecordDetail}/>

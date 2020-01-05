@@ -5,7 +5,7 @@ import {Route, Redirect} from "react-router-dom";
 export default  ({ component: Component, ...props }) => {
     const isAuthorized = useSelector(state => state.isAuthorized);
     return (
-        <Route  {...props} exact render={renderProps =>
+        <Route  {...props} exact sensitive render={renderProps =>
             isAuthorized ?
                     <Component {...renderProps} /> :
                     <Redirect to={{

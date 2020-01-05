@@ -27,7 +27,7 @@ export default ({trainingProps}) => {
             .then(training => {
                 if (training) {
                     if (initialMode === 'create') {
-                        history.replace('/training/' + training.id)
+                        history.replace('/Training/' + training.id)
                     } else {
                         setTrainingInStore(training);
                         dispatch({type: 'TRAINING_VIEW_MODE', mode: 'view'});

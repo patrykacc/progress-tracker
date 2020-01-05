@@ -65,7 +65,7 @@ class TrainingsList extends React.Component {
     }
 
     navigateToTraining = (trainingId) => {
-        this.props.history.push('/training/' + (trainingId || ''));
+        this.props.history.push('/Training/' + (trainingId || ''));
     }
 
 }

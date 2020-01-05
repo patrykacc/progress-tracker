@@ -27,7 +27,7 @@ export default ({actions = [], objectType, recordId, parentRecord = {}}) => {
 
     useEffect(() => {
         let lists = [];
-        if (recordInfo && record.id) {
+        if (recordInfo && record && record.id) {
             console.log('related')
             recordInfo.fields
                 .filter(field => field.type === "LIST")
@@ -60,6 +60,7 @@ export default ({actions = [], objectType, recordId, parentRecord = {}}) => {
     const commonProps = {
         SpecificAPI: SpecificAPI.current, recordInfo, actions, setMode, refresh
     }
+    debugger;
 
     const render = () => {
         if (mode === 'empty' || mode == null) {

@@ -1,6 +1,6 @@
 import API from "./API";
 
-const PATH = 'trainingDays';
+const PATH = 'TrainingDays';
 
 const TrainingDayAPI = new API(PATH);
 

@@ -22,8 +22,8 @@ export default () => {
                             style={{lineHeight: '64px'}}
                         >
                             <Menu.Item onClick={redirect} key="/">Home</Menu.Item>
-                            <Menu.Item onClick={redirect} key="/trainings">Treningi</Menu.Item>
-                            <Menu.Item onClick={redirect} key="/plans">Plany treningowe</Menu.Item>
+                            <Menu.Item onClick={redirect} key="/Trainings">Treningi</Menu.Item>
+                            <Menu.Item onClick={redirect} key="/Plans">Plany treningowe</Menu.Item>
                         </Menu>
                     </Col>
                     <Col>

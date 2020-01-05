@@ -1,5 +1,4 @@
 import React, {Fragment} from "react";
-import TrainingDaysList from "../../trainingDays/TrainingDaysList";
 import {Button, Col, Descriptions, Form, Input, Row} from "antd";
 import {useHistory} from 'react-router-dom'
 import BaseButtonGroup from "../BaseButtonGroup";

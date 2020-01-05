@@ -1,7 +1,6 @@
 import React from 'react';
 import BaseList from "../BaseList";
 import BaseButtonGroup from "../BaseButtonGroup";
-import {Modal} from "antd";
 import NewRecordModal from "./NewRecordModal";
 
 
