@@ -60,7 +60,6 @@ export default ({actions = [], objectType, recordId, parentRecord = {}}) => {
     const commonProps = {
         SpecificAPI: SpecificAPI.current, recordInfo, actions, setMode, refresh
     }
-    debugger;
 
     const render = () => {
         if (mode === 'empty' || mode == null) {

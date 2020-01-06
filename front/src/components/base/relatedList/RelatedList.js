@@ -9,13 +9,17 @@ const RelatedList = ({objects, field, history, parentRecord}) => {
     const [isVisible, setIsVisible] = React.useState(false);
     const addNewRecord = () => {
         setIsVisible(true);
+    };
+
+    const closeModal = () => {
+        setIsVisible(false);
     }
     const handleRowClick = (record) => {
         history.push('/' + childrenApiName + '/' + record.id);
     };
     return (
         <>
-            <NewRecordModal objectApiName={childrenApiName} parentRecord={parentRecord} isVisible={isVisible}/>
+            <NewRecordModal objectApiName={childrenApiName} parentRecord={parentRecord} isVisible={isVisible} closeSelf={closeModal}/>
             <BaseButtonGroup actions={[
                 {label: 'Dodaj', handler: addNewRecord},
             ]}/>

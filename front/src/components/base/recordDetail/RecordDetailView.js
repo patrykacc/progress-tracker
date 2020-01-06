@@ -4,10 +4,10 @@ import {useHistory} from 'react-router-dom'
 import BaseButtonGroup from "../BaseButtonGroup";
 import {useDispatch} from "react-redux";
 import RelatedList from "../relatedList/RelatedList";
+import RecordDetailViewForm from "./RecordDetailViewForm";
 
-export default ({record, recordInfo, actions = [], SpecificAPI, setMode, relatedLists = []}) => {
+export default ({record, recordInfo, SpecificAPI, setMode, relatedLists = []}) => {
     let history = useHistory();
-    const dispatch = useDispatch();
 
     if (!recordInfo || !record) {
         return null;
@@ -20,30 +20,13 @@ export default ({record, recordInfo, actions = [], SpecificAPI, setMode, related
         SpecificAPI.delete(record.id)
             .then(history.goBack());
     };
-
+    const props = {recordInfo, record};
 
     return (
         <Fragment>
             <Row type={'flex'} justify={'space-between'}>
                 <Col>
-                    <Descriptions title={recordInfo.label} bordered>
-                        {recordInfo.fields.map(field => {
-                            if (field.type === 'ID' || field.type === 'LIST') {
-                                return null;
-                            }
-                            if (field.type === 'REFERENCE') {
-                                const fieldValue = record[field.apiName];
-                                const value = fieldValue ? fieldValue.name : '';
-                                return (<Descriptions.Item key={field.apiName}
-                                                           label={field.label}>{value}</Descriptions.Item>)
-                            } else {
-                                const value = record[field.apiName];
-                                return (<Descriptions.Item key={field.apiName}
-                                                           label={field.label}>{value}</Descriptions.Item>)
-                            }
-
-                        })}
-                    </Descriptions>
+                    <RecordDetailViewForm {...props} />
                     <BaseButtonGroup actions={[
                         {label: 'Usuń', handler: remove},
                         {label: 'Edytuj', handler: edit}

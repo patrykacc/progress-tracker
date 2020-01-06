@@ -33,7 +33,7 @@ export default function App() {
                         <PrivateRoute path="/Exercise/:id" component={ContextRecordDetail}/>
                         <PrivateRoute path="/Exercise" component={ContextRecordDetail}/>
                         <PrivateRoute path="/Trainings" component={TrainingsList}/>
-                        <PrivateRoute path="/plans" component={TrainingPlansList}/>
+                        <PrivateRoute path="/Plans" component={TrainingPlansList}/>
                         <PrivateRoute path="/TrainingPlan/:id" component={ContextRecordDetail}/>
                         <PrivateRoute path="/TrainingPlan" component={ContextRecordDetail}/>
                     </Layout.Content>

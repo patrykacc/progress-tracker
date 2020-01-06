@@ -61,6 +61,7 @@ public class EntityDescriptor {
         public String type;
         public String childrenApiName;
         public String parentRelationName;
+        public String referenceApiName;
 
         private String determineFieldType(Field field) {
             Class<?> type = field.getType();
@@ -78,6 +79,7 @@ public class EntityDescriptor {
                     return "ID";
                 } else if (annotations.stream().anyMatch(annotation ->
                         annotation.annotationType() == ManyToOne.class || annotation.annotationType() == OneToOne.class)) {
+                    this.referenceApiName = field.getType().getSimpleName();
                     return "REFERENCE";
                 } else if (annotations.stream().anyMatch(annotation -> annotation.annotationType() == OneToMany.class)) {
                     this.childrenApiName = ((Class) ((ParameterizedType) field.getGenericType())

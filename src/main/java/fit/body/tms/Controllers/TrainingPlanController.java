@@ -46,10 +46,8 @@ public class TrainingPlanController {
     }
 
     @PostMapping("/save")
-    public TrainingPlanDTO save(@Valid @RequestBody TrainingPlanDTO trainingPlanDTO) {
-        TrainingPlan trainingPlan = new TrainingPlan(trainingPlanDTO);
-        trainingPlanService.save(trainingPlan);
-        return new TrainingPlanDTO(trainingPlan);
+    public TrainingPlan save(@Valid @RequestBody TrainingPlan trainingPlan) {
+        return trainingPlanService.save(trainingPlan);
     }
 
     @DeleteMapping("/{trainingPlanId}")

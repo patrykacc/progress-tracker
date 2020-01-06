@@ -3,6 +3,7 @@ import {Button, Col, Descriptions, Form, Input, Row} from "antd";
 import {useHistory} from 'react-router-dom'
 import BaseButtonGroup from "../BaseButtonGroup";
 import {useDispatch} from "react-redux";
+import RecordDetailEditForm from "./RecordDetailEditForm";
 
 export default ({recordProp = {}, recordInfo, refresh, actions = [], setMode, SpecificAPI}) => {
     let isCreateMode = !recordProp.id;
@@ -43,31 +44,11 @@ export default ({recordProp = {}, recordInfo, refresh, actions = [], setMode, Sp
                 }
             })
     };
-
-    const fields = recordInfo.fields.map(field => {
-        if (field.type === 'ID' || field.type === 'LIST'|| field.type === 'REFERENCE') {
-            return null;
-        }
-
-        let value;
-        if (field.type === 'REFERENCE') {
-            const fieldValue = record[field.apiName];
-            value = fieldValue ? fieldValue.name : '';
-        } else {
-            value = record[field.apiName];
-        }
-        return <Col key={field.apiName}><Form.Item colon label={field.label} labelAlign={"right"}>
-            <Input name={field.apiName} onChange={handleChange}
-                   value={value} type={field.type}/>
-        </Form.Item></Col>;
-
-    })
-
-
+    let props = {recordInfo, record, handleChange};
     return (
         <Fragment>
             <Form title={recordInfo.label} layout={"horizontal"} {...formItemLayout}>
-                {fields}
+                <RecordDetailEditForm {...props} />
                 <Row>
                     <Col>
                         <BaseButtonGroup actions={[
