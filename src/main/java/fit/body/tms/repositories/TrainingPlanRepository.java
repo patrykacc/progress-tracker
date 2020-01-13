@@ -7,8 +7,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface TrainingPlanRepository extends CrudRepository<TrainingPlan, Long> {
+public interface TrainingPlanRepository extends CrudRepository<TrainingPlan, String > {
 
-    List<TrainingPlan> findAllByPersonId(Long userId);
+    List<TrainingPlan> findAllByPersonId(String userId);
 
 }

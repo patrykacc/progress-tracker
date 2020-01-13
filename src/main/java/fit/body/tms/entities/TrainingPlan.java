@@ -2,16 +2,15 @@ package fit.body.tms.entities;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import fit.body.tms.dtos.TrainingPlanDTO;
 import fit.body.tms.repositories.TrainingPlanListener;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Entity
 @EntityListeners(TrainingPlanListener.class)
@@ -19,8 +18,9 @@ import java.util.stream.Collectors;
 public class TrainingPlan {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue(generator = "global-id")
+    @GenericGenerator(name = "global-id", strategy = "fit.body.tms.entities.UI_IdGenerator")
+    private String id;
     private String name;
     private String description;
     private Integer trainingDaysNumber;
@@ -37,25 +37,16 @@ public class TrainingPlan {
         this.trainingDays = new ArrayList<>();
     }
 
-    public TrainingPlan(Long id) {
+    public TrainingPlan(String id) {
         this.id = id;
         this.trainingDays = new ArrayList<>();
     }
 
-    public TrainingPlan(TrainingPlanDTO trainingPlanDTO) {
-        this.id = trainingPlanDTO.getId();
-        this.name = trainingPlanDTO.getName();
-        this.description = trainingPlanDTO.getDescription();
-        this.trainingDays = trainingPlanDTO.getTrainingDays().stream().map(TrainingDay::new).collect(Collectors.toList());
-        this.trainingDays.forEach(trainingDay -> trainingDay.setTrainingPlan(new TrainingPlan(this.getId())));
-        trainingPlanDTO.getPerson().ifPresent(user -> this.person = new Person(user));
-    }
-
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

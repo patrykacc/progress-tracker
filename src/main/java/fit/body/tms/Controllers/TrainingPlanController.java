@@ -1,6 +1,5 @@
 package fit.body.tms.Controllers;
 
-import fit.body.tms.dtos.TrainingPlanDTO;
 import fit.body.tms.entities.TrainingPlan;
 import fit.body.tms.services.TrainingPlanService;
 import fit.body.tms.services.UserService;
@@ -12,8 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.persistence.EntityManager;
 import javax.validation.Valid;
 import java.util.List;
-
-import static java.util.stream.Collectors.toList;
 
 @RestController
 @BasePathAwareController
@@ -29,7 +26,7 @@ public class TrainingPlanController {
     }
 
     @GetMapping("/{trainingPlanId}")
-    public TrainingPlan get(@Valid @PathVariable Long trainingPlanId) {
+    public TrainingPlan get(@Valid @PathVariable String trainingPlanId) {
         return trainingPlanService.getById(trainingPlanId);
     }
 
@@ -39,10 +36,8 @@ public class TrainingPlanController {
     }
 
     @GetMapping("/getAll")
-    public List<TrainingPlanDTO> getAll() {
-        return trainingPlanService.getAllByUserId(
-                UserService.getPrincipal().getId()
-        ).stream().map(TrainingPlanDTO::new).collect(toList());
+    public List<TrainingPlan> getAll() {
+        return trainingPlanService.getAllByUserId(UserService.getPrincipal().getId());
     }
 
     @PostMapping("/save")
@@ -51,12 +46,12 @@ public class TrainingPlanController {
     }
 
     @DeleteMapping("/{trainingPlanId}")
-    public void delete(@Valid @PathVariable(value = "trainingPlanId") Long trainingId) {
+    public void delete(@Valid @PathVariable(value = "trainingPlanId") String trainingId) {
         trainingPlanService.delete(trainingId);
     }
 
     @PostMapping("/setActiveTrainingPlan")
-    public void setActiveTrainingPlan(@Valid @RequestBody Long id) {
+    public void setActiveTrainingPlan(@Valid @RequestBody String id) {
         trainingPlanService.setActiveTrainingPlan(id);
     }
 

@@ -17,11 +17,11 @@ public class TrainingDayService {
         return trainingDayRepository.save(trainingPlan);
     }
 
-    public TrainingDay getById(Long id) {
+    public TrainingDay getById(String id) {
         return this.trainingDayRepository.findById(id).orElse(null);
     }
 
-    public void delete(Long id) {
+    public void delete(String id) {
         trainingDayRepository.deleteById(id);
     }
 }

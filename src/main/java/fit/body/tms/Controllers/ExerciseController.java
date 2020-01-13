@@ -1,6 +1,5 @@
 package fit.body.tms.Controllers;
 
-import fit.body.tms.dtos.ExerciseDTO;
 import fit.body.tms.entities.Exercise;
 import fit.body.tms.services.ExerciseService;
 import org.springframework.data.rest.webmvc.BasePathAwareController;
@@ -9,8 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
-
-import static java.util.stream.Collectors.toList;
 
 @RestController
 @BasePathAwareController
@@ -24,22 +21,22 @@ public class ExerciseController {
     }
 
     @GetMapping("/{exerciseId}")
-    public Optional<Exercise> get(@Valid @PathVariable Long exerciseId) {
+    public Optional<Exercise> get(@Valid @PathVariable String exerciseId) {
         return exerciseService.getById(exerciseId);
     }
 
     @PostMapping("/save")
-    public ExerciseDTO save(@Valid @RequestBody Exercise exercise) {
-        return new ExerciseDTO(exerciseService.save(exercise));
+    public Exercise save(@Valid @RequestBody Exercise exercise) {
+        return exerciseService.save(exercise);
     }
 
     @GetMapping("/getAllByTrainingId/{trainingId}")
-    public List<ExerciseDTO> getAllByTrainingId(@Valid @PathVariable("trainingId") Long trainingId) {
-        return exerciseService.getByTrainingId(trainingId).stream().map(ExerciseDTO::new).collect(toList());
+    public List<Exercise> getAllByTrainingId(@Valid @PathVariable("trainingId") String trainingId) {
+        return exerciseService.getByTrainingId(trainingId);
     }
 
     @DeleteMapping("/{exerciseId}")
-    public void delete(@Valid @PathVariable(value = "exerciseId") Long exerciseId) {
+    public void delete(@Valid @PathVariable(value = "exerciseId") String exerciseId) {
         exerciseService.deleteById(exerciseId);
     }
 }

@@ -19,15 +19,15 @@ public class TrainingService {
         return trainingRepository.save(training);
     }
 
-    public Training getById(Long id) {
+    public Training getById(String id) {
         return this.trainingRepository.findById(id).orElse(null);
     }
 
-    public List<Training> getAllTrainingsByUserId(Long userId) {
+    public List<Training> getAllTrainingsByUserId(String userId) {
         return this.trainingRepository.findByPersonId(userId);
     }
 
-    public void delete(Long id) {
+    public void delete(String id) {
         trainingRepository.deleteById(id);
     }
 

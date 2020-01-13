@@ -20,15 +20,15 @@ public class ExerciseService {
         return exerciseRepository.save(exercise);
     }
 
-    public Optional<Exercise> getById(Long exerciseId) {
+    public Optional<Exercise> getById(String exerciseId) {
         return exerciseRepository.findById(exerciseId);
     }
 
-    public void deleteById(Long exerciseId) {
+    public void deleteById(String exerciseId) {
         exerciseRepository.deleteById(exerciseId);
     }
 
-    public List<Exercise> getByTrainingId(Long trainingId) {
+    public List<Exercise> getByTrainingId(String trainingId) {
         return exerciseRepository.findAllByTrainingId(trainingId);
     }
 }

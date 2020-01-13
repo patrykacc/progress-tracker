@@ -37,7 +37,7 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public Person getById(Long id) {
+    public Person getById(String id) {
         return userRepository.findById(id).orElseGet(null);
     }
 
@@ -45,7 +45,7 @@ public class UserService {
         return userRepository.findById(getPrincipal().getId());
     }
 
-    public Optional<TrainingPlan> getActivePlanByUserId(Long id) {
+    public Optional<TrainingPlan> getActivePlanByUserId(String id) {
         return userRepository.findById(id).map(Person::getActiveTrainingPlan);
     }
 

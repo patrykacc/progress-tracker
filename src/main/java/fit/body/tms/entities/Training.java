@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import fit.body.tms.repositories.TrainingListener;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -20,8 +21,10 @@ import java.util.Optional;
 public class Training {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue(generator = "global-id")
+    @GenericGenerator(name = "global-id", strategy = "fit.body.tms.entities.UI_IdGenerator")
+    private String id;
+
 
     private Integer duration;
     private Integer volume;
@@ -56,11 +59,11 @@ public class Training {
         this.volume = volume;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

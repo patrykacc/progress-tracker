@@ -1,8 +1,8 @@
 package fit.body.tms.Controllers;
 
-import fit.body.tms.entities.EntityDescriptor;
+import fit.body.tms.entities.MetaDescriptor;
+import fit.body.tms.entities.MetaEntity;
 import org.springframework.data.rest.webmvc.BasePathAwareController;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,17 +15,20 @@ import javax.validation.Valid;
 @RequestMapping(value = "/metaDescriptor")
 public class DescriptorController {
 
-    private final static String ENTITIES_PACKAGE_NAME = "fit.body.tms.entities";
-    final EntityDescriptor entityDescriptor;
 
-    public DescriptorController(EntityDescriptor entityDescriptor) {
-        this.entityDescriptor = entityDescriptor;
+    final MetaDescriptor metaDescriptor;
+
+    public DescriptorController(MetaDescriptor metaDescriptor) {
+        this.metaDescriptor = metaDescriptor;
     }
 
-    @GetMapping("/{objectType}")
-    public EntityDescriptor.MetaEntity get(@Valid @PathVariable String objectType) throws ClassNotFoundException {
-        return entityDescriptor.describe(
-                Class.forName(String.format("%s.%s", ENTITIES_PACKAGE_NAME, StringUtils.capitalize(objectType)))
-        );
+    @GetMapping("/type/{objectType}")
+    public MetaEntity getByType(@Valid @PathVariable String objectType) throws ClassNotFoundException {
+        return metaDescriptor.describe(objectType);
+    }
+
+    @GetMapping("/id/{id}")
+    public MetaEntity getById(@Valid @PathVariable String id) throws ClassNotFoundException {
+        return metaDescriptor.describe(id);
     }
 }

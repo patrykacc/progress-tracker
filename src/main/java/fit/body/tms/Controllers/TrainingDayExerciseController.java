@@ -1,6 +1,5 @@
 package fit.body.tms.Controllers;
 
-import fit.body.tms.dtos.TrainingDayExerciseDTO;
 import fit.body.tms.entities.TrainingDayExercise;
 import fit.body.tms.services.TrainingDayExerciseService;
 import org.springframework.data.rest.webmvc.BasePathAwareController;
@@ -20,12 +19,12 @@ public class TrainingDayExerciseController {
     }
 
     @PostMapping("/save")
-    public TrainingDayExerciseDTO save(@Valid @RequestBody TrainingDayExerciseDTO trainingDayExerciseDTO) {
-        return new TrainingDayExerciseDTO((trainingDayExerciseService.save(new TrainingDayExercise(trainingDayExerciseDTO))));
+    public TrainingDayExercise save(@Valid @RequestBody TrainingDayExercise trainingDayExercise) {
+        return trainingDayExerciseService.save(trainingDayExercise);
     }
 
     @DeleteMapping("/{trainingDayExerciseId}")
-    public void delete(@Valid @PathVariable(value = "trainingDayExerciseId") Long trainingDayExerciseId) {
+    public void delete(@Valid @PathVariable(value = "trainingDayExerciseId") String trainingDayExerciseId) {
         trainingDayExerciseService.delete(trainingDayExerciseId);
     }
 }

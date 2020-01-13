@@ -23,23 +23,23 @@ public class TrainingPlanService {
         return trainingPlanRepository.save(trainingPlan);
     }
 
-    public TrainingPlan getById(Long id) {
+    public TrainingPlan getById(String id) {
         return this.trainingPlanRepository.findById(id).orElse(null);
     }
 
-    public Optional<TrainingPlan> getActivePlanForUser(Long userId) {
+    public Optional<TrainingPlan> getActivePlanForUser(String userId) {
         return userService.getActivePlanByUserId(userId);
     }
 
-    public List<TrainingPlan> getAllByUserId(Long userId) {
+    public List<TrainingPlan> getAllByUserId(String userId) {
         return this.trainingPlanRepository.findAllByPersonId(userId);
     }
 
-    public void delete(Long id) {
+    public void delete(String id) {
         trainingPlanRepository.deleteById(id);
     }
 
-    public void setActiveTrainingPlan(Long trainingPlanId) {
+    public void setActiveTrainingPlan(String trainingPlanId) {
         Person currentPerson = userService.getCurrentPerson().orElseGet(null);
         currentPerson.setActiveTrainingPlan(new TrainingPlan(trainingPlanId));
         userService.save(currentPerson);

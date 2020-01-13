@@ -17,7 +17,7 @@ public class TrainingDayExerciseService {
         return trainingDayExerciseRepository.save(trainingDayExercise);
     }
 
-    public void delete(Long id) {
+    public void delete(String id) {
         trainingDayExerciseRepository.deleteById(id);
     }
 }

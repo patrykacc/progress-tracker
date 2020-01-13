@@ -7,8 +7,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ExerciseRepository extends CrudRepository<Exercise, Long> {
+public interface ExerciseRepository extends CrudRepository<Exercise, String> {
 
-     List<Exercise> findAllByTrainingId(Long id);
-     void deleteById(Long id);
+     List<Exercise> findAllByTrainingId(String id);
+     void deleteById(String id);
 }

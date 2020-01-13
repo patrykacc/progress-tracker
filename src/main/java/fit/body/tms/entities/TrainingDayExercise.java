@@ -2,7 +2,7 @@ package fit.body.tms.entities;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import fit.body.tms.dtos.TrainingDayExerciseDTO;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
@@ -11,8 +11,9 @@ import javax.persistence.*;
 public class TrainingDayExercise {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue(generator = "global-id")
+    @GenericGenerator(name = "global-id", strategy = "fit.body.tms.entities.UI_IdGenerator")
+    private String id;
     private String name;
     private String description;
     private Integer repetitions;
@@ -24,20 +25,11 @@ public class TrainingDayExercise {
 
     public TrainingDayExercise() {}
 
-    public TrainingDayExercise(TrainingDayExerciseDTO trainingDayExerciseDTO) {
-        this.id = trainingDayExerciseDTO.getId();
-        this.name = trainingDayExerciseDTO.getName();
-        this.description = trainingDayExerciseDTO.getDescription();
-        this.repetitions = trainingDayExerciseDTO.getRepetitions();
-        this.series = trainingDayExerciseDTO.getSeries();
-        this.trainingDay = new TrainingDay(trainingDayExerciseDTO.getTrainingDay().getId());
-    }
-
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

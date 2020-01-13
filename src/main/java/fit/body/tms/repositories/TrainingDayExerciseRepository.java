@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface TrainingDayExerciseRepository extends CrudRepository<TrainingDayExercise, Long> {
+public interface TrainingDayExerciseRepository extends CrudRepository<TrainingDayExercise, String > {
 
-     List<TrainingDayExercise> findAllByTrainingDayId(Long trainingId);
+     List<TrainingDayExercise> findAllByTrainingDayId(String trainingId);
 }

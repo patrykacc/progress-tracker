@@ -13,7 +13,7 @@ public class UserPrincipal implements UserDetails {
 
     @Id
     @GeneratedValue
-    private Long id;
+    private String id;
     @NotBlank
     private String email;
     @NotBlank
@@ -69,11 +69,11 @@ public class UserPrincipal implements UserDetails {
         return true;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 }

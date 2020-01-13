@@ -21,7 +21,7 @@ public class UserPrincipalService implements UserDetailsService {
         return new UserPrincipal(userRepository.findByEmail(username));
     }
 
-    public UserPrincipal loadUserById(Long userId) {
+    public UserPrincipal loadUserById(String userId) {
         Person u = userRepository.findById(userId).orElse(null);
         if (u == null) {
             return null;
@@ -29,7 +29,7 @@ public class UserPrincipalService implements UserDetailsService {
         return new UserPrincipal(u);
     }
 
-    public Boolean userExistsById(Long userId) {
+    public Boolean userExistsById(String userId) {
         return userRepository.existsById(userId);
     }
 }

@@ -19,7 +19,7 @@ public class TrainingDayController {
     }
 
     @GetMapping("/{trainingDayId}")
-    public TrainingDay save(@Valid @PathVariable(value = "trainingDayId") Long trainingDayId) {
+    public TrainingDay save(@Valid @PathVariable(value = "trainingDayId") String trainingDayId) {
         return trainingDayService.getById(trainingDayId);
     }
 
@@ -29,7 +29,7 @@ public class TrainingDayController {
     }
 
     @DeleteMapping("/{trainingDayId}")
-    public void delete(@Valid @PathVariable(value = "trainingDayId") Long trainingDayId) {
+    public void delete(@Valid @PathVariable(value = "trainingDayId") String trainingDayId) {
         trainingDayService.delete(trainingDayId);
     }
 }

@@ -1,8 +1,5 @@
 package fit.body.tms.entities;
 
-import org.springframework.context.MessageSource;
-import org.springframework.stereotype.Component;
-
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -14,45 +11,37 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Component
-public class EntityDescriptor {
+public class MetaEntity {
 
-    public EntityDescriptor(MessageSource messageSource) {
-        this.messageSource = messageSource;
+    private final MetaDescriptor metaDescriptor;
+
+    public MetaEntity(MetaDescriptor metaDescriptor, Class<?> type) {
+        this.metaDescriptor = metaDescriptor;
+        getDataFromType(type);
     }
 
-    private Optional<String> getLabel(String code) {
-        return Optional.ofNullable(messageSource.getMessage(code, null, null, Locale.getDefault()));
+    public MetaEntity(MetaDescriptor metaDescriptor, String id) throws ClassNotFoundException {
+        this.metaDescriptor = metaDescriptor;
+        getDataFromType(this.metaDescriptor.getObjectTypeFromId(id));
     }
 
-    final private MessageSource messageSource;
-
-    public MetaEntity describe(Class type) {
-        return new MetaEntity(type);
+    private void getDataFromType(Class<?> type) {
+        this.fields = Arrays.stream(type.getDeclaredFields()).map((Field field) -> new MetaField(field, type)).collect(Collectors.toList());
+        this.label = metaDescriptor.getLabel(type.getSimpleName()).orElse(type.getSimpleName());
+        this.apiName = type.getSimpleName();
     }
 
-    public class MetaEntity {
-
-        public MetaEntity(Class type) {
-            this.fields = Arrays.stream(type.getDeclaredFields()).map((Field field) -> new MetaField(field, type)).collect(Collectors.toList());
-            this.label = getLabel(type.getSimpleName()).orElse("No label for object: " + type.getSimpleName());
-            this.apiName = type.getSimpleName();
-        }
-
-        public String apiName;
-        public String label;
-        public List<MetaField> fields;
-    }
+    public String apiName;
+    public String label;
+    public List<MetaField> fields;
 
     public class MetaField {
 
         public MetaField(Field field, Class objectType) {
             this.apiName = field.getName();
-            this.label = getLabel(objectType.getSimpleName() + "." + apiName).orElse("No label for field: " + field.getName());
+            this.label = metaDescriptor.getLabel(objectType.getSimpleName() + "." + apiName).orElse(field.getName());
             this.type = determineFieldType(field);
         }
 
@@ -93,4 +82,3 @@ public class EntityDescriptor {
         }
     }
 }
-

@@ -8,11 +8,11 @@ import javax.validation.constraints.Email;
 import java.util.List;
 
 @Repository
-public interface UserRepository extends CrudRepository<Person, Long> {
+public interface UserRepository extends CrudRepository<Person, String> {
 
     <T extends Person> T save(T user);
     List<Person> findAll();
     Person findByEmail(@Email String email);
     Boolean existsByEmail(@Email String email);
-    boolean existsById(Long id);
+    boolean existsById(String id);
 }

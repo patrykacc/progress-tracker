@@ -3,7 +3,7 @@ package fit.body.tms.entities;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import fit.body.tms.dtos.PersonDTO;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -18,8 +18,9 @@ public class Person {
     @NotBlank
     private String email;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue(generator = "global-id")
+    @GenericGenerator(name = "global-id", strategy = "fit.body.tms.entities.UI_IdGenerator")
+    private String id;
     @NotBlank
     private String password;
     @NotBlank
@@ -36,16 +37,10 @@ public class Person {
     private TrainingPlan activeTrainingPlan;
 
     public Person() {}
-    public Person(Long id) {
+    public Person(String id) {
         this.id = id;
     }
-    public Person(PersonDTO personDTO) {
-        this.email = personDTO.getEmail();
-        this.id = personDTO.getId();
-        this.authority = personDTO.getAuthority();
-        this.firstName = personDTO.getFirstName();
-        this.lastName = personDTO.getLastName();
-    }
+
 
     public String getPassword() {
         return password;
@@ -99,11 +94,11 @@ public class Person {
         this.lastName = lastName;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
