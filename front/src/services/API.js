@@ -17,7 +17,7 @@ class API {
 
     save = (object) => {
         if (this.URI) {
-            return fetch('/api/' + this.URI, {
+            return fetch('/api/' + this.URI + '/' + object.id, {
                 method: object.id ? 'PUT' : 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -27,7 +27,7 @@ class API {
                 body: JSON.stringify(object)
             })
                 .then(response => {
-                    if (response.status === 201) {
+                    if (response.status === 200 || response.status === 201) {
                         return response.json();
                     }
                     this.clearPath();
