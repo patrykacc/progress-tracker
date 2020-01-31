@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import javax.persistence.*;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
@@ -23,7 +24,7 @@ public class MetaDescriptor {
     public MetaDescriptor(MessageSource messageSource, EntityManagerFactory entityManagerFactory) {
         this.messageSource = messageSource;
         prefixToEntityName = entityManagerFactory.getMetamodel().getEntities()
-                .stream().collect( Collectors.toMap(
+                .stream().collect(Collectors.toMap(
                         entityType -> UI_IdGenerator.getCapitalsFromString(entityType.getName()),
                         entityType -> entityType.getJavaType().getName()
                 ));
@@ -37,9 +38,7 @@ public class MetaDescriptor {
     }
 
     public MetaEntity describe(Class<?> type) {
-        MetaEntity metaEntity = getMetaEntity(type);
-
-        return metaEntity;
+        return getMetaEntity(type);
     }
 
     public MetaEntity describe(String type) throws ClassNotFoundException {
@@ -48,17 +47,21 @@ public class MetaDescriptor {
     }
 
     public MetaEntity describe(Object id) throws ClassNotFoundException {
-        return getMetaEntity(getObjectTypeFromId((String)id)); //// TODO UGLY-UGLY WORKAROUND WITH METHOD OVERLOAD, UNTIL ID CLASS WILL BE IMPLEMENTED
+        return getMetaEntity(getObjectTypeFromId((String) id)); //// TODO UGLY-UGLY WORKAROUND WITH METHOD OVERLOAD, UNTIL ID CLASS WILL BE IMPLEMENTED
     }
 
     private MetaEntity getMetaEntity(Class<?> type) {
         MetaEntity metaEntity = new MetaEntity();
-        metaEntity.fields = Arrays.stream(
-                type.getSuperclass().getDeclaredFields()).map((Field field) -> getMetaField(field, type)).collect(Collectors.toList()
+        metaEntity.fields = Arrays.stream(type.getSuperclass().getDeclaredFields())
+                .filter(field -> !Modifier.isStatic(field.getModifiers()))
+                .map((Field field) -> getMetaField(field, type))
+                .collect(Collectors.toList());
+        metaEntity.fields.addAll(
+                Arrays.stream(type.getDeclaredFields())
+                        .filter(field -> !Modifier.isStatic(field.getModifiers()))
+                        .map((Field field) -> getMetaField(field, type))
+                        .collect(Collectors.toList())
         );
-        metaEntity.fields.addAll(Arrays.stream(
-                type.getDeclaredFields()).map((Field field) -> getMetaField(field, type)).collect(Collectors.toList()
-        ));
         metaEntity.label = getLabel(type.getSimpleName()).orElse(type.getSimpleName());
         metaEntity.apiName = type.getSimpleName();
         return metaEntity;
@@ -68,22 +71,22 @@ public class MetaDescriptor {
         String label = getLabel(entityType.getSimpleName() + "." + field.getName()).orElse(field.getName());
         Class<?> type = field.getType();
         if (type == Integer.class) {
-            return new MetaFieldBase(field, label,  "NUMBER");
+            return new MetaFieldBase(field, label, "NUMBER");
         } else if (type == String.class) {
-            return new MetaFieldBase(field, label,  "TEXT");
+            return new MetaFieldBase(field, label, "TEXT");
         } else if (type == LocalDate.class) {
-            return new MetaFieldBase(field, label,  "DATE");
+            return new MetaFieldBase(field, label, "DATE");
         } else if (type == LocalTime.class) {
-            return new MetaFieldBase(field, label,  "TIME");
+            return new MetaFieldBase(field, label, "TIME");
         } else {
             List<Annotation> annotations = Arrays.asList(field.getDeclaredAnnotations());
             if (annotations.stream().anyMatch(annotation -> annotation.annotationType() == Id.class)) {
-                return new MetaFieldBase(field, label,  "ID");
+                return new MetaFieldBase(field, label, "ID");
             } else if (annotations.stream().anyMatch(annotation ->
                     annotation.annotationType() == ManyToOne.class || annotation.annotationType() == OneToOne.class)) {
-                return new MetaFieldBase(field, label,  "REFERENCE");
+                return new MetaFieldBase(field, label, "REFERENCE");
             } else if (annotations.stream().anyMatch(annotation -> annotation.annotationType() == OneToMany.class)) {
-                return new MetaFieldList(field, label,  "LIST");
+                return new MetaFieldList(field, label, "LIST");
             }
         }
         return null;
