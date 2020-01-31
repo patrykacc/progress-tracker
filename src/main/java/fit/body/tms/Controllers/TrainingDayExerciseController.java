@@ -1,11 +1,9 @@
 package fit.body.tms.Controllers;
 
-import fit.body.tms.entities.TrainingDayExercise;
 import fit.body.tms.services.TrainingDayExerciseService;
 import org.springframework.data.rest.webmvc.BasePathAwareController;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @BasePathAwareController
@@ -18,7 +16,7 @@ public class TrainingDayExerciseController {
         this.trainingDayExerciseService = trainingService;
     }
 
-    @PostMapping("/save")
+    /*@PostMapping("/save")
     public TrainingDayExercise save(@Valid @RequestBody TrainingDayExercise trainingDayExercise) {
         return trainingDayExerciseService.save(trainingDayExercise);
     }
@@ -26,5 +24,5 @@ public class TrainingDayExerciseController {
     @DeleteMapping("/{trainingDayExerciseId}")
     public void delete(@Valid @PathVariable(value = "trainingDayExerciseId") String trainingDayExerciseId) {
         trainingDayExerciseService.delete(trainingDayExerciseId);
-    }
+    }*/
 }

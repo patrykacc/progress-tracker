@@ -15,15 +15,15 @@ const RelatedList = ({objects, field, history, parentRecord}) => {
         setIsVisible(false);
     }
     const handleRowClick = (record) => {
-        history.push('/' + childrenApiName + '/' + record.id);
+        history.push('/view/' + record.id);
     };
     return (
         <>
             <NewRecordModal objectApiName={childrenApiName} parentRecord={parentRecord} isVisible={isVisible} closeSelf={closeModal}/>
+            <BaseList title={label} objects={objects} rowClick={handleRowClick} fields={field.relatedListFields}/>
             <BaseButtonGroup actions={[
                 {label: 'Dodaj', handler: addNewRecord},
             ]}/>
-            <BaseList title={label} objects={objects} rowClick={handleRowClick}/>
         </>
     );
 };

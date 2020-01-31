@@ -1,7 +1,7 @@
 package fit.body.tms.Controllers;
 
-import fit.body.tms.entities.MetaDescriptor;
-import fit.body.tms.entities.MetaEntity;
+import fit.body.tms.meta.MetaDescriptor;
+import fit.body.tms.meta.MetaEntity;
 import org.springframework.data.rest.webmvc.BasePathAwareController;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

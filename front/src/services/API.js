@@ -17,8 +17,8 @@ class API {
 
     save = (object) => {
         if (this.URI) {
-            return fetch('/api/' + this.URI + '/save', {
-                method: 'POST',
+            return fetch('/api/' + this.URI, {
+                method: object.id ? 'PUT' : 'POST',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
@@ -27,7 +27,7 @@ class API {
                 body: JSON.stringify(object)
             })
                 .then(response => {
-                    if (response.status === 200) {
+                    if (response.status === 201) {
                         return response.json();
                     }
                     this.clearPath();
@@ -58,7 +58,7 @@ class API {
                 console.error(error);
                 this.clearPath();
             })
-    }
+    };
 
     get = (objectId) => {
         return fetch('/api/' + this.URI + '/' + objectId, {

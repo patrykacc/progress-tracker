@@ -2,9 +2,12 @@ package fit.body.tms.entities;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
@@ -15,15 +18,17 @@ public class Exercise {
     @GenericGenerator(name = "global-id", strategy = "fit.body.tms.entities.UI_IdGenerator")
     private String id;
     private String name;
-    private Integer repetitions;
-    private Integer series;
-    private Double weight;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "training_id")
     private Training training;
 
-    public Exercise() {}
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "exercise", cascade = CascadeType.REMOVE)
+    @Fetch(value = FetchMode.SUBSELECT)
+    private List<Series> series;
+
+    public Exercise() {
+    }
 
     public String getId() {
         return id;
@@ -41,28 +46,12 @@ public class Exercise {
         this.name = name;
     }
 
-    public Integer getRepetitions() {
-        return repetitions;
-    }
-
-    public void setRepetitions(Integer repetitions) {
-        this.repetitions = repetitions;
-    }
-
-    public Integer getSeries() {
+    public List<Series> getSeries() {
         return series;
     }
 
-    public void setSeries(Integer series) {
+    public void setSeries(List<Series> series) {
         this.series = series;
-    }
-
-    public Double getWeight() {
-        return weight;
-    }
-
-    public void setWeight(Double weight) {
-        this.weight = weight;
     }
 
     public Training getTraining() {

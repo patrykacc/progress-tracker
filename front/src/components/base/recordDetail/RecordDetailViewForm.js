@@ -6,8 +6,8 @@ export default ({recordInfo, record}) => {
     let history = useHistory();
 
     const redirectToReference = (event) => {
-        const {id, type} = event.currentTarget.dataset;
-        history.push('/' + type + '/' + id);
+        const {id} = event.currentTarget.dataset;
+        history.push('/view/' + id);
     };
 
     if (!(recordInfo || record)) {
@@ -16,17 +16,17 @@ export default ({recordInfo, record}) => {
     return (
         <Descriptions title={recordInfo.label} bordered>
             {recordInfo.fields.map(field => {
-                if (field.type === 'ID' || field.type === 'LIST') {
+                if (field.type === 'ID' || field.type === 'LIST' || field.apiName === 'relatedListFields') {
                     return null;
                 }
                 if (field.type === 'REFERENCE') {
                     const referencedObject = record[field.apiName];
-                    const name = referencedObject ? referencedObject.name : 'Parent';
+                    const name = referencedObject ? referencedObject.id : '';
                     const id = referencedObject ? referencedObject.id : '';
                     return (
                             <Descriptions.Item key={field.apiName}
                                                label={field.label}>
-                                <div onClick={redirectToReference} data-id={id} data-type={field.referenceApiName}>{name}</div>
+                                <div onClick={redirectToReference} data-id={id}>{name}</div>
                             </Descriptions.Item>
                     )
                 } else {

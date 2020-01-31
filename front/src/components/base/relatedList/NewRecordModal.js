@@ -2,16 +2,16 @@ import React, {useEffect} from 'react';
 
 import {Modal} from "antd";
 import RecordDetailEditForm from "../recordDetail/RecordDetailEditForm";
-import getObjectMetadata from "../../../services/MetadataDescriptorAPI";
 import API from "../../../services/API";
 import {useHistory} from "react-router";
+import RecordPageAPI from "../../../services/RecordPageAPI";
 
 
-const RelatedList = ({objectApiName, parentRecord, isVisible, closeSelf}) => {
+const NewRecordModal = ({objectApiName, parentRecord, isVisible, closeSelf}) => {
     const history = useHistory();
-    const [newRecord, setNewRecord] = React.useState({...parentRecord});
+    const [newRecord, setNewRecord] = React.useState({...parentRecord, id: null});
     const [recordInfo, setRecordInfo] = React.useState();
-    const SpecificAPI = new API(objectApiName);
+    let SpecificAPI = React.useRef();
 
     const handleChange = (event) => {
         let value = event.currentTarget.value;
@@ -22,20 +22,22 @@ const RelatedList = ({objectApiName, parentRecord, isVisible, closeSelf}) => {
 
 
     const handleOk = () => {
-        debugger
-        SpecificAPI.save(newRecord)
+        SpecificAPI.current.save(newRecord)
             .then(response => {
                 if (response) {
-                    history.push('/' + SpecificAPI.URI + '/' + response.id);
+                    history.push('/view/' + response.id);
                 }
             })
     };
 
     useEffect(() => {
         if(objectApiName) {
-            getObjectMetadata(objectApiName)
+            RecordPageAPI.getNewRecordPage(objectApiName)
                 .then(response => {
-                    setRecordInfo(response);
+                    if (response) {
+                        setRecordInfo(response.metaEntity);
+                        SpecificAPI.current = new API(objectApiName);
+                    }
                 })
         }
     }, [objectApiName]);
@@ -60,4 +62,4 @@ const RelatedList = ({objectApiName, parentRecord, isVisible, closeSelf}) => {
     );
 };
 
-export default RelatedList;
+export default NewRecordModal;

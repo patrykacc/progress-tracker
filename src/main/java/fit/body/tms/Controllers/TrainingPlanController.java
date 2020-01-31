@@ -25,11 +25,11 @@ public class TrainingPlanController {
         this.entityManager = entityManager;
     }
 
-    @GetMapping("/{trainingPlanId}")
+    /*@GetMapping("/{trainingPlanId}")
     public TrainingPlan get(@Valid @PathVariable String trainingPlanId) {
         return trainingPlanService.getById(trainingPlanId);
     }
-
+*/
     @GetMapping("/getActiveTrainingPlan")
     public TrainingPlan getActivePlan() {
         return trainingPlanService.getActivePlanForUser(UserService.getPrincipal().getId()).orElse(null);

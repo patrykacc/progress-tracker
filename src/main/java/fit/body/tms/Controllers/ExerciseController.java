@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @BasePathAwareController
@@ -20,7 +19,7 @@ public class ExerciseController {
         this.exerciseService = exerciseService;
     }
 
-    @GetMapping("/{exerciseId}")
+    /*@GetMapping("/{exerciseId}")
     public Optional<Exercise> get(@Valid @PathVariable String exerciseId) {
         return exerciseService.getById(exerciseId);
     }
@@ -28,7 +27,7 @@ public class ExerciseController {
     @PostMapping("/save")
     public Exercise save(@Valid @RequestBody Exercise exercise) {
         return exerciseService.save(exercise);
-    }
+    }*/
 
     @GetMapping("/getAllByTrainingId/{trainingId}")
     public List<Exercise> getAllByTrainingId(@Valid @PathVariable("trainingId") String trainingId) {

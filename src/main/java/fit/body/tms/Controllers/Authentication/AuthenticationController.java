@@ -78,8 +78,6 @@ public class AuthenticationController {
 //        try {
             result = userRepository.save(person);
 //        } catch (Exception e) {
-//            System.out.println(e.getStackTrace());
-//            System.out.println(e.getMessage());
 //            return new ResponseEntity<>(new ApiResponse(false, "Bład podczas rejestracji, sprawdź wymagane pola"),
 //                    HttpStatus.BAD_REQUEST);
 //        }

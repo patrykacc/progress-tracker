@@ -15,7 +15,7 @@ export default function ActiveTrainingPlanView() {
     }, [dispatch]);
 
     const change = () => {
-        history.push('/plans')
+        history.push('/Plans')
     }
 
     return (

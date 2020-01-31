@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import fit.body.tms.repositories.TrainingListener;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -18,13 +17,7 @@ import java.util.Optional;
 @Entity
 @EntityListeners(TrainingListener.class)
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
-public class Training {
-
-    @Id
-    @GeneratedValue(generator = "global-id")
-    @GenericGenerator(name = "global-id", strategy = "fit.body.tms.entities.UI_IdGenerator")
-    private String id;
-
+public class Training extends BaseEntity {
 
     private Integer duration;
     private Integer volume;
@@ -37,7 +30,7 @@ public class Training {
     @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     private LocalTime startTime;
 
-    @OneToMany(fetch = FetchType.EAGER,mappedBy = "training")
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "training", cascade = CascadeType.REMOVE)
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Exercise> exercises;
 
@@ -57,14 +50,6 @@ public class Training {
 
     public void setVolume(Integer volume) {
         this.volume = volume;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public Integer getDuration() {

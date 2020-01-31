@@ -24,18 +24,9 @@ export default function App() {
                         <Route path="/signin" component={SignIn}/>
                         <Route path="/signup" component={SignUp}/>
                         <PrivateRoute exact path="/" component={Home}/>
-                        <PrivateRoute path="/Training/:id" component={ContextRecordDetail}/>
-                        <PrivateRoute path="/Training" component={ContextRecordDetail}/>
-                        <PrivateRoute path="/TrainingDay/:id" component={ContextRecordDetail}/>
-                        <PrivateRoute path="/TrainingDay" component={ContextRecordDetail}/>
-                        <PrivateRoute path="/TrainingDayExercise/:id" component={ContextRecordDetail}/>
-                        <PrivateRoute path="/TrainingDayExercise" component={ContextRecordDetail}/>
-                        <PrivateRoute path="/Exercise/:id" component={ContextRecordDetail}/>
-                        <PrivateRoute path="/Exercise" component={ContextRecordDetail}/>
+                        <PrivateRoute path="/view/:id" component={ContextRecordDetail}/>
                         <PrivateRoute path="/Trainings" component={TrainingsList}/>
                         <PrivateRoute path="/Plans" component={TrainingPlansList}/>
-                        <PrivateRoute path="/TrainingPlan/:id" component={ContextRecordDetail}/>
-                        <PrivateRoute path="/TrainingPlan" component={ContextRecordDetail}/>
                     </Layout.Content>
                     <Layout.Footer style={{textAlign: 'center', background: 'white'}}>
                         Progress Tracker ©2020 Created by Patryk

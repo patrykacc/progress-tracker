@@ -1,11 +1,12 @@
-import React, {useEffect} from "react";
+import React, {useCallback, useEffect} from "react";
 import API from "../../../services/API";
 import getObjectMetadata from "../../../services/MetadataDescriptorAPI";
 import RecordDetailView from "./RecordDetailView";
 import RecordDetailEdit from "./RecordDetailEdit";
 import {useHistory, useLocation} from "react-router";
+import RecordPageAPI from "../../../services/RecordPageAPI";
 
-export default ({actions = [], objectType, recordId, parentRecord = {}}) => {
+export default ({actions = [], recordId, parentRecord = {}}) => {
     let history = useHistory();
     let location = useLocation();
     const [recordInfo, setRecordInfo] = React.useState();
@@ -13,21 +14,24 @@ export default ({actions = [], objectType, recordId, parentRecord = {}}) => {
 
     const [mode, setMode] = React.useState(recordId ? 'view' : 'create');
     const [relatedLists, setRelatedLists] = React.useState([]);
-    const SpecificAPI = React.useRef(new API(objectType));
+    let SpecificAPI = React.useRef();
 
     useEffect(() => {
-        console.log('meta');
-        if(objectType) {
-            getObjectMetadata(objectType)
+        if(recordId) {
+            RecordPageAPI.getRecordPage(recordId)
                 .then(response => {
-                    setRecordInfo(response);
+                    if(response) {
+                        setRecordInfo(response.metaEntity);
+                        setRecord(response.record);
+                        SpecificAPI.current = new API(response.metaEntity.apiName);
+                    }
                 })
         }
-    }, [objectType]);
+    }, [recordId, mode]);
 
     useEffect(() => {
         let lists = [];
-        if (recordInfo && record && record.id) {
+        if (record && record.id && recordInfo) {
             console.log('related')
             recordInfo.fields
                 .filter(field => field.type === "LIST")
@@ -36,30 +40,11 @@ export default ({actions = [], objectType, recordId, parentRecord = {}}) => {
                 });
             setRelatedLists(lists);
         }
-    }, [recordInfo, record]);
-
-    const refresh = React.useCallback((callback) => {
-        if (recordId) {
-            console.log('API')
-            SpecificAPI.current.get(recordId)
-                .then(response => {
-                    setRecord(response);
-                    if (callback) {
-                        callback();
-                    }
-                })
-        }
-    }, [SpecificAPI, recordId]);
-
-
-    useEffect(() => {
-        console.log('refresh')
-        refresh();
-    }, [recordId, refresh]);
+    }, [record, recordInfo]);
 
     const commonProps = {
-        SpecificAPI: SpecificAPI.current, recordInfo, actions, setMode, refresh
-    }
+        SpecificAPI: SpecificAPI.current, recordInfo, actions, setMode
+    };
 
     const render = () => {
         if (mode === 'empty' || mode == null) {

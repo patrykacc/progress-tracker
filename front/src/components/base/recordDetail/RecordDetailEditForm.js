@@ -7,7 +7,7 @@ export default ({recordInfo, record, handleChange}) => {
     } else {
         return (
             recordInfo.fields.map(field => {
-                if (field.type === 'ID' || field.type === 'LIST' || field.type === 'REFERENCE') {
+                if (field.type === 'ID' || field.type === 'LIST' || field.type === 'REFERENCE' || field.apiName === 'relatedListFields') {
                     return null;
                 }
 

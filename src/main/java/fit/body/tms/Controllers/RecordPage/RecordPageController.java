@@ -1,6 +1,6 @@
 package fit.body.tms.Controllers.RecordPage;
 
-import fit.body.tms.entities.MetaDescriptor;
+import fit.body.tms.meta.MetaDescriptor;
 import org.springframework.data.rest.webmvc.BasePathAwareController;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

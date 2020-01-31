@@ -5,7 +5,7 @@ import BaseButtonGroup from "../BaseButtonGroup";
 import {useDispatch} from "react-redux";
 import RecordDetailEditForm from "./RecordDetailEditForm";
 
-export default ({recordProp = {}, recordInfo, refresh, actions = [], setMode, SpecificAPI}) => {
+export default ({recordProp = {}, recordInfo, actions = [], setMode, SpecificAPI}) => {
     let isCreateMode = !recordProp.id;
     let history = useHistory()
     const dispatch = useDispatch();
@@ -39,7 +39,7 @@ export default ({recordProp = {}, recordInfo, refresh, actions = [], setMode, Sp
                     if (isCreateMode) {
                         history.push('/' + SpecificAPI.URI + '/' + response.id);
                     } else {
-                        refresh(() => setMode('view'))
+                        setMode('view');
                     }
                 }
             })

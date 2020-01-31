@@ -7,12 +7,14 @@ import {
 } from "../../redux/actions/trainingPlanActions";
 import {Button, Icon, List, Skeleton} from "antd";
 import ButtonGroup from "antd/lib/button/button-group";
+import NewRecordModal from "../base/relatedList/NewRecordModal";
 
 export default function TrainingPlansList({history}) {
     const trainingPlans = useSelector(state => state.trainingPlans);
     const trainingPlanViewMode = useSelector(state => state.trainingPlanViewMode);
     const activeTrainingPlan = useSelector(state => state.activeTrainingPlan);
     let activePlanId = activeTrainingPlan ? activeTrainingPlan.id : null;
+    const [showNewPlanModal, setShowNewPlanModal] = React.useState(false);
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getAllTrainingPlansAction());
@@ -27,7 +29,7 @@ export default function TrainingPlansList({history}) {
     const rowClick = (plan) => {
         dispatch({type: 'TRAINING_PLAN_UPDATED', trainingPlan: plan});
         dispatch({type: 'TRAINING_PLAN_VIEW_MODE', mode: 'view'});
-        history.push('/TrainingPlan/' + plan.id);
+        history.push('/view/' + plan.id);
     }
 
     const cancel = () => {
@@ -35,8 +37,7 @@ export default function TrainingPlansList({history}) {
     };
 
     const createNewPlan = () => {
-        dispatch({type: 'CLEAR_TRAINING_PLAN'});
-        history.push('/plans/new');
+        setShowNewPlanModal(true);
     };
 
     return (
@@ -66,6 +67,7 @@ export default function TrainingPlansList({history}) {
                       </List.Item>
                   )}
             />
+            <NewRecordModal isVisible={showNewPlanModal} objectApiName={'TrainingPlan'} />
             <ButtonGroup>
                 <Button onClick={createNewPlan}>Stwórz nowy plan</Button>
                 <Button onClick={cancel}>Anuluj</Button>

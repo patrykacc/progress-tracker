@@ -2,8 +2,11 @@ import React from 'react';
 import {List, Skeleton} from "antd";
 
 
-const BaseList = ({objects, title, rowClick, fields = ['name']}) => {
+const BaseList = ({objects, title, rowClick, fields}) => {
 
+    if (!fields) {
+        fields  = ['name'];
+    }
     return (
         <div style={{minWidth: '240px'}}>
             <List header={<div>{title}</div>}

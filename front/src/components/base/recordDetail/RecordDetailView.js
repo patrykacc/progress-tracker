@@ -35,9 +35,10 @@ export default ({record, recordInfo, SpecificAPI, setMode, relatedLists = []}) =
             </Row>
             <Row>
                 {relatedLists.map(relatedList => {
+
                     return (<RelatedList key={relatedList.field.apiName} objects={relatedList.records}
                                          field={relatedList.field} history={history}
-                                         parentRecord={{[relatedList.field.parentRelationName]: {id:record.id}}}/>
+                                         parentRecord={{[relatedList.field.parentRelationName]: record.links[0].href}}/>
                     )
                 })}
             </Row>

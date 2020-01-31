@@ -35,11 +35,6 @@ public class TrainingDay {
         this.trainingDayExercises = new ArrayList<>();
     }
 
-    public TrainingDay(String id) {
-        this.id = id;
-        this.trainingDayExercises = new ArrayList<>();
-    }
-
     public String getId() {
         return id;
     }
