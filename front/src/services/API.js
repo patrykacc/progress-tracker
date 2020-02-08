@@ -27,7 +27,7 @@ class API {
                 body: JSON.stringify(object)
             })
                 .then(response => {
-                    if (response.status === 200 ) {
+                    if (response.status === 200 || response.status === 201) {
                         return response.json();
                     }
                     this.clearPath();
