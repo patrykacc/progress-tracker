@@ -10,6 +10,8 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
+import static org.hibernate.annotations.CascadeType.DETACH;
+
 
 @Entity
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
@@ -24,7 +26,7 @@ public class Person {
     @GenericGenerator(name = "global-id", strategy = "fit.body.tms.entities.UI_IdGenerator")
     private String id;
 
-    @JsonProperty
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
     @NotBlank
     private String authority;
@@ -35,7 +37,7 @@ public class Person {
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "active_training_plan_id")
-    @Cascade(org.hibernate.annotations.CascadeType.DETACH)
+    @Cascade(DETACH)
     private TrainingPlan activeTrainingPlan;
 
     public Person() {}

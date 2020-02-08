@@ -61,7 +61,6 @@ export default (props) => {
         let value = e.currentTarget.value;
         let inputName = e.currentTarget.name;
         state[inputName] = value;
-        console.log(state)
         setState({...state});
     };
 
@@ -76,7 +75,8 @@ export default (props) => {
             body: JSON.stringify({email: state.username, password: state.password})
         })
             .then(response => {
-                if (response.statusText === 'OK') {
+                console.log(response)
+                if (response.ok) {
                     return response.json();
                 } else {
                     setMessage('Logowanie nie powiodło się, wprowadzone dane są nieprawidłowe');
