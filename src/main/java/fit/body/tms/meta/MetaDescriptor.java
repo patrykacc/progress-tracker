@@ -1,5 +1,6 @@
 package fit.body.tms.meta;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import fit.body.tms.entities.UI_IdGenerator;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
@@ -55,11 +56,13 @@ public class MetaDescriptor {
         metaEntity.fields = Arrays.stream(type.getSuperclass().getDeclaredFields())
                 .filter(field -> !Modifier.isStatic(field.getModifiers()))
                 .map((Field field) -> getMetaField(field, type))
+                .filter(Objects::nonNull)
                 .collect(Collectors.toList());
         metaEntity.fields.addAll(
                 Arrays.stream(type.getDeclaredFields())
                         .filter(field -> !Modifier.isStatic(field.getModifiers()))
                         .map((Field field) -> getMetaField(field, type))
+                        .filter(Objects::nonNull)
                         .collect(Collectors.toList())
         );
         metaEntity.label = getLabel(type.getSimpleName()).orElse(type.getSimpleName());
@@ -68,9 +71,21 @@ public class MetaDescriptor {
     }
 
     private MetaFieldBase getMetaField(Field field, Class<?> entityType) {
-        String label = getLabel(entityType.getSimpleName() + "." + field.getName()).orElse(field.getName());
+        String label = getLabel(field.getName())
+                .orElse(getLabel(entityType.getSimpleName() + "." + field.getName())
+                        .orElse(field.getName()));
         Class<?> type = field.getType();
-        if (type == Integer.class) {
+        List<Annotation> annotations = Arrays.asList(field.getDeclaredAnnotations());
+        if (annotations.stream().anyMatch(annotation -> annotation.annotationType() == JsonProperty.class)) {
+            return null;
+        } else if (annotations.stream().anyMatch(annotation -> annotation.annotationType() == Id.class)) {
+            return new MetaFieldBase(field, label, "ID");
+        } else if (annotations.stream().anyMatch(annotation ->
+                annotation.annotationType() == ManyToOne.class || annotation.annotationType() == OneToOne.class)) {
+            return new MetaFieldBase(field, label, "REFERENCE");
+        } else if (annotations.stream().anyMatch(annotation -> annotation.annotationType() == OneToMany.class)) {
+            return new MetaFieldList(field, label, "LIST");
+        } else if (type == Integer.class) {
             return new MetaFieldBase(field, label, "NUMBER");
         } else if (type == String.class) {
             return new MetaFieldBase(field, label, "TEXT");
@@ -78,16 +93,6 @@ public class MetaDescriptor {
             return new MetaFieldBase(field, label, "DATE");
         } else if (type == LocalTime.class) {
             return new MetaFieldBase(field, label, "TIME");
-        } else {
-            List<Annotation> annotations = Arrays.asList(field.getDeclaredAnnotations());
-            if (annotations.stream().anyMatch(annotation -> annotation.annotationType() == Id.class)) {
-                return new MetaFieldBase(field, label, "ID");
-            } else if (annotations.stream().anyMatch(annotation ->
-                    annotation.annotationType() == ManyToOne.class || annotation.annotationType() == OneToOne.class)) {
-                return new MetaFieldBase(field, label, "REFERENCE");
-            } else if (annotations.stream().anyMatch(annotation -> annotation.annotationType() == OneToMany.class)) {
-                return new MetaFieldList(field, label, "LIST");
-            }
         }
         return null;
     }

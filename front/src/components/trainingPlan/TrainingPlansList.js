@@ -14,7 +14,7 @@ export default function TrainingPlansList({history}) {
     const trainingPlanViewMode = useSelector(state => state.trainingPlanViewMode);
     const activeTrainingPlan = useSelector(state => state.activeTrainingPlan);
     let activePlanId = activeTrainingPlan ? activeTrainingPlan.id : null;
-    const [showNewPlanModal, setShowNewPlanModal] = React.useState(false);
+    const [newPlanModalVisible, setNewPlanModalVisible] = React.useState(false);
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getAllTrainingPlansAction());
@@ -36,8 +36,12 @@ export default function TrainingPlansList({history}) {
         dispatch({type: 'TRAINING_PLAN_VIEW_MODE', mode: 'view'});
     };
 
-    const createNewPlan = () => {
-        setShowNewPlanModal(true);
+    const showNewPlanModal = () => {
+        setNewPlanModalVisible(true);
+    };
+
+    const hideNewPlanModal = () => {
+        setNewPlanModalVisible(false);
     };
 
     return (
@@ -67,9 +71,9 @@ export default function TrainingPlansList({history}) {
                       </List.Item>
                   )}
             />
-            <NewRecordModal isVisible={showNewPlanModal} objectApiName={'TrainingPlan'} />
+            <NewRecordModal isVisible={newPlanModalVisible} objectApiName={'TrainingPlan'} closeSelf={hideNewPlanModal}/>
             <ButtonGroup>
-                <Button onClick={createNewPlan}>Stwórz nowy plan</Button>
+                <Button onClick={showNewPlanModal}>Stwórz nowy plan</Button>
                 <Button onClick={cancel}>Anuluj</Button>
             </ButtonGroup>
         </div>

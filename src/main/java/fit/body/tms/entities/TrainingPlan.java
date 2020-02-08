@@ -23,7 +23,7 @@ public class TrainingPlan {
     private String id;
     private String name;
     private String description;
-    private Integer trainingDaysNumber;
+    private Integer trainingDaysCount;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "trainingPlan", cascade = CascadeType.REMOVE)
     @Fetch(value = FetchMode.SUBSELECT)
@@ -82,11 +82,11 @@ public class TrainingPlan {
         this.description = description;
     }
 
-    public Integer getTrainingDaysNumber() {
-        return trainingDaysNumber;
+    public Integer getTrainingDaysCount() {
+        return trainingDaysCount;
     }
 
-    public void setTrainingDaysNumber(Integer trainingDaysNumber) {
-        this.trainingDaysNumber = trainingDaysNumber;
+    public void setTrainingDaysCount(Integer trainingDaysCount) {
+        this.trainingDaysCount = trainingDaysCount;
     }
 }

@@ -19,7 +19,7 @@ export default ({exercise}) => {
     const remove = () => {
         ExerciseAPI.delete(exercise.id)
             .then(response => {
-                if (response.status === 200) {
+                if (response.statusText === 'OK') {
                     dispatch(getExercisesAction());
                     dispatch(getTrainingAction(training.id));
                     dispatch({type: 'EXERCISE_VIEW_MODE', mode: 'empty'});

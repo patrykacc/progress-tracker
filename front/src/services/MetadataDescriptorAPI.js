@@ -6,7 +6,7 @@ const getObjectMetadata = (objectType) => {
         }
     })
         .then(res => {
-            return res.status === 200 ? res.json() : null
+            return res.status === 'OK' ? res.json() : null
         })
         .catch(error => console.error(error))
 };

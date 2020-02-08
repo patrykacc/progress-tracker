@@ -1,6 +1,5 @@
 package fit.body.tms.services;
 
-import fit.body.tms.entities.Person;
 import fit.body.tms.entities.TrainingPlan;
 import fit.body.tms.repositories.TrainingPlanRepository;
 import org.springframework.stereotype.Service;
@@ -40,8 +39,11 @@ public class TrainingPlanService {
     }
 
     public void setActiveTrainingPlan(String trainingPlanId) {
-        Person currentPerson = userService.getCurrentPerson().orElseGet(null);
-        currentPerson.setActiveTrainingPlan(new TrainingPlan(trainingPlanId));
-        userService.save(currentPerson);
+        userService.getCurrentPerson().ifPresent(person -> {
+            trainingPlanRepository.findById(trainingPlanId).ifPresent(trainingPlan -> {
+                person.setActiveTrainingPlan(trainingPlan);
+                userService.save(person);
+            });
+        });
     }
 }

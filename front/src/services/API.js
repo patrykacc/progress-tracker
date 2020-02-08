@@ -27,7 +27,7 @@ class API {
                 body: JSON.stringify(object)
             })
                 .then(response => {
-                    if (response.status === 200 || response.status === 201) {
+                    if (response.statusText === 'OK' ) {
                         return response.json();
                     }
                     this.clearPath();
@@ -49,7 +49,7 @@ class API {
             }
         })
             .then(response => {
-                if (response.status === 200) {
+                if (response.statusText === 'OK') {
                     return response.json();
                 }
                 this.clearPath();
@@ -69,7 +69,8 @@ class API {
             }
         })
             .then(response => {
-                if (response.status === 200) {
+                debugger
+                if (response.statusText === 'OK') {
                     return response.json()
                 }
                 this.clearPath();

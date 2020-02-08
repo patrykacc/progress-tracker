@@ -24,8 +24,6 @@ public class RecordPage {
         this.resource = record;
     }
 
-
-
     public RecordPage(MetaEntity metaEntity, Resource<?> record)  {
         this.metaEntity = metaEntity;
         this.resource = record;

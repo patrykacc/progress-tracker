@@ -19,7 +19,7 @@ export default ({trainingDayExercise}) => {
     const remove = () => {
         TrainingDayExerciseAPI.delete(trainingDayExercise.id)
             .then(response => {
-                if (response.status === 200) {
+                if (response.statusText === 'OK') {
                     dispatch(getExercisesAction());
                     dispatch(getTrainingAction(training.id));
                     dispatch({type: 'TRAINING_DAY_EXERCISE_VIEW_MODE', mode: 'empty'});

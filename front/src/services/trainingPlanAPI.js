@@ -4,14 +4,13 @@ const PATH = 'TrainingPlan';
 export default new API(PATH);
 
 export const setActiveTrainingPlan = (trainingPlanId) => {
-    return fetch('/api/'+ PATH + '/setActiveTrainingPlan', {
+    return fetch('/api/'+ PATH + '/setActiveTrainingPlan/' + trainingPlanId, {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + localStorage.getItem('token')
         },
-        body: trainingPlanId
     })
         .catch(error => console.error(error))
 };
@@ -25,7 +24,7 @@ export const getActiveTrainingPlan = () => {
         }
     })
         .then(response => {
-            if (response.status === 200) {
+            if (response.statusText === 'OK') {
                 return response.json()
             }
         })

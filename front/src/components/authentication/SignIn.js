@@ -76,7 +76,7 @@ export default (props) => {
             body: JSON.stringify({email: state.username, password: state.password})
         })
             .then(response => {
-                if (response.status === 200) {
+                if (response.statusText === 'OK') {
                     return response.json();
                 } else {
                     setMessage('Logowanie nie powiodło się, wprowadzone dane są nieprawidłowe');

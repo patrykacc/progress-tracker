@@ -25,11 +25,6 @@ public class TrainingPlanController {
         this.entityManager = entityManager;
     }
 
-    /*@GetMapping("/{trainingPlanId}")
-    public TrainingPlan get(@Valid @PathVariable String trainingPlanId) {
-        return trainingPlanService.getById(trainingPlanId);
-    }
-*/
     @GetMapping("/getActiveTrainingPlan")
     public TrainingPlan getActivePlan() {
         return trainingPlanService.getActivePlanForUser(UserService.getPrincipal().getId()).orElse(null);
@@ -50,9 +45,9 @@ public class TrainingPlanController {
         trainingPlanService.delete(trainingId);
     }
 
-    @PostMapping("/setActiveTrainingPlan")
-    public void setActiveTrainingPlan(@Valid @RequestBody String id) {
-        trainingPlanService.setActiveTrainingPlan(id);
+    @PostMapping("/setActiveTrainingPlan/{trainingPlanId}")
+    public void setActiveTrainingPlan(@RequestBody  @PathVariable(value = "trainingPlanId") String trainingPlanId) {
+        trainingPlanService.setActiveTrainingPlan(trainingPlanId);
     }
 
     public void setFilter() {

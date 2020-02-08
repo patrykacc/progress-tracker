@@ -1,8 +1,9 @@
 package fit.body.tms.entities;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -11,17 +12,19 @@ import javax.validation.constraints.NotBlank;
 
 
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
 public class Person {
 
     @Email
     @NotBlank
     private String email;
+
     @Id
     @GeneratedValue(generator = "global-id")
     @GenericGenerator(name = "global-id", strategy = "fit.body.tms.entities.UI_IdGenerator")
     private String id;
-    @NotBlank
+
+    @JsonProperty
     private String password;
     @NotBlank
     private String authority;
@@ -29,11 +32,10 @@ public class Person {
     private String firstName;
     @NotBlank
     private String lastName;
-    private String name;
 
-    @JsonIgnore
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "active_training_plan_id")
+    @Cascade(org.hibernate.annotations.CascadeType.DETACH)
     private TrainingPlan activeTrainingPlan;
 
     public Person() {}

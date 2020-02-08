@@ -53,6 +53,7 @@ public class TmsApplication {
     @Bean
     public MessageSource messageSource() {
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+        messageSource.setFallbackToSystemLocale(false);
         messageSource.setBasename("messages");
         messageSource.setCacheMillis(1);
         messageSource.setDefaultEncoding("UTF-8");
