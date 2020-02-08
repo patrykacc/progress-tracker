@@ -12,7 +12,7 @@ export const getExercisesByTrainingId = (trainingId) => {
         }
     })
         .then(res => {
-            return res.status === 'OK' ? res.json() : null
+            return res.status === 200 ? res.json() : null
         })
         .catch(error => console.error(error))
 }

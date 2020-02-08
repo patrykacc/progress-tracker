@@ -41,7 +41,7 @@ export const setActiveTrainingPlanAction = (trainingPlanId, shouldUpdateActivePl
     return (dispatch) => {
         setActiveTrainingPlan(trainingPlanId)
             .then(response => {
-                if (response.statusText === 'OK') {
+                if (response.status === 200) {
                     if (shouldUpdateActivePlan) {
                         dispatch(getActiveTrainingPlanAction())
                     }

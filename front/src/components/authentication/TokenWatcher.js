@@ -15,7 +15,7 @@ export default () => {
             }
         })
             .then(res => {
-                if (res.status === 'OK') {
+                if (res.status === 200) {
                     dispatch({type: 'AUTHORIZATION_SUCCESS'})
                 } else {
                     dispatch({type: 'AUTHORIZATION_FAILED'})

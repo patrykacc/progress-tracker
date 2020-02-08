@@ -24,7 +24,7 @@ export const getActiveTrainingPlan = () => {
         }
     })
         .then(response => {
-            if (response.statusText === 'OK') {
+            if (response.status === 200) {
                 return response.json()
             }
         })

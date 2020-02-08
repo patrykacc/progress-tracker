@@ -8,7 +8,7 @@ const RecordPageAPI = {
             }
         })
             .then(response => {
-                if (response.statusText === 'OK') {
+                if (response.status === 200) {
                     return response.json()
                 }
 
@@ -27,7 +27,7 @@ const RecordPageAPI = {
             }
         })
             .then(response => {
-                if (response.statusText === 'OK') {
+                if (response.status === 200) {
                     return response.json()
                 }
 

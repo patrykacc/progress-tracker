@@ -16,7 +16,7 @@ export default ({training}) => {
     const remove = () => {
         TrainingAPI.delete(training.id)
             .then(response => {
-                if (response.statusText === 'OK') {
+                if (response.status === 200) {
                     dispatch({type: 'CLEAR_TRAINING'});
                     history.replace('/');
                 }
