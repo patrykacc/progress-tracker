@@ -47,7 +47,7 @@ public class TmsApplication {
     @Bean
     public LocaleResolver localeResolver() {
         SessionLocaleResolver slr = new SessionLocaleResolver();
-        slr.setDefaultLocale(new Locale("pl", ""));
+        slr.setDefaultLocale(new Locale("pl", "PL"));
         return slr;
     }
 
@@ -63,6 +63,6 @@ public class TmsApplication {
 
     @Bean
     public MessageSourceAccessor getMessageSourceAccessor(final MessageSource messageSource) {
-        return new MessageSourceAccessor(messageSource, new Locale("pl", ""));
+        return new MessageSourceAccessor(messageSource, new Locale("pl", "PL"));
     }
 }

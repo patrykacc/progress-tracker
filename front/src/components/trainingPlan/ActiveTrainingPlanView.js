@@ -22,7 +22,7 @@ export default function ActiveTrainingPlanView() {
         <div>
             <Row type="flex" justify={'space-between'}>
                 <Col>
-                    <Typography.Text variant={"subtitle2"}>Aktywny plan treningowy:</Typography.Text>
+                    <Typography.Text variant={"subtitle2"}>Plan:</Typography.Text>
                     <Typography.Text variant={"subtitle1"} style={{marginLeft: '10px'}}>
                         {activeTrainingPlan ? activeTrainingPlan.name : 'Brak aktywnego planu - atywuj jeden z istniejących lub utwórz nowy'}
                     </Typography.Text>
