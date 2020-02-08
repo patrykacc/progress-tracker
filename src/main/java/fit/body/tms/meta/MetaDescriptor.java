@@ -98,7 +98,7 @@ public class MetaDescriptor {
     }
 
     private Optional<String> getLabel(String code) {
-        return Optional.ofNullable(messageSource.getMessage(code, null, null, Locale.getDefault()));
+        return Optional.ofNullable(messageSource.getMessage(code, null, null, new Locale("pl", "")));
     }
 }
 
