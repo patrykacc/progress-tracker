@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -25,6 +26,9 @@ public class Person {
     @GeneratedValue(generator = "global-id")
     @GenericGenerator(name = "global-id", strategy = "fit.body.tms.entities.UI_IdGenerator")
     private String id;
+
+    @Formula(value = "concat(first_name, ' ', last_name)")
+    private String name;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
@@ -112,5 +116,13 @@ public class Person {
 
     public void setActiveTrainingPlan(TrainingPlan activeTrainingPlan) {
         this.activeTrainingPlan = activeTrainingPlan;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

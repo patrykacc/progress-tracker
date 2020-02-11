@@ -13,25 +13,17 @@ export default () => {
     return (
         <Layout.Header style={{position: 'fixed', zIndex: 1, width: '100%', background: 'white'}}>
             <div>
-                <Row type="flex" justify={'space-between'}>
-                    <Col>
-                        <Menu
-                            theme="light"
-                            mode="horizontal"
-                            defaultSelectedKeys={['2']}
-                            style={{lineHeight: '64px'}}
-                        >
-                            <Menu.Item onClick={redirect} key="/">Home</Menu.Item>
-                            <Menu.Item onClick={redirect} key="/Trainings">Treningi</Menu.Item>
-                            <Menu.Item onClick={redirect} key="/Plans">Plany treningowe</Menu.Item>
-                        </Menu>
-                    </Col>
-                    <Col>
-                        <ActiveTrainingPlanView/>
-                    </Col>
-                </Row>
+                <Menu
+                    theme="light"
+                    mode="horizontal"
+                    defaultSelectedKeys={['2']}
+                    style={{lineHeight: '64px'}}
+                >
+                    <Menu.Item onClick={redirect} key="/">Home</Menu.Item>
+                    <Menu.Item onClick={redirect} key="/Trainings">Treningi</Menu.Item>
+                    <Menu.Item onClick={redirect} key="/Plans">Plany treningowe</Menu.Item>
+                </Menu>
             </div>
-
         </Layout.Header>
     );
 }

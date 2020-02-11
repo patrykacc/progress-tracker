@@ -20,6 +20,10 @@ const NewRecordModal = ({objectApiName, parentRecord, isVisible, closeSelf}) => 
         setNewRecord({...newRecord});
     };
 
+    const handleDateChange = (moment, date, fieldApiName) => {
+        newRecord[fieldApiName] = date;
+        setNewRecord({...newRecord});
+    };
 
     const handleOk = () => {
         SpecificAPI.current.save(newRecord)
@@ -46,7 +50,7 @@ const NewRecordModal = ({objectApiName, parentRecord, isVisible, closeSelf}) => 
         closeSelf();
     };
 
-    let props = {recordInfo, record: newRecord, handleChange};
+    let props = {recordInfo, record: newRecord, handleChange, handleDateChange};
 
     return (
         <React.Fragment>

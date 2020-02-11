@@ -20,7 +20,9 @@ const RelatedList = ({objects, field, history, parentRecord}) => {
     return (
         <>
             <NewRecordModal objectApiName={childrenApiName} parentRecord={parentRecord} isVisible={isVisible} closeSelf={closeModal}/>
-            <BaseList title={label} objects={objects} rowClick={handleRowClick} fields={field.relatedListFields}/>
+            <div>
+                <BaseList title={label} objects={objects} rowClick={handleRowClick} fields={field.relatedListFields}/>
+            </div>
             <BaseButtonGroup actions={[
                 {label: 'Dodaj', handler: addNewRecord},
             ]}/>

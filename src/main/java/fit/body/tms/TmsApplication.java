@@ -56,7 +56,7 @@ public class TmsApplication {
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
         messageSource.setFallbackToSystemLocale(false);
         messageSource.setBasename("messages");
-        messageSource.setCacheMillis(1);
+        messageSource.setCacheSeconds(1);
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
     }

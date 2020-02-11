@@ -11,6 +11,7 @@ const BaseList = ({objects, title, rowClick, fields}) => {
         <div style={{minWidth: '240px'}}>
             <List header={<div>{title}</div>}
                   dataSource={objects}
+                  bordered
                   renderItem={object => (
                       <List.Item onClick={() => rowClick(object)}>
                           <Skeleton title={false} loading={false}>

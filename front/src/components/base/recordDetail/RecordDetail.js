@@ -1,10 +1,10 @@
-import React, {useCallback, useEffect} from "react";
+import React from "react";
 import API from "../../../services/API";
-import getObjectMetadata from "../../../services/MetadataDescriptorAPI";
 import RecordDetailView from "./RecordDetailView";
 import RecordDetailEdit from "./RecordDetailEdit";
 import {useHistory, useLocation} from "react-router";
 import RecordPageAPI from "../../../services/RecordPageAPI";
+import PageHeader from "antd/es/page-header";
 
 export default ({actions = [], recordId, parentRecord = {}}) => {
     let history = useHistory();
@@ -16,7 +16,7 @@ export default ({actions = [], recordId, parentRecord = {}}) => {
     const [relatedLists, setRelatedLists] = React.useState([]);
     let SpecificAPI = React.useRef();
 
-    useEffect(() => {
+    React.useEffect(() => {
         if(recordId) {
             RecordPageAPI.getRecordPage(recordId)
                 .then(response => {
@@ -29,10 +29,9 @@ export default ({actions = [], recordId, parentRecord = {}}) => {
         }
     }, [recordId, mode]);
 
-    useEffect(() => {
+    React.useEffect(() => {
         let lists = [];
         if (record && record.id && recordInfo) {
-            console.log('related')
             recordInfo.fields
                 .filter(field => field.type === "LIST")
                 .forEach(field => {
@@ -60,6 +59,12 @@ export default ({actions = [], recordId, parentRecord = {}}) => {
 
     return (
         <React.Fragment>
+            {record && recordInfo && <PageHeader
+                ghost={false}
+                onBack={() => window.history.back()}
+                title={<h2>{record.name || record.id}</h2>}
+                subTitle={recordInfo.label}
+            />}
             {render()}
         </React.Fragment>
     );

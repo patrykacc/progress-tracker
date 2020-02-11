@@ -10,7 +10,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,16 +18,14 @@ import java.util.Optional;
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
 public class Training extends BaseEntity {
 
+    private String name;
     private Integer duration;
     private Integer volume;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     private LocalDate startDate;
 
-    @JsonFormat(pattern = "HH:mm")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
-    private LocalTime startTime;
 
     @OneToMany(fetch = FetchType.EAGER,mappedBy = "training", cascade = CascadeType.REMOVE)
     @Fetch(value = FetchMode.SUBSELECT)
@@ -41,6 +38,10 @@ public class Training extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "training_day_id")
     private TrainingDay trainingDay;
+
+    @ManyToOne
+    @JoinColumn(name = "training_plan_id")
+    private TrainingPlan trainingPlan;
 
     public Training() {}
 
@@ -76,14 +77,6 @@ public class Training extends BaseEntity {
         this.startDate = startDate;
     }
 
-    public LocalTime getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(LocalTime startTime) {
-        this.startTime = startTime;
-    }
-
     public Person getPerson() {
         return person;
     }
@@ -98,5 +91,21 @@ public class Training extends BaseEntity {
 
     public void setTrainingDay(TrainingDay trainingDay) {
         this.trainingDay = trainingDay;
+    }
+
+    public TrainingPlan getTrainingPlan() {
+        return trainingPlan;
+    }
+
+    public void setTrainingPlan(TrainingPlan trainingPlan) {
+        this.trainingPlan = trainingPlan;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

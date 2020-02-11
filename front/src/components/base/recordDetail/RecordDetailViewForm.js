@@ -14,14 +14,14 @@ export default ({recordInfo, record}) => {
         return null;
     }
     return (
-        <Descriptions title={recordInfo.label} bordered>
+        <Descriptions bordered>
             {recordInfo.fields.map(field => {
                 if (field.type === 'ID' || field.type === 'LIST' || field.apiName === 'relatedListFields') {
                     return null;
                 }
                 if (field.type === 'REFERENCE') {
                     const referencedObject = record[field.apiName];
-                    const name = referencedObject ? referencedObject.id : '';
+                    const name = referencedObject ? referencedObject.name || referencedObject.id : '';
                     const id = referencedObject ? referencedObject.id : '';
                     return (
                             <Descriptions.Item key={field.apiName}

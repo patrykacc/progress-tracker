@@ -8,7 +8,6 @@ import RecordDetailEditForm from "./RecordDetailEditForm";
 export default ({recordProp = {}, recordInfo, actions = [], setMode, SpecificAPI}) => {
     let isCreateMode = !recordProp.id;
     let history = useHistory()
-    const dispatch = useDispatch();
 
     const [record, setRecord] = React.useState(recordProp);
 
@@ -33,6 +32,11 @@ export default ({recordProp = {}, recordInfo, actions = [], setMode, SpecificAPI
     };
 
     const save = () => {
+        recordInfo.fields.forEach(field => {
+           if (field.type === 'LIST') {
+               delete record[field.apiName]
+           }
+        });
         SpecificAPI.save(record)
             .then(response => {
                 if (response) {

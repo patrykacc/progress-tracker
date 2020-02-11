@@ -1,5 +1,5 @@
 import React, {Fragment, useEffect} from "react";
-import {Col, Descriptions, Row} from "antd";
+import {Col, Descriptions, Divider, Row} from "antd";
 import {useHistory} from 'react-router-dom'
 import BaseButtonGroup from "../BaseButtonGroup";
 import {useDispatch} from "react-redux";
@@ -25,21 +25,21 @@ export default ({record, recordInfo, SpecificAPI, setMode, relatedLists = []}) =
     return (
         <Fragment>
             <Row type={'flex'} justify={'space-between'}>
-                <Col>
-                    <RecordDetailViewForm {...props} />
-                    <BaseButtonGroup actions={[
-                        {label: 'Usuń', handler: remove},
-                        {label: 'Edytuj', handler: edit}
-                    ]}/>
-                </Col>
+                <RecordDetailViewForm {...props} />
+                <BaseButtonGroup actions={[
+                    {label: 'Usuń', handler: remove},
+                    {label: 'Edytuj', handler: edit}
+                ]}/>
             </Row>
+            <Divider />
             <Row>
                 {relatedLists.map(relatedList => {
-
-                    return (<RelatedList key={relatedList.field.apiName} objects={relatedList.records}
-                                         field={relatedList.field} history={history}
-                                         parentRecord={{[relatedList.field.parentRelationName]: record.links[0].href}}/>
-                    )
+                    return (<Col key={relatedList.field.apiName} span={12}>
+                        <RelatedList objects={relatedList.records}
+                                     field={relatedList.field}
+                                     history={history}
+                                     parentRecord={{[relatedList.field.parentRelationName]: record.links[0].href}}/>
+                    </Col>)
                 })}
             </Row>
 

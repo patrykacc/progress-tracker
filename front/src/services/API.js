@@ -16,6 +16,7 @@ class API {
     URI;
 
     save = (object) => {
+        // Object.entries(object).
         if (this.URI) {
             return fetch('/api/' + this.URI + '/' + (object.id || ''), {
                 method: object.id ? 'PUT' : 'POST',

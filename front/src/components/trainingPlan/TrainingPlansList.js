@@ -8,6 +8,7 @@ import {
 import {Button, Icon, List, Skeleton} from "antd";
 import ButtonGroup from "antd/lib/button/button-group";
 import NewRecordModal from "../base/relatedList/NewRecordModal";
+import ActiveTrainingPlanView from "./ActiveTrainingPlanView";
 
 export default function TrainingPlansList({history}) {
     const trainingPlans = useSelector(state => state.trainingPlans);
@@ -52,6 +53,7 @@ export default function TrainingPlansList({history}) {
             margin: '10px',
             padding: '15px',
         }}>
+            <ActiveTrainingPlanView/>
             <List header={<div>Dostępne plany: </div>}
                   dataSource={trainingPlans}
                   renderItem={plan => (
