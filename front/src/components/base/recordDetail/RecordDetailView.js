@@ -24,17 +24,20 @@ export default ({record, recordInfo, SpecificAPI, setMode, relatedLists = []}) =
 
     return (
         <Fragment>
-            <Row type={'flex'} justify={'space-between'}>
-                <RecordDetailViewForm {...props} />
+            <Row type={'flex'} justify={'center'} >
+                <RecordDetailViewForm {...props}/>
+
+            </Row>
+            <Row type={'flex'} justify={'center'} >
                 <BaseButtonGroup actions={[
                     {label: 'Usuń', handler: remove},
                     {label: 'Edytuj', handler: edit}
                 ]}/>
             </Row>
             <Divider />
-            <Row>
+            <Row type={'flex'} justify={'center'}>
                 {relatedLists.map(relatedList => {
-                    return (<Col key={relatedList.field.apiName} span={12}>
+                    return (<Col key={relatedList.field.apiName} >
                         <RelatedList objects={relatedList.records}
                                      field={relatedList.field}
                                      history={history}

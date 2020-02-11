@@ -14,7 +14,7 @@ export default ({recordInfo, record}) => {
         return null;
     }
     return (
-        <Descriptions bordered>
+        <Descriptions  layout={"horizontal"} bordered>
             {recordInfo.fields.map(field => {
                 if (field.type === 'ID' || field.type === 'LIST' || field.apiName === 'relatedListFields') {
                     return null;

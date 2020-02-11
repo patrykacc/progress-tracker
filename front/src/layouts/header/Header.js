@@ -11,7 +11,7 @@ export default () => {
     };
 
     return (
-        <Layout.Header style={{position: 'fixed', zIndex: 1, width: '100%', background: 'white'}}>
+        <Layout.Header style={{position: 'fixed', zIndex: 1, width: '100%', background: 'white', padding: 0}}>
             <div>
                 <Menu
                     theme="light"

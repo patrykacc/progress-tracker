@@ -1,11 +1,12 @@
 import React from 'react';
 import './App.css';
+import {Row} from "antd";
 
 function Home(props) {
     return (
-        <div className="Home">
+        <Row type={'flex'} justify={'center'}>
             HOME :)
-        </div>
+        </Row>
     );
 }
 
