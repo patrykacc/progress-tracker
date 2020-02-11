@@ -19,7 +19,7 @@ export default function App() {
             <BrowserRouter>
                 <Layout style={{background: 'white'}}>
                   <Header />
-                    <Layout.Content style={{padding: '0 100px', marginTop: '100px'}}>
+                    <Layout.Content  style={{marginTop: '100px'}}>
                         <TokenWatcher/>
                         <Route path="/signin" component={SignIn}/>
                         <Route path="/signup" component={SignUp}/>
