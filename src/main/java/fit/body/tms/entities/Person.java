@@ -3,8 +3,8 @@ package fit.body.tms.entities;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import fit.body.tms.repositories.PersonListener;
 import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -15,6 +15,7 @@ import static org.hibernate.annotations.CascadeType.DETACH;
 
 
 @Entity
+@EntityListeners(PersonListener.class)
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
 public class Person {
 
@@ -27,7 +28,6 @@ public class Person {
     @GenericGenerator(name = "global-id", strategy = "fit.body.tms.entities.UI_IdGenerator")
     private String id;
 
-    @Formula(value = "concat(first_name, ' ', last_name)")
     private String name;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

@@ -23,7 +23,7 @@ public class Series extends BaseEntity{
     private Integer weight;
     @Max(10)
     @Min(1)
-    private Integer RPE;
+    private Integer rpe;
 
     @ManyToOne
     @JoinColumn(name = "exercise_id")
@@ -45,12 +45,12 @@ public class Series extends BaseEntity{
         this.weight = weight;
     }
 
-    public Integer getRPE() {
-        return RPE;
+    public Integer getRpe() {
+        return rpe;
     }
 
-    public void setRPE(Integer RPE) {
-        this.RPE = RPE;
+    public void setRpe(Integer RPE) {
+        this.rpe = RPE;
     }
 
     public Exercise getExercise() {
