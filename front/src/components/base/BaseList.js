@@ -8,7 +8,7 @@ const BaseList = ({objects, title, rowClick, fields}) => {
         fields  = ['name'];
     }
     return (
-        <div style={{minWidth: '240px'}}>
+        <div style={{minWidth: '240px', borderRadius: 0}}>
             <List header={<div>{title}</div>}
                   dataSource={objects}
                   bordered

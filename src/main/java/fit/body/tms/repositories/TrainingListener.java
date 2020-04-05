@@ -1,18 +1,14 @@
 package fit.body.tms.repositories;
 
-import fit.body.tms.entities.Training;
 import fit.body.tms.entities.Person;
+import fit.body.tms.entities.Training;
 import fit.body.tms.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import java.time.LocalDate;
 
 public class TrainingListener {
-
-    @Autowired
-    private UserService userService;
 
     @PrePersist @PreUpdate
     public void setTrainingDefaults(Training training) {
@@ -28,7 +24,7 @@ public class TrainingListener {
         }
         training.setName(training.getStartDate().toString());
         training.getTrainingDay().ifPresent(trainingDay -> {
-            training.setName(training.getName() + " " + trainingDay.getName());
+            training.setName(trainingDay.getName() + " " + training.getStartDate());
         });
     }
 

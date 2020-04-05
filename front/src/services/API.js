@@ -16,10 +16,11 @@ class API {
     URI;
 
     save = (object) => {
-        // Object.entries(object).
         if (this.URI) {
-            return fetch('/api/' + this.URI + '/' + (object.id || ''), {
-                method: object.id ? 'PUT' : 'POST',
+            const objectId = object.id;
+            delete object.id;
+            return fetch('/api/' + this.URI + '/' + (objectId || ''), {
+                method: objectId ? 'PATCH' : 'POST',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',

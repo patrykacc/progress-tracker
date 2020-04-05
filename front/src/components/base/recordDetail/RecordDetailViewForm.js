@@ -26,7 +26,7 @@ export default ({recordInfo, record}) => {
                     return (
                             <Descriptions.Item key={field.apiName}
                                                label={field.label}>
-                                <div onClick={redirectToReference} data-id={id}>{name}</div>
+                                <a  onClick={redirectToReference} data-id={id}>{name}</a>
                             </Descriptions.Item>
                     )
                 } else {

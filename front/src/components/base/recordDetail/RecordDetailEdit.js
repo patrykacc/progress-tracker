@@ -27,6 +27,11 @@ export default ({recordProp = {}, recordInfo, actions = [], setMode, SpecificAPI
         setRecord({...record});
     };
 
+    const handleDateChange = (moment, date, fieldApiName) => {
+        record[fieldApiName] = date;
+        setRecord({...record});
+    };
+
     const cancel = () => {
         setMode('view');
     };
@@ -48,7 +53,7 @@ export default ({recordProp = {}, recordInfo, actions = [], setMode, SpecificAPI
                 }
             })
     };
-    let props = {recordInfo, record, handleChange};
+    let props = {recordInfo, record, handleChange, handleDateChange};
     return (
         <Fragment>
             <Form title={recordInfo.label} layout={"horizontal"} {...formItemLayout}>

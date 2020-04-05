@@ -9,7 +9,7 @@ public class PersonListener {
 
     @PrePersist
     @PreUpdate
-    public void setTrainingDefaults(Person person) {
+    public void setPersonDefaults(Person person) {
         person.setName(person.getFirstName() + " " + person.getLastName());
     }
 }
